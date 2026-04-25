@@ -6,10 +6,10 @@
     <title><%= title || 'Express Quiz App' %></title>
     <link rel="stylesheet" href="/styles/output.css" />
   </head>
-  <body class="min-h-screen min-w-screen overflow-x-clip bg-red-700">
+  <body class="min-h-screen min-w-screen overflow-x-clip ">
     <div class="main h-screen w-screen">
       <div class="navBar w-full p-4 flex justify-center fixed top-0 z-10">
-        <div class="w-4xl py-3 px-5 rounded-2xl bg-black/95 text-white flex justify-between items-center">
+        <div class="w-4xl py-3 px-5 rounded-2xl bg-black/50 backdrop-blur-xl border border-white/20 text-white flex justify-between items-center shadow-2xl">
           <div class="grow">
             <a href="" class="font-sekuya text-sm"><span class="text-2xl">A</span></a>
           </div>
@@ -27,10 +27,10 @@
           </div>
         </div>
       </div>
-      <div class="min-h-screen p-8 flex items-end">
+      <div class="min-h-screen bg-red-700 p-8 flex items-end">
         <div class="z-20 max-w-[50%]">
           <h1 class="text-7xl leading-tight text-white z-20 font-black font-sekuya tracking-tighter mb-4">
-            <span class="text-9xl bg-gradient-to-b from-white to-gray-300 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">A</span><span class="bg-gradient-to-b from-white to-gray-300 bg-clip-text text-transparent">ni</span><span class="text-9xl bg-gradient-to-b from-red-400 to-red-600 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(239,68,68,0.4)]">Q</span><span class="bg-gradient-to-b from-red-400 to-red-600 bg-clip-text text-transparent">uiz</span>
+            <span class="text-9xl bg-linear-to-b from-white to-gray-300 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">A</span><span class="bg-linear-to-b from-white to-gray-300 bg-clip-text text-transparent">ni</span><span class="text-9xl bg-linear-to-b from-red-400 to-red-600 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(239,68,68,0.4)]">Q</span><span class="bg-linear-to-b from-red-400 to-red-600 bg-clip-text text-transparent">uiz</span>
           </h1>
           <p class="text-3xl leading-relaxed text-white/80 font-bold font-urbanist max-w-2xl">Test your knowledge about Anime and Manga with questions from the Open Trivia Database!</p>
           <div class="flex gap-4 mt-8">
@@ -51,7 +51,9 @@
         <div class="vignette"></div>
         <div class="halftone absolute inset-0 pointer-events-none opacity-20 z-0"></div>
       </div>
-      
+      <div>
+        <h1>stats</h1>
+      </div>
       <!-- <div class="curved-edge absolute -right-155 rotate-90 backdrop-blur-lg"></div>
       <div class="curved-edge absolute -left-155 rotate-270 backdrop-blur-lg backdrop-grayscale"></div> -->
     </div>
