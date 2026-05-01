@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sekuya&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sekuya&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import "tailwindcss";
+
+@font-face {
+    font-family: "ramen";
+    src: url("../font/JAPAN\ RAMEN.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+@theme {
+    --font-concert-one: "Concert One", system-ui;
+    --font-poppins: "Poppins", system-ui;
+    --font-ramen: "ramen", system-ui;
+    --color-primary: #2E0854;
+    --color-background: #0D0616;
+}
+
+/* .radial-blur-mask {
+    z-index: 1;
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.8) 100%);
+    backdrop-filter: blur(0px);
+    -webkit-mask-image: radial-gradient(circle at center, black 15%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+    mask-image: radial-gradient(circle at center, black 15%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+    pointer-events: none;
+} */
+
+/* .image-radial-blur {
+    -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 75%);
+    mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 75%);
+} */
+
+.image-edge-fade {
+    -webkit-mask-image: radial-gradient(circle, #fff 30%, transparent 90%);
+    mask-image: radial-gradient(circle, #fff 30%, transparent 90%);
+}
+
+/* .image-vertical-fade {
+    -webkit-mask-image: linear-gradient(to bottom, #fff 30%, transparent 90%);
+    mask-image: linear-gradient(to bottom, #fff 30%, transparent 90%);
+} */
+
+
+
