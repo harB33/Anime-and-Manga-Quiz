@@ -1,6 +1,7 @@
 // Quiz Application Frontend JavaScript
 let currentQuestions = []
 let userAnswers = []
+let currentQuestionIndex = 0
 
 // Function to decode HTML entities
 function decodeHtml(html) {
@@ -66,7 +67,8 @@ async function getQuestions() {
     if (data.success) {
       currentQuestions = data.results
       userAnswers = new Array(data.results.length).fill(null)
-      displayQuestions(data.results)
+      currentQuestionIndex = 0
+      displayQuestion(0)
     } else {
       container.innerHTML = `<div class="error">Error: ${data.error}</div>`
     }
@@ -80,14 +82,24 @@ async function getQuestions() {
   }
 }
 
-function displayQuestions(questions) {
+function displayQuestion(index) {
   const container = document.getElementById("quiz-container")
   container.innerHTML = ""
 
-  questions.forEach((question, index) => {
-    const questionDiv = document.createElement("div")
-    questionDiv.className = "question"
+  if (!currentQuestions || currentQuestions.length === 0) return
 
+  const question = currentQuestions[index]
+
+  // Progress indicator
+  const progressDiv = document.createElement("div")
+  progressDiv.className = "quiz-progress mb-4 text-purple-300 font-poppins text-lg"
+  progressDiv.innerHTML = `<span>Question <strong>${index + 1}</strong> of <strong>${currentQuestions.length}</strong></span>`
+  container.appendChild(progressDiv)
+
+  const questionDiv = document.createElement("div")
+  questionDiv.className = "question"
+
+  if (!question.shuffled_answers) {
     const answers = [
       ...question.incorrect_answers,
       question.correct_answer,
@@ -95,30 +107,33 @@ function displayQuestions(questions) {
     // Shuffle answers
     for (let i = answers.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
-        ;[answers[i], answers[j]] = [answers[j], answers[i]]
+      ;[answers[i], answers[j]] = [answers[j], answers[i]]
     }
+    question.shuffled_answers = answers
+  }
 
-    questionDiv.innerHTML = `
-            <h3>Question ${index + 1}: ${decodeHtml(question.question)}</h3>
-            <div class="question-info">
-                <span><strong>Category:</strong> ${question.category}</span>
-                <span><strong>Difficulty:</strong> ${question.difficulty}</span>
-                <span><strong>Type:</strong> ${question.type}</span>
-            </div>
-            <div class="answers">
-                ${answers
+  questionDiv.innerHTML = `
+    <h3>Question ${index + 1}: ${decodeHtml(question.question)}</h3>
+    <div class="question-info">
+      <span><strong>Category:</strong> ${question.category}</span>
+      <span><strong>Difficulty:</strong> ${question.difficulty}</span>
+      <span><strong>Type:</strong> ${question.type}</span>
+    </div>
+    <div class="answers">
+      ${question.shuffled_answers
         .map(
-          (answer, answerIndex) =>
-            `<label class="answer-option">
-                        <input type="radio" name="question-${index}" value="${answer}" data-question-index="${index}">
-                        ${decodeHtml(answer)}
-                    </label>`,
+          (answer, answerIndex) => {
+            const isChecked = userAnswers[index] === answer ? "checked" : "";
+            return `<label class="answer-option ${isChecked ? 'selected' : ''}">
+              <input type="radio" name="question-${index}" value="${answer}" data-question-index="${index}" ${isChecked}>
+              ${decodeHtml(answer)}
+            </label>`;
+          }
         )
         .join("")}
-            </div>
-        `
-    container.appendChild(questionDiv)
-  })
+    </div>
+  `
+  container.appendChild(questionDiv)
 
   // Add event listeners for radio buttons
   const radioButtons = container.querySelectorAll('input[type="radio"]')
@@ -127,19 +142,55 @@ function displayQuestions(questions) {
       const questionIndex = parseInt(this.getAttribute('data-question-index'))
       const answer = this.value
       selectAnswer(questionIndex, answer)
+      // Visually select the option
+      container.querySelectorAll('.answer-option').forEach(opt => opt.classList.remove('selected'))
+      this.parentElement.classList.add('selected')
     })
   })
 
-  // Add submit button
-  const submitButton = document.createElement("button")
-  submitButton.textContent = "Submit Quiz"
-  submitButton.id = "submit-quiz-btn"
-  submitButton.style.background = "#28a745"
-  submitButton.style.marginTop = "20px"
-  container.appendChild(submitButton)
+  // Add navigation buttons
+  const navContainer = document.createElement("div")
+  navContainer.className = "quiz-navigation flex justify-between gap-4 mt-6"
 
-  // Add event listener for submit button
-  submitButton.addEventListener('click', submitQuiz)
+  // Prev button
+  const prevButton = document.createElement("button")
+  prevButton.textContent = "Previous"
+  prevButton.className = "glint bg-primary p-3 font-ramen text-xl text-purple-300 rounded-xl flex items-center justify-center cursor-pointer disabled:opacity-50"
+  prevButton.disabled = index === 0
+  prevButton.style.marginTop = "0px"
+  prevButton.addEventListener('click', () => {
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--
+      displayQuestion(currentQuestionIndex)
+    }
+  })
+  navContainer.appendChild(prevButton)
+
+  // Next or Submit button
+  if (index === currentQuestions.length - 1) {
+    const submitButton = document.createElement("button")
+    submitButton.textContent = "Submit Quiz"
+    submitButton.id = "submit-quiz-btn"
+    submitButton.className = "glint bg-primary p-3 font-ramen text-xl text-purple-300 rounded-xl flex items-center justify-center cursor-pointer"
+    submitButton.style.width = "auto"
+    submitButton.style.marginTop = "0px"
+    submitButton.addEventListener('click', submitQuiz)
+    navContainer.appendChild(submitButton)
+  } else {
+    const nextButton = document.createElement("button")
+    nextButton.textContent = "Next"
+    nextButton.className = "glint bg-primary p-3 font-ramen text-xl text-purple-300 rounded-xl flex items-center justify-center cursor-pointer"
+    nextButton.style.marginTop = "0px"
+    nextButton.addEventListener('click', () => {
+      if (currentQuestionIndex < currentQuestions.length - 1) {
+        currentQuestionIndex++
+        displayQuestion(currentQuestionIndex)
+      }
+    })
+    navContainer.appendChild(nextButton)
+  }
+
+  container.appendChild(navContainer)
 }
 
 function selectAnswer(index, answer) {
