@@ -1,65 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= title || 'Express Quiz App' %></title>
-    <link rel="stylesheet" href="/styles/output.css" />
-  </head>
-  <body class="min-h-screen min-w-screen overflow-x-clip ">
-    <div class="main h-screen w-screen">
-      <div class="navBar w-full p-4 flex justify-center fixed top-0 z-100">
-        <div class="w-4xl py-3 px-5 rounded-2xl bg-black/50 backdrop-blur-xl border border-white/20 text-white flex justify-between items-center shadow-2xl">
-          <div class="grow">
-            <a href="" class="font-sekuya text-sm"><span class="text-2xl">A</span></a>
-          </div>
-          <div class="flex justify-between grow">
-            <a href="/" class="navLink text-primary">HOME</a>
-            <a href="/quiz" class="navLink">QUIZ</a>
-            <a href="/about" class="navLink">SHOP</a>
-          </div>
-          <div class="grow flex justify-end">
-            <a href="">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-              </svg>
-            </a>
-          </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    <%= title || 'Express Quiz App' %>
+  </title>
+  <link rel="stylesheet" href="/styles/output.css" />
+</head>
+
+<body class="min-h-screen min-w-screen overflow-x-clip ">
+  <div class="main h-screen w-screen bg-background bg-image">
+    <nav class="p-4 gap-2 flex justify-center fixed w-full top-0 z-50">
+      <nav class="bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-2/3">
+        <div class="flex grow justify-between text-xl items-center ">
+          <a href="" class="font-ramen translate-y-[3px] text-2xl">S</a>
+          <a href="" class="font-poppins">HOME</a>
+          <a href="" class="font-poppins">QUIZ</a>
+          <a href="" class="font-poppins">SHOP</a>
+          <a href="" class="font-poppins">ABOUT</a>
+        </div>
+      </nav>
+      <nav
+        class="bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-fit aspect-square">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+        </svg>
+      </nav>
+    </nav>
+    <div class="flex w-full h-full">
+      <div class="flex flex-col justify-end h-full w-[40%] z-10 gap-4 p-8">
+        <h1 class=" text-8xl text-purple-300 font-ramen text-center translate-y-[6px]">SHITSUMON</h1>
+        <div class="w-full flex justify-center">
+          <hr class="text-purple-300/75 w-[80%]">
+        </div>
+        <p class="text-purple-300/75 text-3xl font-poppins text-center">Test your knowledge about Anime and Manga with
+          questions from the Open Trivia Database!</p>
+        <div class="w-full flex gap-4">
+          <button
+            class="grow bg-primary p-6 font-ramen text-2xl text-purple-300 rounded-2xl flex items-center justify-center gap-2"><svg
+              xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="lucide lucide-play-icon lucide-play">
+              <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
+            </svg><span class="translate-y-[2px]">Start Quiz</span></button>
+          <button
+            class="grow border-3 border-primary p-6 font-ramen text-2xl text-purple-300 rounded-2xl flex items-center justify-center gap-2"><svg
+              xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="lucide lucide-swords-icon lucide-swords">
+              <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" />
+              <line x1="13" x2="19" y1="19" y2="13" />
+              <line x1="16" x2="20" y1="16" y2="20" />
+              <line x1="19" x2="21" y1="21" y2="19" />
+              <polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5" />
+              <line x1="5" x2="9" y1="14" y2="18" />
+              <line x1="7" x2="4" y1="17" y2="20" />
+              <line x1="3" x2="5" y1="19" y2="21" />
+            </svg><span class="translate-y-[2px]">Quest</span></button>
         </div>
       </div>
-      <div class="min-h-screen bg-primary p-8 flex items-end">
-        <div class="z-20 max-w-[50%]">
-          <h1 class="text-7xl leading-tight text-white z-20 font-black font-sekuya tracking-tighter mb-4">
-            <span class="text-9xl bg-linear-to-b from-white to-gray-300 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">A</span><span class="bg-linear-to-b from-white to-gray-300 bg-clip-text text-transparent">ni</span><span class="text-9xl bg-linear-to-b from-primary to-[#3700B3] shadow-indigo-900 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(98,0,238,0.4)]">Q</span><span class="bg-linear-to-b from-primary to-indigo-800 bg-clip-text text-transparent">uiz</span>
-          </h1>
-          <p class="text-3xl leading-relaxed text-white/90 font-bold font-urbanist max-w-2xl">Test your knowledge about Anime and Manga with questions from the Open Trivia Database!</p>
-          <div class="flex gap-4 mt-8 z-20">
-            <button class="btn-hero-primary w-1/2">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
-                <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd" />
-              </svg>
-              START QUIZ
-            </button>
-            <button class="btn-hero-secondary w-1/2">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
-                <path fill-rule="evenodd" d="M12 2.25c.334 0 .62.22.712.541l1.104 3.86a.375.375 0 0 0 .245.245l3.859 1.104a.75.75 0 0 1 0 1.44l-3.859 1.104a.375.375 0 0 0-.245.245l-1.104 3.86a.75.75 0 0 1-1.424 0l-1.104-3.86a.375.375 0 0 0-.245-.245L6.331 9.58a.75.75 0 0 1 0-1.44l3.86-1.104a.375.375 0 0 0 .245-.245l1.104-3.86a.75.75 0 0 1 .712-.541ZM5.25 15a.375.375 0 0 1 .356.27l.552 1.931a.187.187 0 0 0 .123.123l1.931.552a.375.375 0 0 1 0 .72l-1.931.552a.187.187 0 0 0-.123.123l-.552 1.931a.375.375 0 0 1-.712 0l-.552-1.931a.187.187 0 0 0-.123-.123l-1.931-.552a.375.375 0 0 1 0-.72l1.931-.552a.187.187 0 0 0 .123-.123l.552-1.931A.375.375 0 0 1 5.25 15Zm13.5 1.5a.375.375 0 0 1 .356.27l.331 1.159a.187.187 0 0 0 .123.123l1.159.331a.375.375 0 0 1 0 .72l-1.159.331a.187.187 0 0 0-.123.123l-.331 1.159a.375.375 0 0 1-.712 0l-.331-1.159a.187.187 0 0 0-.123-.123l-1.159-.331a.375.375 0 0 1 0-.72l1.159-.331a.187.187 0 0 0 .123-.123l.331-1.159a.375.375 0 0 1 .356-.27Z" clip-rule="evenodd" />
-              </svg>
-              QUEST
-            </button>
-          </div>
-        </div>
-        <div class="flex mt-5 text-white font-black z-10 absolute right-0 top-0 text-2xl tracking-[2em] justify-evenly h-full [writing-mode:vertical-rl] [text-orientation:upright]"><h1>ハーヴィー</h1><h1>リッキー</h1><h1>ジョマリ</h1></div>
-        <div class="vignette z-1"></div>
-        <div class="halftone absolute inset-0 pointer-events-none opacity-20 z-0"></div>
-      </div>
-      <div class="min-h-screen bg-gray-950 ">
-        <div>Question</div>
-        <div>Anime & Manga</div>
-        <div></div>
-      </div>
-      <!-- <div class="curved-edge absolute -right-155 rotate-90 backdrop-blur-lg"></div>
-      <div class="curved-edge absolute -left-155 rotate-270 backdrop-blur-lg backdrop-grayscale"></div> -->
+      <!-- <div class="w-[60%] flex items-end"><img src="/images/gojo-satoru-gojo.gif" alt=""
+          class="absolute bottom-0 right-[100px] w-[80%] z-1 image-edge-fade"></div> -->
+      <div class="w-[60%] flex items-end"><img src="/images/gojo-satoru-gojo.gif" alt=""
+          class="absolute bottom-0 right-0 w-[100%] z-0 image-edge-fade"></div>
+      <!-- <div
+        class="absolute top-0 right-[100px]   w-[80%] h-[100%] z-4 pointer-events-none bg-background/75 image-vertical-fade">
+      </div> -->
     </div>
-    <script src="/js/quiz.js"></script>
-  </body>
+  </div>
+  <script src="/js/quiz.js"></script>
+</body>
+
 </html>
