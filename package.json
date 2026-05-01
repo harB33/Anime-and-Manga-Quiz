@@ -21,6 +21,7 @@
     "helmet": "^7.1.0",
     "lodash": "^4.17.21",
     "morgan": "^1.10.0",
+    "php-express": "^0.0.3",
     "tailwindcss": "^4.2.4"
   },
   "devDependencies": {

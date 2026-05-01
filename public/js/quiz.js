@@ -9,12 +9,28 @@ function decodeHtml(html) {
   return txt.value;
 }
 
+async function detectPhp() {
+  try {
+    const response = await fetch('/db/ping.php')
+    if (!response.ok) {
+      console.warn('PHP endpoint responded with status', response.status)
+      return
+    }
+
+    const data = await response.json()
+    console.log('PHP detection result:', data)
+  } catch (error) {
+    console.error('PHP detection failed:', error)
+  }
+}
+
 async function loadCategories() {
   try {
     const response = await fetch("/api/quiz/categories")
     const data = await response.json()
     if (data.success) {
       const categorySelect = document.getElementById("category")
+      if (!categorySelect) return
       data.categories.forEach((category) => {
         const option = document.createElement("option")
         option.value = category.id
@@ -269,6 +285,8 @@ function resetQuiz() {
 // Load categories on page load
 document.addEventListener("DOMContentLoaded", function () {
   loadCategories()
+  detectPhp()
+
   // Add event listeners for buttons
   const startBtn = document.getElementById('start-quiz-btn')
   const resetBtn = document.getElementById('reset-quiz-btn')

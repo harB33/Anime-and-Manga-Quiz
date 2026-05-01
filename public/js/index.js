@@ -61,9 +61,24 @@ function loopScramble() {
 // Initialize animation on page load
 document.addEventListener("DOMContentLoaded", function () {
   setTimeout(loopScramble, 3000);
+
+  const modalTrigger = document.getElementById("auth-modal-trigger");
+  const authModal = document.getElementById("auth-modal");
+  const closeModal = document.getElementById("close-auth-modal");
+  if (modalTrigger && authModal) {
+    modalTrigger.addEventListener("click", () => {
+      authModal.showModal();
+    });
+  }
+  if (closeModal && authModal) {
+    closeModal.addEventListener("click", () => {
+      authModal.close();
+    });
+  }
 });
 
 // Also call immediately in case DOMContentLoaded has already fired
 if (document.readyState !== 'loading') {
   setTimeout(loopScramble, 3000);
 }
+
