@@ -31,7 +31,7 @@ async function loadCategories() {
     const data = await response.json()
     if (data.success) {
       const categorySelect = document.getElementById("category")
-      if (!categorySelect) return
+      if (!categorySelect || categorySelect.tagName !== "SELECT") return
       data.categories.forEach((category) => {
         const option = document.createElement("option")
         option.value = category.id
@@ -54,7 +54,7 @@ async function getQuestions() {
   if (navbar) navbar.classList.add("hidden")
 
   const container = document.getElementById("quiz-container")
-  container.innerHTML = '<div class="loading"><div class="spinner"></div><div class="loading-text">Fetching questions from OpenTDB...</div></div>'
+  container.innerHTML = '<div class="flex flex-col items-center justify-center gap-6 min-h-[50vh]"><div class="w-14 h-14 border-4 border-purple-300/10 border-t-purple-300 rounded-full animate-spin"></div><div class="text-xl text-purple-300 font-poppins">Fetching questions from OpenTDB...</div></div>'
 
   // Disable the start button during loading
   const startButton = document.getElementById("start-quiz-btn")
@@ -116,7 +116,7 @@ function displayQuestion(index) {
   container.appendChild(progressDiv)
 
   const questionDiv = document.createElement("div")
-  questionDiv.className = "question"
+  questionDiv.className = "bg-purple-950/40 border border-purple-300/20 rounded-2xl p-6 mb-8 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.15)] transition-all duration-300 hover:border-purple-300/40 hover:shadow-[0_4px_25px_rgba(216,180,254,0.1)]"
 
   if (!question.shuffled_answers) {
     const answers = [
@@ -132,19 +132,19 @@ function displayQuestion(index) {
   }
 
   questionDiv.innerHTML = `
-    <h3>Question ${index + 1}: ${decodeHtml(question.question)}</h3>
-    <div class="question-info">
+    <h3 class="text-2xl font-bold text-purple-300 mb-4 font-poppins">Question ${index + 1}: ${decodeHtml(question.question)}</h3>
+    <div class="flex gap-6 text-sm text-purple-300/60 mb-5 font-poppins">
       <span><strong>Category:</strong> ${question.category}</span>
       <span><strong>Difficulty:</strong> ${question.difficulty}</span>
       <span><strong>Type:</strong> ${question.type}</span>
     </div>
-    <div class="answers">
+    <div class="flex flex-col gap-3">
       ${question.shuffled_answers
         .map(
           (answer, answerIndex) => {
             const isChecked = userAnswers[index] === answer ? "checked" : "";
-            return `<label class="answer-option ${isChecked ? 'selected' : ''}">
-              <input type="radio" name="question-${index}" value="${answer}" data-question-index="${index}" ${isChecked}>
+            return `<label class="answer-option flex items-center gap-3 bg-white/5 border border-purple-300/15 rounded-xl p-4 text-purple-300/85 cursor-pointer font-poppins transition-all duration-200 hover:bg-purple-300/10 hover:border-purple-300/35 hover:text-white [&.selected]:bg-purple-300/10 [&.selected]:border-purple-300/35 [&.selected]:text-white ${isChecked ? 'selected bg-purple-300/10 border-purple-300/35 text-white' : ''}">
+              <input type="radio" name="question-${index}" value="${answer}" data-question-index="${index}" class="accent-purple-300 w-5 h-5 cursor-pointer" ${isChecked}>
               ${decodeHtml(answer)}
             </label>`;
           }
@@ -252,21 +252,22 @@ function displayResults(data) {
   container.innerHTML = ""
 
   const scoreDiv = document.createElement("div")
-  scoreDiv.className = "score-display"
+  scoreDiv.className = "bg-purple-950/50 border-2 border-purple-300/30 rounded-2xl p-8 mb-10 text-center font-poppins"
   scoreDiv.innerHTML = `
-        <h2>Quiz Results</h2>
-        <p>You scored ${data.correct} out of ${data.total} (${data.percentage}%)</p>
+        <h2 class="font-ramen text-5xl text-purple-300 mb-2">Quiz Results</h2>
+        <p class="text-2xl text-purple-300/85">You scored ${data.correct} out of ${data.total} (${data.percentage}%)</p>
     `
   container.appendChild(scoreDiv)
 
   data.results.forEach((result, index) => {
     console.log(`Question ${index + 1}:`, result.correct, typeof result.correct)
     const resultDiv = document.createElement("div")
-    resultDiv.className = `result ${result.correct ? "correct" : "incorrect"}`
+    const resultColorClasses = result.correct ? "border-green-500/60 bg-green-500/5" : "border-red-500/60 bg-red-500/5"
+    resultDiv.className = `result bg-white/5 border-l-[6px] rounded-xl p-5 mb-6 font-poppins ${resultColorClasses}`
     resultDiv.innerHTML = `
-            <h4>Question ${index + 1}: ${decodeHtml(result.question)}</h4>
-            <p><strong>Your answer:</strong> ${decodeHtml(result.userAnswer)}</p>
-            <p><strong>Correct answer:</strong> ${decodeHtml(result.correctAnswer)}</p>
+            <h4 class="text-xl text-white mb-2">Question ${index + 1}: ${decodeHtml(result.question)}</h4>
+            <p class="text-purple-300/75"><strong>Your answer:</strong> ${decodeHtml(result.userAnswer)}</p>
+            <p class="text-purple-300/75"><strong>Correct answer:</strong> ${decodeHtml(result.correctAnswer)}</p>
         `
     container.appendChild(resultDiv)
   })
@@ -275,8 +276,7 @@ function displayResults(data) {
   const resetButton = document.createElement("button")
   resetButton.textContent = "Take Another Quiz"
   resetButton.id = "reset-results-btn"
-  resetButton.style.background = "#007bff"
-  resetButton.style.marginTop = "20px"
+  resetButton.className = "bg-[#2E0854] text-purple-300 border border-purple-300/30 font-ramen text-2xl p-4 rounded-2xl cursor-pointer transition-all duration-300 w-full text-center hover:bg-purple-950/80 hover:border-purple-300/50 hover:scale-[1.02] hover:shadow-[0_4px_20px_rgba(216,180,254,0.2)] mt-5"
   container.appendChild(resetButton)
 
   // Add event listener for reset button

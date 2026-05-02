@@ -2,246 +2,223 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>
-    <%= title || 'Express Quiz App' %>
-  </title>
-  <link rel="stylesheet" href="/styles/output.css" />
-  <style>
-    /* Premium Quiz styles */
-    .question {
-      background: rgba(46, 8, 84, 0.4);
-      border: 1px solid rgba(216, 180, 254, 0.2);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-      transition: all 0.3s ease;
-    }
-    .question:hover {
-      border-color: rgba(216, 180, 254, 0.4);
-      box-shadow: 0 4px 25px rgba(216, 180, 254, 0.1);
-    }
-    .question h3 {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #d8b4fe;
-      margin-bottom: 1rem;
-      font-family: "Poppins", sans-serif;
-    }
-    .question-info {
-      display: flex;
-      gap: 1.5rem;
-      font-size: 0.875rem;
-      color: rgba(216, 180, 254, 0.6);
-      margin-bottom: 1.25rem;
-      font-family: "Poppins", sans-serif;
-    }
-    .answers {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .answer-option {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(216, 180, 254, 0.15);
-      border-radius: 0.75rem;
-      padding: 1rem;
-      color: rgba(216, 180, 254, 0.85);
-      cursor: pointer;
-      font-family: "Poppins", sans-serif;
-      transition: all 0.2s ease;
-    }
-    .answer-option:hover {
-      background: rgba(216, 180, 254, 0.1);
-      border-color: rgba(216, 180, 254, 0.35);
-      color: #fff;
-    }
-    .answer-option input[type="radio"] {
-      accent-color: #d8b4fe;
-      width: 1.2rem;
-      height: 1.2rem;
-      cursor: pointer;
-    }
-    #submit-quiz-btn, #reset-results-btn {
-      background: #2E0854 !important;
-      color: #d8b4fe !important;
-      border: 1px solid rgba(216, 180, 254, 0.3) !important;
-      font-family: "ramen", sans-serif !important;
-      font-size: 1.5rem !important;
-      padding: 1rem 2rem !important;
-      border-radius: 1rem !important;
-      cursor: pointer !important;
-      transition: all 0.3s ease !important;
-      width: 100%;
-      text-align: center;
-    }
-    #submit-quiz-btn:hover, #reset-results-btn:hover {
-      background: rgba(46, 8, 84, 0.8) !important;
-      border-color: rgba(216, 180, 254, 0.5) !important;
-      transform: scale(1.02);
-      box-shadow: 0 4px 20px rgba(216, 180, 254, 0.2) !important;
-    }
-    .score-display {
-      background: rgba(46, 8, 84, 0.5);
-      border: 2px solid rgba(216, 180, 254, 0.3);
-      border-radius: 1.25rem;
-      padding: 2rem;
-      margin-bottom: 2.5rem;
-      text-align: center;
-      font-family: "Poppins", sans-serif;
-    }
-    .score-display h2 {
-      font-family: "ramen", sans-serif;
-      font-size: 3rem;
-      color: #d8b4fe;
-      margin-bottom: 0.5rem;
-    }
-    .score-display p {
-      font-size: 1.5rem;
-      color: rgba(216, 180, 254, 0.85);
-    }
-    .result {
-      background: rgba(255, 255, 255, 0.03);
-      border-left-width: 6px;
-      border-radius: 0.75rem;
-      padding: 1.25rem;
-      margin-bottom: 1.5rem;
-      font-family: "Poppins", sans-serif;
-    }
-    .result.correct {
-      border-color: rgba(34, 197, 94, 0.6);
-      background: rgba(34, 197, 94, 0.05);
-    }
-    .result.incorrect {
-      border-color: rgba(239, 68, 68, 0.6);
-      background: rgba(239, 68, 68, 0.05);
-    }
-    .result h4 {
-      font-size: 1.25rem;
-      color: #fff;
-      margin-bottom: 0.5rem;
-    }
-    .result p {
-      color: rgba(216, 180, 254, 0.75);
-    }
-    .loading {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
-      min-height: 50vh;
-    }
-    .spinner {
-      width: 3.5rem;
-      height: 3.5rem;
-      border: 4px solid rgba(216, 180, 254, 0.1);
-      border-top-color: #d8b4fe;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    .loading-text {
-      font-size: 1.25rem;
-      color: #d8b4fe;
-      font-family: "Poppins", sans-serif;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%= title || 'Express Quiz App' %>
+    </title>
+    <link rel="stylesheet" href="/styles/output.css" />
 </head>
 
 <body class="min-h-screen min-w-screen overflow-x-clip " oncontextmenu="return false;">
-  <div class="main min-h-screen w-screen bg-background bg-image pb-12">
-    <nav id="main-nav" class="p-4 gap-2 flex justify-center fixed w-full top-0 z-50">
-      <nav
-        class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-[50%] backdrop-blur-xl">
-        <div class="flex grow justify-between text-xl items-center ">
-          <a href="/" class="font-ramen translate-y-[3px] text-2xl">S</a>
-          <a href="/" class="font-poppins">HOME</a>
-          <a href="/quiz" class="font-poppins">QUIZ</a>
-          <a href="/shop" class="font-poppins">SHOP</a>
-          <a href="/about" class="font-poppins">ABOUT</a>
-        </div>
-      </nav>
-      <nav id="auth-modal-trigger"
-        class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-fit aspect-square backdrop-blur-xl cursor-pointer">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-          class="size-6">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-        </svg>
-      </nav>
-    </nav>
+    <div class="main min-h-screen w-screen bg-background bg-image pb-12">
+        <nav id="main-nav" class="p-4 gap-2 flex justify-center fixed w-full top-0 z-50">
+            <nav
+                class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-[50%] backdrop-blur-xl">
+                <div class="flex grow justify-between text-xl items-center ">
+                    <a href="/" class="font-ramen translate-y-[3px] text-2xl">S</a>
+                    <a href="/" class="font-poppins">HOME</a>
+                    <a href="/quiz" class="font-poppins">QUIZ</a>
+                    <a href="/shop" class="font-poppins">SHOP</a>
+                    <a href="/about" class="font-poppins">ABOUT</a>
+                </div>
+            </nav>
+            <nav id="auth-modal-trigger"
+                class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-fit aspect-square backdrop-blur-xl cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                </svg>
+            </nav>
+        </nav>
+        <div class="flex w-full h-[calc(100vh-00px)] p-24 pb-12 gap-8 justify-center">
+            <!-- Left: Quiz Options / Control Sidebar -->
+            <div id="quiz-options-sidebar"
+                class="flex flex-col h-full w-full z-10 gap-6 p-8 bg-primary/30 backdrop-blur-xl rounded-3xl border border-purple-300/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+                <h1
+                    class="text-6xl font-bold text-purple-300 font-ramen text-center text-shadow-[0_2px_4px_rgba(0,0,0)] text-nowrap translate-y-[6px]">
+                    <span>QUI</span><span>Z</span> <span>TI</span><span>ME</span>
+                </h1>
+                <div class="w-full flex justify-center">
+                    <hr class="text-purple-300/75 w-[80%]">
+                </div>
 
-    <div class="flex w-full min-h-screen pt-28 px-8 gap-8 justify-center">
-      <!-- Left: Quiz Options / Control Sidebar -->
-      <div id="quiz-options-sidebar" class="flex flex-col h-fit w-full max-w-xl mx-auto z-10 gap-6 p-8 bg-primary/30 backdrop-blur-xl rounded-3xl border border-purple-300/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
-        <h1 class="text-6xl font-bold text-purple-300 font-ramen text-center text-shadow-[0_2px_4px_rgba(0,0,0)] text-nowrap translate-y-[6px]">
-          <span>QUI</span><span>Z</span> <span>TI</span><span>ME</span>
-        </h1>
-        <div class="w-full flex justify-center">
-          <hr class="text-purple-300/75 w-[80%]">
-        </div>
+                <!-- Question amount select -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-purple-300 text-lg font-poppins">Number of Questions:</label>
+                    <input type="hidden" id="amount" value="10">
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- 5 Questions -->
+                        <label
+                            class="amount-card group relative bg-purple-950/40 border border-purple-300/20 rounded-2xl p-5 h-[7.5rem] flex flex-col justify-between cursor-pointer transition-all duration-300 select-none backdrop-blur-md hover:bg-purple-950/60 hover:border-pink-500/40 hover:shadow-[0_4px_20px_rgba(236,72,153,0.1)] [&.selected]:border-pink-500 [&.selected]:bg-purple-950/80 [&.selected]:shadow-[0_4px_25px_rgba(236,72,153,0.25)] has-[:checked]:border-pink-500 has-[:checked]:bg-purple-950/80 has-[:checked]:shadow-[0_4px_25px_rgba(236,72,153,0.25)]">
+                            <input type="radio" name="amount_option" value="5" class="sr-only"
+                                onchange="document.getElementById('amount').value = this.value; document.querySelectorAll('.amount-card').forEach(c => c.classList.remove('selected')); this.parentElement.classList.add('selected');">
+                            <div
+                                class="absolute top-4 right-4 w-7 h-7 rounded-full border-2 border-purple-300/30 flex items-center justify-center transition-all duration-300 group-[.selected]:border-pink-500 group-has-[:checked]:border-pink-500">
+                                <div
+                                    class="w-4 h-4 bg-pink-500 rounded-full scale-0 transition-transform duration-300 group-[.selected]:scale-100 group-has-[:checked]:scale-100">
+                                </div>
+                            </div>
+                            <div class="mt-auto flex items-baseline gap-2">
+                                <span class="text-white text-4xl font-ramen">5</span>
+                                <span
+                                    class="text-purple-300/60 font-poppins text-sm uppercase tracking-wider font-bold">Questions</span>
+                            </div>
+                        </label>
+                        <!-- 10 Questions -->
+                        <label
+                            class="amount-card group relative bg-purple-950/40 border border-purple-300/20 rounded-2xl p-5 h-[7.5rem] flex flex-col justify-between cursor-pointer transition-all duration-300 select-none backdrop-blur-md hover:bg-purple-950/60 hover:border-pink-500/40 hover:shadow-[0_4px_20px_rgba(236,72,153,0.1)] [&.selected]:border-pink-500 [&.selected]:bg-purple-950/80 [&.selected]:shadow-[0_4px_25px_rgba(236,72,153,0.25)] has-[:checked]:border-pink-500 has-[:checked]:bg-purple-950/80 has-[:checked]:shadow-[0_4px_25px_rgba(236,72,153,0.25)]">
+                            <input type="radio" name="amount_option" value="10" class="sr-only"
+                                onchange="document.getElementById('amount').value = this.value; document.querySelectorAll('.amount-card').forEach(c => c.classList.remove('selected')); this.parentElement.classList.add('selected');">
+                            <div
+                                class="absolute top-4 right-4 w-7 h-7 rounded-full border-2 border-purple-300/30 flex items-center justify-center transition-all duration-300 group-[.selected]:border-pink-500 group-has-[:checked]:border-pink-500">
+                                <div
+                                    class="w-4 h-4 bg-pink-500 rounded-full scale-0 transition-transform duration-300 group-[.selected]:scale-100 group-has-[:checked]:scale-100">
+                                </div>
+                            </div>
+                            <div class="mt-auto flex items-baseline gap-2">
+                                <span class="text-white text-4xl font-ramen">10</span>
+                                <span
+                                    class="text-purple-300/60 font-poppins text-sm uppercase tracking-wider font-bold">Questions</span>
+                            </div>
+                        </label>
+                        <!-- 15 Questions -->
+                        <label
+                            class="amount-card group relative bg-purple-950/40 border border-purple-300/20 rounded-2xl p-5 h-[7.5rem] flex flex-col justify-between cursor-pointer transition-all duration-300 select-none backdrop-blur-md hover:bg-purple-950/60 hover:border-pink-500/40 hover:shadow-[0_4px_20px_rgba(236,72,153,0.1)] [&.selected]:border-pink-500 [&.selected]:bg-purple-950/80 [&.selected]:shadow-[0_4px_25px_rgba(236,72,153,0.25)] has-[:checked]:border-pink-500 has-[:checked]:bg-purple-950/80 has-[:checked]:shadow-[0_4px_25px_rgba(236,72,153,0.25)]">
+                            <input type="radio" name="amount_option" value="15" class="sr-only"
+                                onchange="document.getElementById('amount').value = this.value; document.querySelectorAll('.amount-card').forEach(c => c.classList.remove('selected')); this.parentElement.classList.add('selected');">
+                            <div
+                                class="absolute top-4 right-4 w-7 h-7 rounded-full border-2 border-purple-300/30 flex items-center justify-center transition-all duration-300 group-[.selected]:border-pink-500 group-has-[:checked]:border-pink-500">
+                                <div
+                                    class="w-4 h-4 bg-pink-500 rounded-full scale-0 transition-transform duration-300 group-[.selected]:scale-100 group-has-[:checked]:scale-100">
+                                </div>
+                            </div>
+                            <div class="mt-auto flex items-baseline gap-2">
+                                <span class="text-white text-4xl font-ramen">15</span>
+                                <span
+                                    class="text-purple-300/60 font-poppins text-sm uppercase tracking-wider font-bold">Questions</span>
+                            </div>
+                        </label>
+                        <!-- 20 Questions -->
+                        <label
+                            class="amount-card group relative bg-purple-950/40 border border-purple-300/20 rounded-2xl p-5 h-[7.5rem] flex flex-col justify-between cursor-pointer transition-all duration-300 select-none backdrop-blur-md hover:bg-purple-950/60 hover:border-pink-500/40 hover:shadow-[0_4px_20px_rgba(236,72,153,0.1)] [&.selected]:border-pink-500 [&.selected]:bg-purple-950/80 [&.selected]:shadow-[0_4px_25px_rgba(236,72,153,0.25)] has-[:checked]:border-pink-500 has-[:checked]:bg-purple-950/80 has-[:checked]:shadow-[0_4px_25px_rgba(236,72,153,0.25)]">
+                            <input type="radio" name="amount_option" value="20" class="sr-only"
+                                onchange="document.getElementById('amount').value = this.value; document.querySelectorAll('.amount-card').forEach(c => c.classList.remove('selected')); this.parentElement.classList.add('selected');">
+                            <div
+                                class="absolute top-4 right-4 w-7 h-7 rounded-full border-2 border-purple-300/30 flex items-center justify-center transition-all duration-300 group-[.selected]:border-pink-500 group-has-[:checked]:border-pink-500">
+                                <div
+                                    class="w-4 h-4 bg-pink-500 rounded-full scale-0 transition-transform duration-300 group-[.selected]:scale-100 group-has-[:checked]:scale-100">
+                                </div>
+                            </div>
+                            <div class="mt-auto flex items-baseline gap-2">
+                                <span class="text-white text-4xl font-ramen">20</span>
+                                <span
+                                    class="text-purple-300/60 font-poppins text-sm uppercase tracking-wider font-bold">Questions</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
 
-        <!-- Question amount select -->
-        <div class="flex flex-col gap-2">
-          <label for="amount" class="text-purple-300 text-lg font-poppins">Number of Questions:</label>
-          <select id="amount" class="bg-primary/50 text-purple-300 font-poppins text-lg p-3 rounded-xl border border-purple-300/20 outline-none backdrop-blur-md cursor-pointer transition-colors duration-200 hover:border-purple-300/40">
-            <option value="5" class="bg-gray-900">5 Questions</option>
-            <option value="10" selected class="bg-gray-900">10 Questions</option>
-            <option value="15" class="bg-gray-900">15 Questions</option>
-            <option value="20" class="bg-gray-900">20 Questions</option>
-          </select>
-        </div>
+                <!-- Hidden Category (Preselected to Entertainment: Japanese Anime & Manga) -->
+                <input type="hidden" id="category" value="31">
 
-        <!-- Category select -->
-        <div class="flex flex-col gap-2">
-          <label for="category" class="text-purple-300 text-lg font-poppins">Category:</label>
-          <select id="category" class="bg-primary/50 text-purple-300 font-poppins text-lg p-3 rounded-xl border border-purple-300/20 outline-none backdrop-blur-md cursor-pointer transition-colors duration-200 hover:border-purple-300/40">
-            <option value="" class="bg-gray-900">Any Category</option>
-          </select>
-        </div>
 
-        <!-- Difficulty select -->
-        <div class="flex flex-col gap-2">
-          <label for="difficulty" class="text-purple-300 text-lg font-poppins">Difficulty:</label>
-          <select id="difficulty" class="bg-primary/50 text-purple-300 font-poppins text-lg p-3 rounded-xl border border-purple-300/20 outline-none backdrop-blur-md cursor-pointer transition-colors duration-200 hover:border-purple-300/40">
-            <option value="" class="bg-gray-900">Any Difficulty</option>
-            <option value="easy" class="bg-gray-900">Easy</option>
-            <option value="medium" class="bg-gray-900">Medium</option>
-            <option value="hard" class="bg-gray-900">Hard</option>
-          </select>
-        </div>
+                <!-- Difficulty select -->
+                <div class="flex flex-col gap-2">
+                    <label class="text-purple-300 text-lg font-poppins">Difficulty:</label>
+                    <input type="hidden" id="difficulty" value="">
+                    <div class="grid grid-cols-4 gap-4">
+                        <!-- Any Difficulty -->
+                        <label
+                            class="difficulty-card group relative bg-purple-950/40 border border-purple-300/20 rounded-2xl p-5 h-[10rem] flex flex-col justify-between cursor-pointer transition-all duration-300 select-none backdrop-blur-md hover:bg-purple-950/60 hover:border-pink-500/40 hover:shadow-[0_4px_20px_rgba(236,72,153,0.1)] [&.selected]:border-pink-500 [&.selected]:bg-purple-950/80 [&.selected]:shadow-[0_4px_25px_rgba(236,72,153,0.25)] has-[:checked]:border-pink-500 has-[:checked]:bg-purple-950/80 has-[:checked]:shadow-[0_4px_25px_rgba(236,72,153,0.25)] pointer-events-auto">
+                            <input type="radio" name="difficulty_option" value="" class="sr-only"
+                                onchange="document.getElementById('difficulty').value = this.value; document.querySelectorAll('.difficulty-card').forEach(c => c.classList.remove('selected')); this.parentElement.classList.add('selected');">
+                            <div
+                                class="absolute top-4 right-4 w-7 h-7 rounded-full border-2 border-purple-300/30 flex items-center justify-center transition-all duration-300 group-[.selected]:border-pink-500 group-has-[:checked]:border-pink-500">
+                                <div
+                                    class="w-4 h-4 bg-pink-500 rounded-full scale-0 transition-transform duration-300 group-[.selected]:scale-100 group-has-[:checked]:scale-100">
+                                </div>
+                            </div>
+                            <div class="mt-auto flex items-baseline gap-2">
+                                <span class="text-white text-3xl font-ramen">Any</span>
+                            </div>
+                        </label>
+                        <!-- Easy -->
+                        <label
+                            class="difficulty-card group relative bg-purple-950/40 border border-purple-300/20 rounded-2xl p-5 flex flex-col justify-between cursor-pointer transition-all duration-300 select-none backdrop-blur-md hover:bg-purple-950/60 hover:border-pink-500/40 hover:shadow-[0_4px_20px_rgba(236,72,153,0.1)] [&.selected]:border-pink-500 [&.selected]:bg-purple-950/80 [&.selected]:shadow-[0_4px_25px_rgba(236,72,153,0.25)] has-[:checked]:border-pink-500 has-[:checked]:bg-purple-950/80 has-[:checked]:shadow-[0_4px_25px_rgba(236,72,153,0.25)] pointer-events-auto">
+                            <input type="radio" name="difficulty_option" value="easy" class="sr-only"
+                                onchange="document.getElementById('difficulty').value = this.value; document.querySelectorAll('.difficulty-card').forEach(c => c.classList.remove('selected')); this.parentElement.classList.add('selected');">
+                            <div
+                                class="absolute top-4 right-4 w-7 h-7 rounded-full border-2 border-purple-300/30 flex items-center justify-center transition-all duration-300 group-[.selected]:border-pink-500 group-has-[:checked]:border-pink-500">
+                                <div
+                                    class="w-4 h-4 bg-pink-500 rounded-full scale-0 transition-transform duration-300 group-[.selected]:scale-100 group-has-[:checked]:scale-100">
+                                </div>
+                            </div>
+                            <div class="mt-auto flex items-baseline gap-2">
+                                <span class="text-white text-3xl font-ramen">Easy</span>
+                            </div>
+                        </label>
+                        <!-- Medium -->
+                        <label
+                            class="difficulty-card group relative bg-purple-950/40 border border-purple-300/20 rounded-2xl p-5 flex flex-col justify-between cursor-pointer transition-all duration-300 select-none backdrop-blur-md hover:bg-purple-950/60 hover:border-pink-500/40 hover:shadow-[0_4px_20px_rgba(236,72,153,0.1)] [&.selected]:border-pink-500 [&.selected]:bg-purple-950/80 [&.selected]:shadow-[0_4px_25px_rgba(236,72,153,0.25)] has-[:checked]:border-pink-500 has-[:checked]:bg-purple-950/80 has-[:checked]:shadow-[0_4px_25px_rgba(236,72,153,0.25)] pointer-events-auto">
+                            <input type="radio" name="difficulty_option" value="medium" class="sr-only"
+                                onchange="document.getElementById('difficulty').value = this.value; document.querySelectorAll('.difficulty-card').forEach(c => c.classList.remove('selected')); this.parentElement.classList.add('selected');">
+                            <div
+                                class="absolute top-4 right-4 w-7 h-7 rounded-full border-2 border-purple-300/30 flex items-center justify-center transition-all duration-300 group-[.selected]:border-pink-500 group-has-[:checked]:border-pink-500">
+                                <div
+                                    class="w-4 h-4 bg-pink-500 rounded-full scale-0 transition-transform duration-300 group-[.selected]:scale-100 group-has-[:checked]:scale-100">
+                                </div>
+                            </div>
+                            <div class="mt-auto flex items-baseline gap-2">
+                                <span class="text-white text-3xl font-ramen">Med</span>
+                            </div>
+                        </label>
+                        <!-- Hard -->
+                        <label
+                            class="difficulty-card group relative bg-purple-950/40 border border-purple-300/20 rounded-2xl p-5 flex flex-col justify-between cursor-pointer transition-all duration-300 select-none backdrop-blur-md hover:bg-purple-950/60 hover:border-pink-500/40 hover:shadow-[0_4px_20px_rgba(236,72,153,0.1)] [&.selected]:border-pink-500 [&.selected]:bg-purple-950/80 [&.selected]:shadow-[0_4px_25px_rgba(236,72,153,0.25)] has-[:checked]:border-pink-500 has-[:checked]:bg-purple-950/80 has-[:checked]:shadow-[0_4px_25px_rgba(236,72,153,0.25)] pointer-events-auto">
+                            <input type="radio" name="difficulty_option" value="hard" class="sr-only"
+                                onchange="document.getElementById('difficulty').value = this.value; document.querySelectorAll('.difficulty-card').forEach(c => c.classList.remove('selected')); this.parentElement.classList.add('selected');">
+                            <div
+                                class="absolute top-4 right-4 w-7 h-7 rounded-full border-2 border-purple-300/30 flex items-center justify-center transition-all duration-300 group-[.selected]:border-pink-500 group-has-[:checked]:border-pink-500">
+                                <div
+                                    class="w-4 h-4 bg-pink-500 rounded-full scale-0 transition-transform duration-300 group-[.selected]:scale-100 group-has-[:checked]:scale-100">
+                                </div>
+                            </div>
+                            <div class="mt-auto flex items-baseline gap-2">
+                                <span class="text-white text-3xl font-ramen">Hard</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
 
-        <button id="start-quiz-btn" class="glint bg-primary p-4 font-ramen text-2xl text-purple-300 rounded-2xl flex items-center justify-center gap-2 mt-4 hover:scale-105 hover:bg-primary/80 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-primary/30">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-play-icon lucide-play">
-            <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
-          </svg>
-          <span class="translate-y-[2px]">Start Quiz</span>
-        </button>
-      </div>
+                <button id="start-quiz-btn"
+                    class="glint bg-primary p-4 font-ramen text-2xl text-purple-300 rounded-2xl flex items-center justify-center gap-2 mt-4 hover:scale-105 hover:bg-primary/80 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-primary/30">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-play-icon lucide-play">
+                        <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
+                    </svg>
+                    <span class="translate-y-[2px]">Start Quiz</span>
+                </button>
+            </div>
 
-      <!-- Right: Questions / Results Container -->
-      <div id="quiz-container" class="hidden w-full max-w-4xl mx-auto min-h-[70vh] max-h-[85vh] bg-primary/30 backdrop-blur-xl rounded-3xl p-8 border border-purple-300/20 overflow-y-auto text-purple-200 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
-        <!-- Questions will be dynamically added here by quiz.js -->
-        <div class="flex flex-col items-center justify-center h-full text-center p-8">
-          <h2 class="text-4xl font-ramen text-purple-300 mb-4 animate-pulse">Select options and click START QUIZ</h2>
-          <p class="text-xl font-poppins text-purple-300/70">Test your Anime and Manga expertise with questions from OpenTDB.</p>
+            <!-- Right: Questions / Results Container -->
+            <div id="quiz-container"
+                class="hidden w-full  mx-auto min-h-[70vh] max-h-[85vh] bg-primary/30 backdrop-blur-xl rounded-3xl p-8 border border-purple-300/20 overflow-y-auto text-purple-200 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+                <!-- Questions will be dynamically added here by quiz.js -->
+                <div class="flex flex-col items-center justify-center h-full text-center p-8">
+                    <h2 class="text-4xl font-ramen text-purple-300 mb-4 animate-pulse">Select options and click START
+                        QUIZ</h2>
+                    <p class="text-xl font-poppins text-purple-300/70">Test your Anime and Manga expertise with
+                        questions from
+                        OpenTDB.</p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <script src="/js/quiz.js"></script>
+    <script src="/js/quiz.js"></script>
 </body>
 
 </html>
