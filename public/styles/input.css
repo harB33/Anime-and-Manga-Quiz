@@ -19,31 +19,10 @@
     --color-background: #0D0616;
 }
 
-/* .radial-blur-mask {
-    z-index: 1;
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.8) 100%);
-    backdrop-filter: blur(0px);
-    -webkit-mask-image: radial-gradient(circle at center, black 15%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
-    mask-image: radial-gradient(circle at center, black 15%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
-    pointer-events: none;
-} */
-
-/* .image-radial-blur {
-    -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 75%);
-    mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 75%);
-} */
-
 .image-edge-fade {
     -webkit-mask-image: radial-gradient(circle, #fff 30%, transparent 90%);
     mask-image: radial-gradient(circle, #fff 30%, transparent 90%);
 }
-
-/* .image-vertical-fade {
-    -webkit-mask-image: linear-gradient(to bottom, #fff 30%, transparent 90%);
-    mask-image: linear-gradient(to bottom, #fff 30%, transparent 90%);
-} */
 .glint {
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 
