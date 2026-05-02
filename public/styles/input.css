@@ -3,6 +3,11 @@
 
 @import "tailwindcss";
 
+html {
+    scrollbar-gutter: stable;
+}
+
+
 @font-face {
     font-family: "ramen";
     src: url("../font/JAPAN\ RAMEN.otf") format("opentype");
