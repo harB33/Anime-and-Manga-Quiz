@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    <%= title || 'Shop - Express Quiz App' %>
+  </title>
+  <link rel="stylesheet" href="/styles/output.css" />
+</head>
+
+<body class="min-h-screen min-w-screen overflow-x-clip bg-background">
+  <div class="main min-h-screen w-screen bg-background bg-image pb-12">
+    <!-- Navigation -->
+    <nav id="main-nav" class="p-4 gap-2 flex justify-center fixed w-full top-0 z-50">
+      <nav
+        class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-[50%] backdrop-blur-xl">
+        <div class="flex grow justify-between text-xl items-center">
+          <a href="/" class="font-ramen translate-y-[3px] text-2xl">S</a>
+          <a href="/" class="font-poppins">HOME</a>
+          <a href="/quiz" class="font-poppins">QUIZ</a>
+          <a href="/shop" class="font-poppins">SHOP</a>
+          <a href="/about" class="font-poppins">ABOUT</a>
+        </div>
+      </nav>
+      <nav id="auth-modal-trigger"
+        class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-fit aspect-square backdrop-blur-xl cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+        </svg>
+      </nav>
+    </nav>
+
+    <!-- Main Shop Content -->
+    <div class="flex flex-col w-full min-h-[calc(100vh-100px)] p-8 pt-32 gap-12 justify-center max-w-6xl mx-auto">
+      <!-- Shop Header -->
+      <div class="flex flex-col gap-4 text-center">
+        <h1 class="text-6xl font-bold text-purple-300 font-ramen text-shadow-[0_2px_4px_rgba(0,0,0)] text-nowrap translate-y-[6px]">
+          <span>SHI</span><span>TSU</span><span>MO</span><span>N</span> <span>ME</span><span>RCH</span>
+        </h1>
+        <div class="w-full flex justify-center">
+          <hr class="text-purple-300/75 w-[60%]">
+        </div>
+        <p class="text-purple-300/75 text-2xl font-poppins max-w-2xl mx-auto text-shadow-[2px_2px_1px_rgba(0,0,0)]">
+          Redeem your quiz points for exclusive limited-edition anime merchandise and special custom power-ups!
+        </p>
+      </div>
+
+      <!-- Inventory Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Item 1: Exclusive Anime Figure -->
+        <div class="glint bg-primary/30 backdrop-blur-xl border border-purple-300/20 rounded-3xl p-6 flex flex-col justify-between hover:border-pink-500/40 hover:scale-[1.02] transition-all duration-300 group select-none shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+          <div class="w-full aspect-square bg-purple-950/40 rounded-2xl overflow-hidden mb-5 border border-purple-300/10 flex items-center justify-center">
+            <img src="/images/anime_merch_figure.png" alt="Anime Figure" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+          </div>
+          <div>
+            <span class="text-xs font-bold text-pink-400 font-poppins bg-pink-500/10 border border-pink-500/20 px-3 py-1 rounded-full uppercase tracking-wider">Legendary</span>
+            <h3 class="text-2xl font-ramen text-purple-300 mt-3 mb-1">Elite Satoru Figure</h3>
+            <p class="text-purple-300/70 font-poppins text-sm mb-4">An exceptionally detailed premium action figure with custom lighting aura.</p>
+          </div>
+          <div class="flex justify-between items-center mt-auto border-t border-purple-300/15 pt-4">
+            <div class="flex items-baseline gap-1">
+              <span class="text-white text-3xl font-ramen">2,500</span>
+              <span class="text-purple-300/50 font-poppins text-xs font-bold uppercase tracking-widest">Points</span>
+            </div>
+            <button onclick="redeemItem('Elite Satoru Figure', 2500)" class="glint bg-primary px-5 py-2.5 font-ramen text-xl text-purple-300 rounded-xl flex items-center justify-center gap-2 hover:bg-primary/80 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-primary/30">
+              Redeem
+            </button>
+          </div>
+        </div>
+
+        <!-- Item 2: Premium Hoodie -->
+        <div class="glint bg-primary/30 backdrop-blur-xl border border-purple-300/20 rounded-3xl p-6 flex flex-col justify-between hover:border-pink-500/40 hover:scale-[1.02] transition-all duration-300 group select-none shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+          <div class="w-full aspect-square bg-purple-950/40 rounded-2xl overflow-hidden mb-5 border border-purple-300/10 flex items-center justify-center">
+            <img src="/images/anime_merch_hoodie.png" alt="Anime Hoodie" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+          </div>
+          <div>
+            <span class="text-xs font-bold text-pink-400 font-poppins bg-pink-500/10 border border-pink-500/20 px-3 py-1 rounded-full uppercase tracking-wider">Exclusive</span>
+            <h3 class="text-2xl font-ramen text-purple-300 mt-3 mb-1">Shitsumon Hoodie</h3>
+            <p class="text-purple-300/70 font-poppins text-sm mb-4">Limited edition streetwear style dark aesthetic hoodie for anime fans.</p>
+          </div>
+          <div class="flex justify-between items-center mt-auto border-t border-purple-300/15 pt-4">
+            <div class="flex items-baseline gap-1">
+              <span class="text-white text-3xl font-ramen">1,800</span>
+              <span class="text-purple-300/50 font-poppins text-xs font-bold uppercase tracking-widest">Points</span>
+            </div>
+            <button onclick="redeemItem('Shitsumon Hoodie', 1800)" class="glint bg-primary px-5 py-2.5 font-ramen text-xl text-purple-300 rounded-xl flex items-center justify-center gap-2 hover:bg-primary/80 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-primary/30">
+              Redeem
+            </button>
+          </div>
+        </div>
+
+        <!-- Item 3: Power-ups Card -->
+        <div class="glint bg-primary/30 backdrop-blur-xl border border-purple-300/20 rounded-3xl p-6 flex flex-col justify-between hover:border-pink-500/40 hover:scale-[1.02] transition-all duration-300 group select-none shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+          <div class="w-full aspect-square bg-purple-950/40 rounded-2xl overflow-hidden mb-5 border border-purple-300/10 flex flex-col items-center justify-center p-4">
+            <div class="text-6xl mb-2 text-pink-500">⚡</div>
+            <div class="font-ramen text-3xl text-purple-200">50/50 HINT</div>
+          </div>
+          <div>
+            <span class="text-xs font-bold text-pink-400 font-poppins bg-pink-500/10 border border-pink-500/20 px-3 py-1 rounded-full uppercase tracking-wider">Utility</span>
+            <h3 class="text-2xl font-ramen text-purple-300 mt-3 mb-1">Hint Power-Up</h3>
+            <p class="text-purple-300/70 font-poppins text-sm mb-4">Instantly eliminates two incorrect answers from a hard question during a quiz.</p>
+          </div>
+          <div class="flex justify-between items-center mt-auto border-t border-purple-300/15 pt-4">
+            <div class="flex items-baseline gap-1">
+              <span class="text-white text-3xl font-ramen">450</span>
+              <span class="text-purple-300/50 font-poppins text-xs font-bold uppercase tracking-widest">Points</span>
+            </div>
+            <button onclick="redeemItem('Hint Power-Up', 450)" class="glint bg-primary px-5 py-2.5 font-ramen text-xl text-purple-300 rounded-xl flex items-center justify-center gap-2 hover:bg-primary/80 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-primary/30">
+              Redeem
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Dialog Modal for Auth (Matches index.ejs) -->
+  <dialog id="auth-modal" class="backdrop:bg-black/60 rounded-3xl p-0 border border-purple-300/30 overflow-hidden bg-transparent w-[90%] max-w-lg">
+    <div class="bg-primary/95 backdrop-blur-2xl p-8 flex flex-col gap-6 text-purple-300 font-poppins relative">
+      <button id="close-auth-modal" type="button" class="absolute top-6 right-6 text-2xl text-purple-300/60 hover:text-pink-500 transition-colors cursor-pointer select-none">
+        &times;
+      </button>
+
+      <div>
+        <h3 class="text-3xl font-ramen text-center text-purple-300 mb-4 tracking-wider">Sign In</h3>
+        <form action="/php/login.php" method="POST" class="flex flex-col gap-4">
+          <div class="flex flex-col gap-2">
+            <label for="login-username" class="text-sm font-semibold uppercase tracking-wider text-purple-300/80">Username</label>
+            <input type="text" id="login-username" name="login-username" required class="bg-purple-950/50 border border-purple-300/30 rounded-xl p-3 focus:outline-none focus:border-pink-500 transition-all text-white" />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="login-password" class="text-sm font-semibold uppercase tracking-wider text-purple-300/80">Password</label>
+            <input type="password" id="login-password" name="login-password" required class="bg-purple-950/50 border border-purple-300/30 rounded-xl p-3 focus:outline-none focus:border-pink-500 transition-all text-white" />
+          </div>
+          <button type="submit" class="glint bg-primary p-3 font-ramen text-xl text-purple-300 rounded-xl flex items-center justify-center cursor-pointer hover:bg-primary/80 transition-all shadow-md mt-2">Log In</button>
+        </form>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <hr class="flex-grow border-purple-300/20">
+        <span class="text-xs text-purple-300/40 tracking-wider">OR</span>
+        <hr class="flex-grow border-purple-300/20">
+      </div>
+
+      <div>
+        <h3 class="text-3xl font-ramen text-center text-purple-300 mb-4 tracking-wider">Register</h3>
+        <form action="/php/register.php" method="POST" class="flex flex-col gap-4">
+          <div class="flex flex-col gap-2">
+            <label for="reg-username" class="text-sm font-semibold uppercase tracking-wider text-purple-300/80">Username</label>
+            <input type="text" id="reg-username" name="reg-username" required class="bg-purple-950/50 border border-purple-300/30 rounded-xl p-3 focus:outline-none focus:border-pink-500 transition-all text-white" />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="reg-email" class="text-sm font-semibold uppercase tracking-wider text-purple-300/80">Email</label>
+            <input type="email" id="reg-email" name="reg-email" required class="bg-purple-950/50 border border-purple-300/30 rounded-xl p-3 focus:outline-none focus:border-pink-500 transition-all text-white" />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="reg-password" class="text-sm font-semibold uppercase tracking-wider text-purple-300/80">Password</label>
+            <input type="password" id="reg-password" name="reg-password" required class="bg-purple-950/50 border border-purple-300/30 rounded-xl p-3 focus:outline-none focus:border-pink-500 transition-all text-white" />
+          </div>
+          <button type="submit" class="glint bg-primary p-3 font-ramen text-xl text-purple-300 rounded-xl flex items-center justify-center cursor-pointer hover:bg-primary/80 transition-all shadow-md mt-2">Register</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Sweet Success Alert Dialog (Modern Modal) -->
+  <dialog id="success-modal" class="backdrop:bg-black/60 rounded-3xl p-0 border border-purple-300/30 overflow-hidden bg-transparent w-[90%] max-w-sm">
+    <div class="bg-primary/95 backdrop-blur-2xl p-6 flex flex-col items-center gap-4 text-purple-300 font-poppins text-center">
+      <div class="text-6xl text-pink-500 animate-bounce">🎁</div>
+      <h3 id="success-title" class="text-2xl font-ramen text-purple-200">Redemption Successful!</h3>
+      <p id="success-desc" class="text-sm text-purple-300/70 font-poppins">You have claimed the item.</p>
+      <button onclick="document.getElementById('success-modal').close()" class="glint bg-primary mt-2 px-6 py-2.5 font-ramen text-lg text-purple-300 rounded-xl cursor-pointer hover:bg-primary/80 transition-all duration-300 w-full">Great!</button>
+    </div>
+  </dialog>
+
+  <script src="/js/quiz.js"></script>
+  <script src="/js/index.js"></script>
+
+  <script>
+    function redeemItem(itemName, cost) {
+      document.getElementById('success-title').textContent = "Redemption Successful!";
+      document.getElementById('success-desc').textContent = "Successfully redeemed " + itemName + " for " + cost + " points!";
+      document.getElementById('success-modal').showModal();
+    }
+  </script>
+</body>
+
+</html>
