@@ -49,12 +49,20 @@ async function getQuestions() {
   const category = document.getElementById("category").value
   const difficulty = document.getElementById("difficulty").value
 
+  // Hide the navbar once the quiz starts
+  const navbar = document.getElementById("main-nav")
+  if (navbar) navbar.classList.add("hidden")
+
   const container = document.getElementById("quiz-container")
   container.innerHTML = '<div class="loading"><div class="spinner"></div><div class="loading-text">Fetching questions from OpenTDB...</div></div>'
 
   // Disable the start button during loading
-  const startButton = document.querySelector('button[onclick="getQuestions()"]')
-  if (startButton) startButton.disabled = true
+  const startButton = document.getElementById("start-quiz-btn")
+  if (startButton) {
+    startButton.disabled = true
+    const spanText = startButton.querySelector('span')
+    if (spanText) spanText.textContent = 'Loading questions...'
+  }
 
   try {
     let url = `/api/quiz/questions?amount=${amount}`
@@ -69,16 +77,27 @@ async function getQuestions() {
       userAnswers = new Array(data.results.length).fill(null)
       currentQuestionIndex = 0
       displayQuestion(0)
+
+      // Hide the quiz options sidebar, then the question container appears
+      const sidebar = document.getElementById("quiz-options-sidebar")
+      if (sidebar) sidebar.classList.add("hidden")
+      container.classList.remove("hidden")
     } else {
       container.innerHTML = `<div class="error">Error: ${data.error}</div>`
+      container.classList.remove("hidden")
     }
   } catch (error) {
     console.error("Error fetching questions:", error)
     container.innerHTML =
       '<div class="error">Failed to load questions. Please try again.</div>'
+    container.classList.remove("hidden")
   } finally {
     // Re-enable the start button after loading completes
-    if (startButton) startButton.disabled = false
+    if (startButton) {
+      startButton.disabled = false
+      const spanText = startButton.querySelector('span')
+      if (spanText) spanText.textContent = 'Start Quiz'
+    }
   }
 }
 
@@ -269,7 +288,16 @@ function resetQuiz() {
   container.innerHTML = ""
   currentQuestions = []
   userAnswers = []
+
+  // Reset elements visibility
+  const sidebar = document.getElementById("quiz-options-sidebar")
+  if (sidebar) sidebar.classList.remove("hidden")
+  container.classList.add("hidden")
+
+  const navbar = document.getElementById("main-nav")
+  if (navbar) navbar.classList.remove("hidden")
 }
+
 
 // let activeIntervals = [];
 

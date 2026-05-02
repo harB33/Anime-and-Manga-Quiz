@@ -159,8 +159,7 @@
 
 <body class="min-h-screen min-w-screen overflow-x-clip " oncontextmenu="return false;">
   <div class="main min-h-screen w-screen bg-background bg-image pb-12">
-    <!-- Navbar from index.ejs -->
-    <nav class="p-4 gap-2 flex justify-center fixed w-full top-0 z-50">
+    <nav id="main-nav" class="p-4 gap-2 flex justify-center fixed w-full top-0 z-50">
       <nav
         class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-[50%] backdrop-blur-xl">
         <div class="flex grow justify-between text-xl items-center ">
@@ -181,9 +180,9 @@
       </nav>
     </nav>
 
-    <div class="flex w-full min-h-screen pt-28 px-8 gap-8">
+    <div class="flex w-full min-h-screen pt-28 px-8 gap-8 justify-center">
       <!-- Left: Quiz Options / Control Sidebar -->
-      <div class="flex flex-col h-fit w-[35%] z-10 gap-6 p-8 bg-primary/30 backdrop-blur-xl rounded-3xl border border-purple-300/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+      <div id="quiz-options-sidebar" class="flex flex-col h-fit w-full max-w-xl mx-auto z-10 gap-6 p-8 bg-primary/30 backdrop-blur-xl rounded-3xl border border-purple-300/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
         <h1 class="text-6xl font-bold text-purple-300 font-ramen text-center text-shadow-[0_2px_4px_rgba(0,0,0)] text-nowrap translate-y-[6px]">
           <span>QUI</span><span>Z</span> <span>TI</span><span>ME</span>
         </h1>
@@ -232,7 +231,7 @@
       </div>
 
       <!-- Right: Questions / Results Container -->
-      <div id="quiz-container" class="w-[65%] min-h-[70vh] max-h-[85vh] bg-primary/30 backdrop-blur-xl rounded-3xl p-8 border border-purple-300/20 overflow-y-auto text-purple-200 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+      <div id="quiz-container" class="hidden w-full max-w-4xl mx-auto min-h-[70vh] max-h-[85vh] bg-primary/30 backdrop-blur-xl rounded-3xl p-8 border border-purple-300/20 overflow-y-auto text-purple-200 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
         <!-- Questions will be dynamically added here by quiz.js -->
         <div class="flex flex-col items-center justify-center h-full text-center p-8">
           <h2 class="text-4xl font-ramen text-purple-300 mb-4 animate-pulse">Select options and click START QUIZ</h2>
