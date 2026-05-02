@@ -76,13 +76,14 @@
         </div>
     </div>
 
-    <dialog id="auth-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-0 backdrop:bg-black/60 rounded-3xl p-0 border border-purple-300/30 overflow-hidden bg-transparent w-[90%] max-w-6xl">
+    <dialog id="auth-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-0 backdrop:bg-black/60 rounded-3xl p-0 border border-purple-300/30 overflow-hidden bg-transparent w-[90%] max-w-md">
         <div class="bg-primary/95 backdrop-blur-2xl p-8 flex flex-col gap-6 text-purple-300 font-poppins relative">
             <button id="close-auth-modal" type="button" class="absolute top-6 right-6 text-2xl text-purple-300/60 hover:text-pink-500 transition-colors cursor-pointer select-none">
                 &times;
             </button>
 
-            <div>
+            <!-- Login Form Container -->
+            <div id="login-form-container" class="flex flex-col gap-4">
                 <h3 class="text-3xl font-ramen text-center text-purple-300 mb-4 tracking-wider">Log In</h3>
                 <form action="/php/login.php" method="POST" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-2">
@@ -95,16 +96,15 @@
                     </div>
                     <button type="submit" class="glint bg-primary p-3 font-ramen text-xl text-purple-300 rounded-xl flex items-center justify-center cursor-pointer hover:bg-primary/80 transition-all shadow-md mt-2">Log In</button>
                 </form>
+                <p class="text-sm text-center text-purple-300/70 mt-2">
+                    Don't have an account? 
+                    <button type="button" id="go-to-register" onclick="showRegister()" class="text-pink-400 hover:text-pink-300 underline cursor-pointer focus:outline-none">Register</button>
+                </p>
             </div>
 
-            <div class="flex items-center gap-4">
-                <hr class="flex-grow border-purple-300/20">
-                <span class="text-xs text-purple-300/40 tracking-wider">OR</span>
-                <hr class="flex-grow border-purple-300/20">
-            </div>
-
-            <div>
-                <h3 class="text-3xl font-ramen text-center text-purple-300 mb-4 tracking-wider">Register</h3>
+            <!-- Register Form Container (Hidden by default) -->
+            <div id="register-form-container" style="display: none;" class="flex flex-col gap-4">
+                <h3 class="text-3xl font-ramen text-center text-purple-300 mb-2 tracking-wider">Register</h3>
                 <form action="/php/register.php" method="POST" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-2">
                         <label for="reg-username" class="text-sm font-semibold uppercase tracking-wider text-purple-300/80">Username</label>
@@ -120,10 +120,33 @@
                     </div>
                     <button type="submit" class="glint bg-primary p-3 font-ramen text-xl text-purple-300 rounded-xl flex items-center justify-center cursor-pointer hover:bg-primary/80 transition-all shadow-md mt-2">Register</button>
                 </form>
+                <p class="text-sm text-center text-purple-300/70 mt-2">
+                    Already have an account? 
+                    <button type="button" id="go-to-login" onclick="showLogin()" class="text-pink-400 hover:text-pink-300 underline cursor-pointer focus:outline-none">Log In</button>
+                </p>
             </div>
         </div>
     </dialog>
 
+    <script>
+        function showRegister() {
+            const login = document.getElementById('login-form-container');
+            const register = document.getElementById('register-form-container');
+            if (login && register) {
+                login.style.display = 'none';
+                register.style.display = 'flex';
+            }
+        }
+
+        function showLogin() {
+            const login = document.getElementById('login-form-container');
+            const register = document.getElementById('register-form-container');
+            if (login && register) {
+                register.style.display = 'none';
+                login.style.display = 'flex';
+            }
+        }
+    </script>
     <script src="/js/quiz.js"></script>
     <script src="/js/index.js"></script>
 </body>

@@ -21,7 +21,9 @@ app.set('views', [path.join(__dirname, 'views'), path.join(__dirname, 'public')]
 
 // Middleware
 app.use(morgan('combined'))
-app.use(helmet())
+app.use(helmet({
+    contentSecurityPolicy: true
+}))
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

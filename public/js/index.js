@@ -75,6 +75,28 @@ document.addEventListener("DOMContentLoaded", function () {
       authModal.close();
     });
   }
+
+  // Auth modal toggle listeners
+  const loginForm = document.getElementById("login-form-container");
+  const registerForm = document.getElementById("register-form-container");
+  const goToRegister = document.getElementById("go-to-register");
+  const goToLogin = document.getElementById("go-to-login");
+
+  if (goToRegister && loginForm && registerForm) {
+    goToRegister.addEventListener("click", (e) => {
+      e.preventDefault();
+      loginForm.style.display = 'none';
+      registerForm.style.display = 'flex';
+    });
+  }
+
+  if (goToLogin && loginForm && registerForm) {
+    goToLogin.addEventListener("click", (e) => {
+      e.preventDefault();
+      registerForm.style.display = 'none';
+      loginForm.style.display = 'flex';
+    });
+  }
 });
 
 // Also call immediately in case DOMContentLoaded has already fired
