@@ -1,46 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= title || 'About - Express Quiz App' %></title>
-    <link rel="stylesheet" href="/styles/output.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    <%= title || 'About - Express Quiz App' %>
+  </title>
+  <link rel="stylesheet" href="/styles/output.css" />
 </head>
+
 <body class="min-h-screen min-w-screen overflow-x-clip">
-    <div class="main min-h-screen w-screen bg-background bg-image">
-        <!-- Reused Navigation from index.ejs (Simplified) -->
-        <nav id="main-nav" class="p-4 gap-2 flex justify-center fixed w-full top-0 z-50">
-            <nav class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-[60%] backdrop-blur-xl">
-                <a href="/" class="glint text-3xl font-ramen px-4 py-2 bg-primary rounded-full translate-y-[2px] shadow-lg">SHITSUMON</a>
-                <div class="flex gap-4 items-center h-full">
-                    <a href="/shop" class="font-poppins hover:text-pink-400 transition-colors">SHOP</a>
-                    <a href="/about" class="font-poppins text-pink-400 border-b border-pink-400">ABOUT</a>
-                </div>
-            </nav>
-        </nav>
-        
-        <div class="flex w-full min-h-screen pt-24 px-8 justify-center items-center">
-            <div class="glint bg-primary/80 backdrop-blur-xl p-8 rounded-3xl border border-purple-300/20 max-w-2xl text-purple-300 font-poppins shadow-2xl">
-                <h1 class="text-4xl font-ramen text-center text-purple-300 mb-6 tracking-wider">About This App</h1>
-                <p class="text-lg mb-4 text-purple-300/90">
-                    This is a custom Express.js quiz application built with Node.js, EJS templates, and an integrated PHP backend for authentication.
-                </p>
-                <div class="bg-purple-950/50 p-6 rounded-2xl border border-purple-300/10 mb-6">
-                    <h2 class="text-xl font-bold mb-4 text-pink-400">Architecture</h2>
-                    <ul class="list-disc list-inside space-y-2 text-purple-300/80">
-                        <li>Routes defined in <code>routes/quiz.js</code> and <code>routes/pages.js</code></li>
-                        <li>API logic in <code>controllers/quizController.js</code></li>
-                        <li>Dynamic styling via <b>Tailwind CSS v4</b> and <b>DaisyUI</b></li>
-                        <li>PHP Bridge used for secure local database communication</li>
-                    </ul>
-                </div>
-                <div class="flex justify-center mt-8">
-                    <a href="/" class="glint bg-primary px-8 py-3 font-ramen text-2xl text-purple-300 rounded-xl flex items-center justify-center hover:bg-primary/80 transition-all shadow-md">
-                        <span class="translate-y-[2px]">Return Home</span>
-                    </a>
-                </div>
-            </div>
+  <div class="main min-h-screen w-screen bg-background bg-image">
+    <!-- Reused Navigation from index.ejs (Simplified) -->
+    <nav id="main-nav" class="p-4 gap-2 flex justify-center fixed w-full top-0 z-50">
+      <nav
+        class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-[50%] backdrop-blur-xl">
+        <div class="flex grow justify-between text-xl items-center ">
+          <a href="/" class="font-ramen translate-y-[3px] text-2xl">S</a>
+          <a href="/" class="font-poppins">HOME</a>
+          <a href="/quiz" class="font-poppins">QUIZ</a>
+          <a href="/shop" class="font-poppins">SHOP</a>
+          <a href="/about" class="font-poppins">ABOUT</a>
         </div>
+      </nav>
+      <div class="dropdown dropdown-hover dropdown-center">
+        <div tabindex="0" role="button"
+          class="glint bg-primary/50 text-purple-300 flex items-center justify-center rounded-full w-12 h-12 backdrop-blur-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+          </svg>
+        </div>
+        <ul tabindex="-1"
+          class="dropdown-content menu bg-primary/90 backdrop-blur-md text-purple-300 rounded-box z-[60] w-52 p-2 shadow-2xl mt-4 left-1/2 -translate-x-1/2 border border-purple-300/20 before:content-[''] before:absolute before:-top-4 before:h-4 before:w-full">
+          <li><a class="hover:bg-purple-500/30 transition-colors text-lg font-bold">
+              <%= (locals.user) ? user.username : 'Guest' %>
+            </a></li>
+          <li class="pointer-events-none">
+            <hr class="border-purple-300/10 mt-1">
+          </li>
+          <li><a class="hover:bg-purple-500/30 transition-colors">Profile</a></li>
+          <li><a class="hover:bg-purple-500/30 transition-colors">Settings</a></li>
+          <li class="pointer-events-none">
+            <hr class="border-purple-300/10 m-1">
+          </li>
+          <% if (locals.user) { %>
+            <li><a href="/php/logout.php" class="text-pink-400 hover:bg-pink-500/20 transition-colors">Logout</a></li>
+            <% } else { %>
+              <li><a id="auth-modal-trigger"
+                  class="text-pink-400 hover:bg-pink-500/20 transition-colors cursor-pointer">Log
+                  In</a></li>
+              <% } %>
+        </ul>
+      </div>
+      <!-- <nav id="auth-modal-trigger"
+              class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-fit aspect-square backdrop-blur-xl cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+              </svg>
+          </nav> -->
+    </nav>
+
+    <div class="flex w-full min-h-screen pt-24 px-8 justify-center items-center">
+      <div
+        class="glint bg-primary/80 backdrop-blur-xl p-8 rounded-3xl border border-purple-300/20 max-w-2xl text-purple-300 font-poppins shadow-2xl">
+        <h1 class="text-5xl font-ramen text-center text-purple-300 mb-6 tracking-wider">About Shitsumon</h1>
+        <p class="text-lg mb-8 text-center text-purple-300/90 leading-relaxed">
+          Welcome to <span class="text-pink-400 font-bold">Shitsumon</span> (質問), the ultimate testing ground for your
+          Anime and Manga knowledge! Prove that you are a true otaku by challenging our extensive trivia database.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div
+            class="bg-purple-950/50 p-6 rounded-2xl border border-purple-300/10 hover:border-pink-500/50 transition-all duration-300 shadow-inner">
+            <h2 class="text-2xl font-ramen mb-3 text-pink-400 tracking-wide">🧠 Challenging Quizzes</h2>
+            <p class="text-purple-300/80 leading-relaxed">
+              Dive into a vast database of carefully curated questions. From classic shounen masterpieces to obscure
+              slice-of-life gems, there's always a new challenge waiting for you.
+            </p>
+          </div>
+
+          <div
+            class="bg-purple-950/50 p-6 rounded-2xl border border-purple-300/10 hover:border-yellow-400/50 transition-all duration-300 shadow-inner">
+            <h2 class="text-2xl font-ramen mb-3 text-yellow-400 tracking-wide">💴 Earn Yen Rewards</h2>
+            <p class="text-purple-300/80 leading-relaxed">
+              Knowledge pays! For every correct answer, you are rewarded with Yen (¥). The more you know, the richer you
+              become. Keep playing to boost your balance.
+            </p>
+          </div>
+
+          <div
+            class="bg-purple-950/50 p-6 rounded-2xl border border-purple-300/10 hover:border-cyan-400/50 transition-all duration-300 shadow-inner">
+            <h2 class="text-2xl font-ramen mb-3 text-cyan-400 tracking-wide">🛒 The Shop</h2>
+            <p class="text-purple-300/80 leading-relaxed">
+              Visit our integrated Shop to spend your hard-earned Yen! Browse through the store and unlock exclusive
+              cosmetics and profile features.
+            </p>
+          </div>
+
+          <div
+            class="bg-purple-950/50 p-6 rounded-2xl border border-purple-300/10 hover:border-green-400/50 transition-all duration-300 shadow-inner">
+            <h2 class="text-2xl font-ramen mb-3 text-green-400 tracking-wide">💾 Save Your Progress</h2>
+            <p class="text-purple-300/80 leading-relaxed">
+              Create an account to securely save your stats and Yen balance. Your hard-earned rewards are safely stored
+              so you can pick up where you left off at any time!
+            </p>
+          </div>
+        </div>
+
+        <div class="flex justify-center mt-8">
+          <a href="/"
+            class="glint bg-primary px-10 py-4 font-ramen text-2xl text-purple-300 rounded-2xl flex items-center justify-center hover:bg-primary/80 transition-all shadow-xl hover:scale-105 duration-300">
+            <span class="translate-y-[2px]">Return Home & Play</span>
+          </a>
+        </div>
+      </div>
     </div>
+  </div>
 </body>
+
 </html>
