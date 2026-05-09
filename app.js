@@ -69,7 +69,8 @@ const handlePHP = (req, res, next) => {
         ...process.env,
         REQUEST_METHOD: req.method,
         CONTENT_LENGTH: Buffer.byteLength(postBody),
-        CONTENT_TYPE: req.get('Content-Type') || 'application/x-www-form-urlencoded',
+        CONTENT_TYPE: 'application/x-www-form-urlencoded',
+        HTTP_COOKIE: req.get('Cookie') || '',
         QUERY_STRING: getQuery
     };
 

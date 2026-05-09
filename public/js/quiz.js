@@ -295,22 +295,55 @@ function displayResults(data) {
 
   // Calculate yen earned (10 yen per correct answer)
   const yenEarned = data.correct * 10;
-  const newYenBalance = addYen(yenEarned);
-
+  
+  // Create score div first
   const scoreDiv = document.createElement("div");
   scoreDiv.className =
     "bg-purple-950/50 border-2 border-purple-300/30 rounded-2xl p-8 mb-10 text-center font-poppins";
+  
+  // We will update this later once the yen is processed
   scoreDiv.innerHTML = `
         <h2 class="font-ramen text-5xl text-purple-300 mb-2">Quiz Results</h2>
         <p class="text-2xl text-purple-300/85">You scored ${data.correct} out of ${data.total} (${data.percentage}%)</p>
         <div class="mt-6 pt-6 border-t border-purple-300/30">
           <p class="text-xl text-yellow-400 font-bold font-ramen mb-2">🎉 YEN EARNED 🎉</p>
           <p class="text-3xl text-yellow-300 font-ramen">+¥${yenEarned}</p>
-          <p class="text-lg text-purple-300/75 mt-2">Total Balance: ¥${newYenBalance}</p>
+          <p class="text-lg text-purple-300/75 mt-2" id="final-yen-balance">Updating balance...</p>
         </div>
     `;
   container.appendChild(scoreDiv);
 
+  // Securely add yen to backend
+  if (yenEarned > 0) {
+    fetch("/php/update_yen.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ yenEarned })
+    })
+    .then(res => res.json())
+    .then(result => {
+      const balanceEl = document.getElementById("final-yen-balance");
+      if (result.success) {
+        setLocalYen(result.yen); // update local backup
+        updateYenDisplay(); // update navbar
+        if (balanceEl) balanceEl.innerHTML = `Total Balance: ¥${result.yen}`;
+      } else {
+        console.error("Failed to add yen:", result.error);
+        if (balanceEl) balanceEl.innerHTML = `Total Balance: ¥${getLocalYen()} <span class="text-xs text-red-400 block">(Not saved: ${result.error})</span>`;
+      }
+    })
+    .catch(err => {
+      console.error("Yen update error:", err);
+      const balanceEl = document.getElementById("final-yen-balance");
+      if (balanceEl) balanceEl.innerHTML = `Total Balance: ¥${getLocalYen()} <span class="text-xs text-red-400 block">(Network error)</span>`;
+    });
+  } else {
+    // 0 yen earned, just show current balance
+    const balanceEl = document.getElementById("final-yen-balance");
+    if (balanceEl) balanceEl.innerHTML = `Total Balance: ¥${getLocalYen()}`;
+  }
   data.results.forEach((result, index) => {
     console.log(
       `Question ${index + 1}:`,

@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Success: Set session and cookie
             session_start();
             $_SESSION['username'] = $username;
+            $_SESSION['user_id'] = $stmt->insert_id;
             
             // Set cookie normally for PHP
             setcookie("username", $username, time() + (86400 * 30), "/"); 

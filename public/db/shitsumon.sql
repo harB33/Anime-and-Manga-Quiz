@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 09, 2026 at 08:53 PM
+-- Generation Time: May 09, 2026 at 09:01 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -106,6 +106,13 @@ CREATE TABLE `statistics` (
 --
 
 --
+-- Indexes for table `inventory`
+--
+ALTER TABLE `inventory`
+  ADD PRIMARY KEY (`inventory_id`),
+  ADD KEY `item_id` (`item_id`);
+
+--
 -- Indexes for table `items`
 --
 ALTER TABLE `items`
@@ -162,6 +169,12 @@ ALTER TABLE `statistics`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `inventory`
+--
+ALTER TABLE `inventory`
+  ADD CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `shop`
