@@ -1,4 +1,5 @@
 <?php
+ob_start(); // Start output buffering to prevent "headers already sent" warnings
 // Include the database connection file
 require_once __DIR__ . '/../db/db.php';
 
@@ -17,9 +18,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("sssi", $username, $email, $hashed_password, $yen);
 
         if ($stmt->execute()) {
-            // Redirect back to homepage on success
-            header("Location: /");
-            echo "Location: /\n";
+            // Success: Set session and cookie
+            session_start();
+            $_SESSION['username'] = $username;
+            
+            // Set cookie normally for PHP
+            setcookie("username", $username, time() + (86400 * 30), "/"); 
+            
+            // Output special headers for Express bridge
+            echo "\nX-Express-Header: Set-Cookie: username=" . urlencode($username) . "; Max-Age=" . (86400 * 30) . "; Path=/\n";
+            echo "X-Express-Header: Location: /?registered=success\n";
+            
+            ob_end_flush();
             exit;
         } else {
             echo "Error during registration: " . $stmt->error;
@@ -30,4 +40,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 $conn->close();
+ob_end_flush();
 ?>

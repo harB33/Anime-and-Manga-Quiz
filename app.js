@@ -14,6 +14,9 @@ const pagesRoutes = require('./routes/pages')
 const app = express()
 const PORT = process.env.PORT || 3000
 
+// Set default local variables
+app.locals.user = null;
+
 // Set up PHP support for .php routes and keep EJS views as well
 app.engine('php', phpExpress.engine)
 app.set('view engine', 'ejs')
@@ -27,6 +30,26 @@ app.use(helmet({
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+// Cookie parsing middleware for auth bridge
+app.use((req, res, next) => {
+    const cookies = {};
+    const cookieHeader = req.headers.cookie;
+    if (cookieHeader) {
+        cookieHeader.split(';').forEach(cookie => {
+            const parts = cookie.split('=');
+            if (parts.length >= 2) {
+                const name = parts[0].trim();
+                const value = parts.slice(1).join('=').trim();
+                cookies[name] = value;
+            }
+        });
+    }
+    // Set user object in locals for all templates
+    res.locals.user = cookies.username ? { username: decodeURIComponent(cookies.username) } : null;
+    res.locals.query = req.query;
+    next();
+});
 
 // Custom PHP middleware to handle Windows spawn and stdin properly
 const handlePHP = (req, res, next) => {
@@ -46,6 +69,7 @@ const handlePHP = (req, res, next) => {
         ...process.env,
         REQUEST_METHOD: req.method,
         CONTENT_LENGTH: Buffer.byteLength(postBody),
+        CONTENT_TYPE: req.get('Content-Type') || 'application/x-www-form-urlencoded',
         QUERY_STRING: getQuery
     };
 
@@ -72,12 +96,32 @@ const handlePHP = (req, res, next) => {
             console.error(`PHP process exited with code ${code}. Stderr: ${stderr}`);
             return res.status(500).send(stderr || `PHP process failed with code ${code}`);
         }
-        // Check if stdout contains headers like Location or if it's purely content
-        const headerMatch = stdout.match(/^Location:\s*(.+)$/mi);
-        if (headerMatch) {
-            return res.redirect(headerMatch[1].trim());
+
+        // Parse special headers from PHP output using a global regex
+        const headerRegex = /X-Express-Header:\s*([\w-]+):\s*([^\r\n]+)/gi;
+        let redirectUrl = null;
+        let match;
+        
+        // Extract all headers
+        while ((match = headerRegex.exec(stdout)) !== null) {
+            const name = match[1].trim();
+            const value = match[2].trim();
+            
+            if (name.toLowerCase() === 'location') {
+                redirectUrl = value;
+            } else {
+                res.append(name, value);
+            }
         }
-        res.send(stdout);
+
+        // Clean up the output by removing all header lines
+        const cleanStdout = stdout.replace(/X-Express-Header:\s*[\w-]+:\s*[^\r\n]+/gi, '').trim();
+
+        if (redirectUrl) {
+            return res.redirect(redirectUrl);
+        }
+        
+        res.send(cleanStdout);
     });
 };
 

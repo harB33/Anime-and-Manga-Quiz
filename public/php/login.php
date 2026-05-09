@@ -1,4 +1,5 @@
 <?php
+ob_start(); // Start output buffering
 // Include the database connection file
 require_once __DIR__ . '/../db/db.php';
 
@@ -18,8 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Success: Store user ID or username in session
             $_SESSION['user_id'] = $user_id;
             $_SESSION['username'] = $username;
-            header("Location: /");
-            echo "Location: /\n";
+            
+            // Set cookie for Express to read
+            setcookie("username", $username, time() + (86400 * 30), "/"); // 30 days
+            echo "\nX-Express-Header: Set-Cookie: username=" . urlencode($username) . "; Max-Age=" . (86400 * 30) . "; Path=/\n";
+            echo "X-Express-Header: Location: /?login=success\n";
+            
+            ob_end_flush();
             exit;
         } else {
             echo "Invalid username or password.";
@@ -30,4 +36,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 $conn->close();
+ob_end_flush();
 ?>

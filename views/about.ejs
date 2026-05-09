@@ -1,40 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>
-    <%= title %>
-  </title>
-  <link rel="stylesheet" href="/css/styles.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title || 'About - Express Quiz App' %></title>
+    <link rel="stylesheet" href="/styles/output.css" />
 </head>
-
-<body>
-  <header class="site-header">
-    <nav>
-      <a href="/">Home</a> | <a href="/quiz">Quiz</a> |
-      <a href="/about">About</a>
-    </nav>
-  </header>
-  <div class="container">
-    <h1>About This Express.js App</h1>
-    <p>
-      This is a simple Express.js quiz application with Node.js and EJS
-      templates.
-    </p>
-    <ul>
-      <li>Routes are defined in <code>routes/quiz.js</code></li>
-      <li>API logic is in <code>controllers/quizController.js</code></li>
-      <li>Front-end script is <code>public/js/quiz.js</code></li>
-      <li>Static assets are served from <code>public/</code></li>
-    </ul>
-    <p>
-      Visit the <a href="/start">Start</a> page to learn how it integrates
-      with OpenTDB.
-    </p>
-    <p>Return to quiz: <a href="/">Home</a></p>
-  </div>
+<body class="min-h-screen min-w-screen overflow-x-clip">
+    <div class="main min-h-screen w-screen bg-background bg-image">
+        <!-- Reused Navigation from index.ejs (Simplified) -->
+        <nav id="main-nav" class="p-4 gap-2 flex justify-center fixed w-full top-0 z-50">
+            <nav class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-[60%] backdrop-blur-xl">
+                <a href="/" class="glint text-3xl font-ramen px-4 py-2 bg-primary rounded-full translate-y-[2px] shadow-lg">SHITSUMON</a>
+                <div class="flex gap-4 items-center h-full">
+                    <a href="/shop" class="font-poppins hover:text-pink-400 transition-colors">SHOP</a>
+                    <a href="/about" class="font-poppins text-pink-400 border-b border-pink-400">ABOUT</a>
+                </div>
+            </nav>
+        </nav>
+        
+        <div class="flex w-full min-h-screen pt-24 px-8 justify-center items-center">
+            <div class="glint bg-primary/80 backdrop-blur-xl p-8 rounded-3xl border border-purple-300/20 max-w-2xl text-purple-300 font-poppins shadow-2xl">
+                <h1 class="text-4xl font-ramen text-center text-purple-300 mb-6 tracking-wider">About This App</h1>
+                <p class="text-lg mb-4 text-purple-300/90">
+                    This is a custom Express.js quiz application built with Node.js, EJS templates, and an integrated PHP backend for authentication.
+                </p>
+                <div class="bg-purple-950/50 p-6 rounded-2xl border border-purple-300/10 mb-6">
+                    <h2 class="text-xl font-bold mb-4 text-pink-400">Architecture</h2>
+                    <ul class="list-disc list-inside space-y-2 text-purple-300/80">
+                        <li>Routes defined in <code>routes/quiz.js</code> and <code>routes/pages.js</code></li>
+                        <li>API logic in <code>controllers/quizController.js</code></li>
+                        <li>Dynamic styling via <b>Tailwind CSS v4</b> and <b>DaisyUI</b></li>
+                        <li>PHP Bridge used for secure local database communication</li>
+                    </ul>
+                </div>
+                <div class="flex justify-center mt-8">
+                    <a href="/" class="glint bg-primary px-8 py-3 font-ramen text-2xl text-purple-300 rounded-xl flex items-center justify-center hover:bg-primary/80 transition-all shadow-md">
+                        <span class="translate-y-[2px]">Return Home</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
-
 </html>
