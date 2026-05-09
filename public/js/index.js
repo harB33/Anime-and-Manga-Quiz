@@ -97,6 +97,35 @@ document.addEventListener("DOMContentLoaded", function () {
       loginForm.style.display = 'flex';
     });
   }
+
+  // Auth Toast Notification Logic
+  const params = new URLSearchParams(window.location.search);
+  const registered = params.get('registered');
+  const login = params.get('login');
+  
+  if (registered === 'success' || login === 'success') {
+      const toast = document.getElementById('auth-toast');
+      const messageSpan = document.getElementById('auth-toast-message');
+      
+      if (toast && messageSpan) {
+          messageSpan.textContent = registered === 'success' ? 'Registration successful! Welcome to Shitsumon.' : 'Welcome back! Logged in successfully.';
+          toast.classList.remove('hidden');
+          
+          setTimeout(() => {
+              toast.style.opacity = '0';
+              toast.style.transition = 'opacity 0.5s ease';
+              setTimeout(() => {
+                  toast.classList.add('hidden');
+                  toast.style.opacity = '1';
+              }, 500);
+              
+              const url = new URL(window.location);
+              url.searchParams.delete('registered');
+              url.searchParams.delete('login');
+              window.history.replaceState({}, document.title, url);
+          }, 5000);
+      }
+  }
 });
 
 // Also call immediately in case DOMContentLoaded has already fired

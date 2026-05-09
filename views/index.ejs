@@ -145,7 +145,7 @@
                 </form>
                 <p class="text-sm text-center text-purple-300/70 mt-2">
                     Don't have an account?
-                    <button type="button" id="go-to-register" onclick="showRegister()"
+                    <button type="button" id="go-to-register"
                         class="text-pink-400 hover:text-pink-300 underline cursor-pointer focus:outline-none">
                         Register
                     </button>
@@ -183,7 +183,7 @@
                 </form>
                 <p class="text-sm text-center text-purple-300/70 mt-2">
                     Already have an account?
-                    <button type="button" id="go-to-login" onclick="showLogin()"
+                    <button type="button" id="go-to-login"
                         class="text-pink-400 hover:text-pink-300 underline cursor-pointer focus:outline-none">
                         Log In
                     </button>
@@ -192,25 +192,6 @@
         </div>
     </dialog>
 
-    <script>
-        function showRegister() {
-            const login = document.getElementById("login-form-container");
-            const register = document.getElementById("register-form-container");
-            if (login && register) {
-                login.style.display = "none";
-                register.style.display = "flex";
-            }
-        }
-
-        function showLogin() {
-            const login = document.getElementById("login-form-container");
-            const register = document.getElementById("register-form-container");
-            if (login && register) {
-                register.style.display = "none";
-                login.style.display = "flex";
-            }
-        }
-    </script>
     <!-- Auth Toast Notification -->
     <div id="auth-toast" class="toast toast-end z-[100] mb-8 mr-8 hidden">
         <div class="alert alert-success bg-green-500/90 backdrop-blur-md text-white border-none shadow-2xl">
@@ -220,38 +201,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const params = new URLSearchParams(window.location.search);
-            const registered = params.get('registered');
-            const login = params.get('login');
-            
-            if (registered === 'success' || login === 'success') {
-                const toast = document.getElementById('auth-toast');
-                const messageSpan = document.getElementById('auth-toast-message');
-                
-                if (toast && messageSpan) {
-                    messageSpan.textContent = registered === 'success' ? 'Registration successful! Welcome to Shitsumon.' : 'Welcome back! Logged in successfully.';
-                    toast.classList.remove('hidden');
-                    
-                    setTimeout(() => {
-                        toast.style.opacity = '0';
-                        toast.style.transition = 'opacity 0.5s ease';
-                        setTimeout(() => {
-                            toast.classList.add('hidden');
-                            toast.style.opacity = '1';
-                        }, 500);
-                        
-                        const url = new URL(window.location);
-                        url.searchParams.delete('registered');
-                        url.searchParams.delete('login');
-                        window.history.replaceState({}, document.title, url);
-                    }, 5000);
-                }
-            }
-        });
-    </script>
 
     <script src="/js/yen-utility.js"></script>
     <script src="/js/quiz.js"></script>
