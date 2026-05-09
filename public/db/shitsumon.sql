@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.3
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: May 09, 2026 at 07:30 PM
+-- Host: 127.0.0.1
+-- Generation Time: May 09, 2026 at 08:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,31 @@ SET time_zone = "+00:00";
 --
 -- Database: `shitsumon`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventory`
+--
+
+CREATE TABLE `inventory` (
+  `inventory_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `obtained_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `items`
+--
+
+CREATE TABLE `items` (
+  `item_id` int(11) NOT NULL,
+  `item_name` varchar(50) NOT NULL,
+  `item_description` text NOT NULL,
+  `price` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -55,8 +80,9 @@ INSERT INTO `players` (`player_id`, `player_name`, `email`, `password`, `yen`, `
 
 CREATE TABLE `shop` (
   `shop_id` int(11) NOT NULL,
-  `card_id` int(11) NOT NULL,
-  `card_name` varchar(50) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `item_name` varchar(50) NOT NULL,
+  `item_description` text NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `sold_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -71,12 +97,19 @@ CREATE TABLE `statistics` (
   `stat_id` int(11) NOT NULL,
   `player_id` int(11) NOT NULL,
   `score` int(11) NOT NULL,
-  `yen` int(11) NOT NULL
+  `yen` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `items`
+--
+ALTER TABLE `items`
+  ADD PRIMARY KEY (`item_id`);
 
 --
 -- Indexes for table `players`
@@ -88,17 +121,25 @@ ALTER TABLE `players`
 -- Indexes for table `shop`
 --
 ALTER TABLE `shop`
-  ADD PRIMARY KEY (`shop_id`);
+  ADD PRIMARY KEY (`shop_id`),
+  ADD KEY `item_id` (`item_id`);
 
 --
 -- Indexes for table `statistics`
 --
 ALTER TABLE `statistics`
-  ADD PRIMARY KEY (`stat_id`);
+  ADD PRIMARY KEY (`stat_id`),
+  ADD KEY `player_id` (`player_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `items`
+--
+ALTER TABLE `items`
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `players`
@@ -117,6 +158,22 @@ ALTER TABLE `shop`
 --
 ALTER TABLE `statistics`
   MODIFY `stat_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `shop`
+--
+ALTER TABLE `shop`
+  ADD CONSTRAINT `shop_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `statistics`
+--
+ALTER TABLE `statistics`
+  ADD CONSTRAINT `statistics_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `players` (`player_id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,6 +28,14 @@
             <a href="/shop" class="font-poppins">SHOP</a>
             <a href="/about" class="font-poppins">ABOUT</a>
           </div>
+        </nav>
+        <nav
+          id="yen-display"
+          class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-fit backdrop-blur-xl"
+        >
+          <span class="font-poppins font-bold text-lg"
+            >¥ <span id="yen-amount">0</span></span
+          >
         </nav>
         <nav
           id="auth-modal-trigger"
@@ -148,7 +160,7 @@
               <div class="flex items-baseline gap-1">
                 <span class="text-white text-3xl font-ramen">1,800</span>
                 <span
-                  class="text-purple-300/50 font-poppins text-xs font-bold uppercase tracking-widest"
+                  class="text-purple-300/50 font-poppins text-2xl font-bold uppercase tracking-widest"
                   >¥</span
                 >
               </div>
@@ -190,7 +202,7 @@
               <div class="flex items-baseline gap-1">
                 <span class="text-white text-3xl font-ramen">450</span>
                 <span
-                  class="text-purple-300/50 font-poppins text-xs font-bold uppercase tracking-widest"
+                  class="text-purple-300/50 font-poppins text-2xl font-bold uppercase tracking-widest"
                   >¥</span
                 >
               </div>
@@ -386,6 +398,7 @@
       </div>
     </dialog>
 
+    <script src="/js/yen-utility.js"></script>
     <script src="/js/quiz.js"></script>
     <script src="/js/index.js"></script>
 
