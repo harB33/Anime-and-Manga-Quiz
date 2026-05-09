@@ -1,7 +1,46 @@
 // Quiz Application Frontend JavaScript
-let currentQuestions = []
-let userAnswers = []
-let currentQuestionIndex = 0
+let currentQuestions = [];
+let userAnswers = [];
+let currentQuestionIndex = 0;
+
+// ============ YEN MANAGEMENT SYSTEM ============
+// Get yen balance from localStorage
+function getYen() {
+  const yen = localStorage.getItem("yen");
+  return yen ? parseInt(yen) : 0;
+}
+
+// Set yen balance in localStorage
+function setYen(amount) {
+  localStorage.setItem("yen", Math.max(0, amount));
+}
+
+// Add yen to balance
+function addYen(amount) {
+  const currentYen = getYen();
+  const newYen = currentYen + amount;
+  setYen(newYen);
+  updateYenDisplay();
+  return newYen;
+}
+
+// Update the yen display on the page
+function updateYenDisplay() {
+  const yenElement = document.getElementById("yen-amount");
+  if (yenElement) {
+    yenElement.textContent = getYen();
+  }
+}
+
+// Load and display yen on page load
+function loadYenDisplay() {
+  updateYenDisplay();
+}
+
+// Initialize yen display when DOM is ready
+document.addEventListener("DOMContentLoaded", loadYenDisplay);
+
+// ============ END YEN SYSTEM ============
 
 // Function to decode HTML entities
 function decodeHtml(html) {
@@ -12,123 +51,123 @@ function decodeHtml(html) {
 
 async function detectPhp() {
   try {
-    const response = await fetch('/db/ping.php')
+    const response = await fetch("/db/ping.php");
     if (!response.ok) {
-      console.warn('PHP endpoint responded with status', response.status)
-      return
+      console.warn("PHP endpoint responded with status", response.status);
+      return;
     }
 
-    const data = await response.json()
-    console.log('PHP detection result:', data)
+    const data = await response.json();
+    console.log("PHP detection result:", data);
   } catch (error) {
-    console.error('PHP detection failed:', error)
+    console.error("PHP detection failed:", error);
   }
 }
 
 async function loadCategories() {
   try {
-    const response = await fetch("/api/quiz/categories")
-    const data = await response.json()
+    const response = await fetch("/api/quiz/categories");
+    const data = await response.json();
     if (data.success) {
-      const categorySelect = document.getElementById("category")
-      if (!categorySelect || categorySelect.tagName !== "SELECT") return
+      const categorySelect = document.getElementById("category");
+      if (!categorySelect || categorySelect.tagName !== "SELECT") return;
       data.categories.forEach((category) => {
-        const option = document.createElement("option")
-        option.value = category.id
-        option.textContent = category.name
-        categorySelect.appendChild(option)
-      })
+        const option = document.createElement("option");
+        option.value = category.id;
+        option.textContent = category.name;
+        categorySelect.appendChild(option);
+      });
     }
   } catch (error) {
-    console.error("Error loading categories:", error)
+    console.error("Error loading categories:", error);
   }
 }
 
 async function getQuestions() {
-  const amount = document.getElementById("amount").value
-  const category = document.getElementById("category").value
-  const difficulty = document.getElementById("difficulty").value
+  const amount = document.getElementById("amount").value;
+  const category = document.getElementById("category").value;
+  const difficulty = document.getElementById("difficulty").value;
 
   // Hide the navbar once the quiz starts
-  const navbar = document.getElementById("main-nav")
-  if (navbar) navbar.classList.add("hidden")
+  const navbar = document.getElementById("main-nav");
+  if (navbar) navbar.classList.add("hidden");
 
-  const container = document.getElementById("quiz-container")
-  container.innerHTML = '<div class="flex flex-col items-center justify-center gap-6 min-h-[50vh]"><div class="w-14 h-14 border-4 border-purple-300/10 border-t-purple-300 rounded-full animate-spin"></div><div class="text-xl text-purple-300 font-poppins">Fetching questions from OpenTDB...</div></div>'
+  const container = document.getElementById("quiz-container");
+  container.innerHTML =
+    '<div class="flex flex-col items-center justify-center gap-6 min-h-[50vh]"><div class="w-14 h-14 border-4 border-purple-300/10 border-t-purple-300 rounded-full animate-spin"></div><div class="text-xl text-purple-300 font-poppins">Fetching questions from OpenTDB...</div></div>';
 
   // Disable the start button during loading
-  const startButton = document.getElementById("start-quiz-btn")
+  const startButton = document.getElementById("start-quiz-btn");
   if (startButton) {
-    startButton.disabled = true
-    const spanText = startButton.querySelector('span')
-    if (spanText) spanText.textContent = 'Loading questions...'
+    startButton.disabled = true;
+    const spanText = startButton.querySelector("span");
+    if (spanText) spanText.textContent = "Loading questions...";
   }
 
   try {
-    let url = `/api/quiz/questions?amount=${amount}`
-    if (category) url += `&category=${category}`
-    if (difficulty) url += `&difficulty=${difficulty}`
+    let url = `/api/quiz/questions?amount=${amount}`;
+    if (category) url += `&category=${category}`;
+    if (difficulty) url += `&difficulty=${difficulty}`;
 
-    const response = await fetch(url)
-    const data = await response.json()
+    const response = await fetch(url);
+    const data = await response.json();
 
     if (data.success) {
-      currentQuestions = data.results
-      userAnswers = new Array(data.results.length).fill(null)
-      currentQuestionIndex = 0
-      displayQuestion(0)
+      currentQuestions = data.results;
+      userAnswers = new Array(data.results.length).fill(null);
+      currentQuestionIndex = 0;
+      displayQuestion(0);
 
       // Hide the quiz options sidebar, then the question container appears
-      const sidebar = document.getElementById("quiz-options-sidebar")
-      if (sidebar) sidebar.classList.add("hidden")
-      container.classList.remove("hidden")
+      const sidebar = document.getElementById("quiz-options-sidebar");
+      if (sidebar) sidebar.classList.add("hidden");
+      container.classList.remove("hidden");
     } else {
-      container.innerHTML = `<div class="error">Error: ${data.error}</div>`
-      container.classList.remove("hidden")
+      container.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+      container.classList.remove("hidden");
     }
   } catch (error) {
-    console.error("Error fetching questions:", error)
+    console.error("Error fetching questions:", error);
     container.innerHTML =
-      '<div class="error">Failed to load questions. Please try again.</div>'
-    container.classList.remove("hidden")
+      '<div class="error">Failed to load questions. Please try again.</div>';
+    container.classList.remove("hidden");
   } finally {
     // Re-enable the start button after loading completes
     if (startButton) {
-      startButton.disabled = false
-      const spanText = startButton.querySelector('span')
-      if (spanText) spanText.textContent = 'Start Quiz'
+      startButton.disabled = false;
+      const spanText = startButton.querySelector("span");
+      if (spanText) spanText.textContent = "Start Quiz";
     }
   }
 }
 
 function displayQuestion(index) {
-  const container = document.getElementById("quiz-container")
-  container.innerHTML = ""
+  const container = document.getElementById("quiz-container");
+  container.innerHTML = "";
 
-  if (!currentQuestions || currentQuestions.length === 0) return
+  if (!currentQuestions || currentQuestions.length === 0) return;
 
-  const question = currentQuestions[index]
+  const question = currentQuestions[index];
 
   // Progress indicator
-  const progressDiv = document.createElement("div")
-  progressDiv.className = "quiz-progress mb-4 text-purple-300 font-poppins text-lg"
-  progressDiv.innerHTML = `<span>Question <strong>${index + 1}</strong> of <strong>${currentQuestions.length}</strong></span>`
-  container.appendChild(progressDiv)
+  const progressDiv = document.createElement("div");
+  progressDiv.className =
+    "quiz-progress mb-4 text-purple-300 font-poppins text-lg";
+  progressDiv.innerHTML = `<span>Question <strong>${index + 1}</strong> of <strong>${currentQuestions.length}</strong></span>`;
+  container.appendChild(progressDiv);
 
-  const questionDiv = document.createElement("div")
-  questionDiv.className = "bg-purple-950/40 border border-purple-300/20 rounded-2xl p-6 mb-8 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.15)] transition-all duration-300 hover:border-purple-300/40 hover:shadow-[0_4px_25px_rgba(216,180,254,0.1)]"
+  const questionDiv = document.createElement("div");
+  questionDiv.className =
+    "bg-purple-950/40 border border-purple-300/20 rounded-2xl p-6 mb-8 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.15)] transition-all duration-300 hover:border-purple-300/40 hover:shadow-[0_4px_25px_rgba(216,180,254,0.1)]";
 
   if (!question.shuffled_answers) {
-    const answers = [
-      ...question.incorrect_answers,
-      question.correct_answer,
-    ]
+    const answers = [...question.incorrect_answers, question.correct_answer];
     // Shuffle answers
     for (let i = answers.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[answers[i], answers[j]] = [answers[j], answers[i]]
+      const j = Math.floor(Math.random() * (i + 1));
+      [answers[i], answers[j]] = [answers[j], answers[i]];
     }
-    question.shuffled_answers = answers
+    question.shuffled_answers = answers;
   }
 
   questionDiv.innerHTML = `
@@ -140,87 +179,90 @@ function displayQuestion(index) {
     </div>
     <div class="flex flex-col gap-3">
       ${question.shuffled_answers
-        .map(
-          (answer, answerIndex) => {
-            const isChecked = userAnswers[index] === answer ? "checked" : "";
-            return `<label class="answer-option flex items-center gap-3 bg-white/5 border border-purple-300/15 rounded-xl p-4 text-purple-300/85 cursor-pointer font-poppins transition-all duration-200 hover:bg-purple-300/10 hover:border-purple-300/35 hover:text-white [&.selected]:bg-purple-300/10 [&.selected]:border-purple-300/35 [&.selected]:text-white ${isChecked ? 'selected bg-purple-300/10 border-purple-300/35 text-white' : ''}">
+        .map((answer, answerIndex) => {
+          const isChecked = userAnswers[index] === answer ? "checked" : "";
+          return `<label class="answer-option flex items-center gap-3 bg-white/5 border border-purple-300/15 rounded-xl p-4 text-purple-300/85 cursor-pointer font-poppins transition-all duration-200 hover:bg-purple-300/10 hover:border-purple-300/35 hover:text-white [&.selected]:bg-purple-300/10 [&.selected]:border-purple-300/35 [&.selected]:text-white ${isChecked ? "selected bg-purple-300/10 border-purple-300/35 text-white" : ""}">
               <input type="radio" name="question-${index}" value="${answer}" data-question-index="${index}" class="accent-purple-300 w-5 h-5 cursor-pointer" ${isChecked}>
               ${decodeHtml(answer)}
             </label>`;
-          }
-        )
+        })
         .join("")}
     </div>
-  `
-  container.appendChild(questionDiv)
+  `;
+  container.appendChild(questionDiv);
 
   // Add event listeners for radio buttons
-  const radioButtons = container.querySelectorAll('input[type="radio"]')
-  radioButtons.forEach(radio => {
-    radio.addEventListener('change', function () {
-      const questionIndex = parseInt(this.getAttribute('data-question-index'))
-      const answer = this.value
-      selectAnswer(questionIndex, answer)
+  const radioButtons = container.querySelectorAll('input[type="radio"]');
+  radioButtons.forEach((radio) => {
+    radio.addEventListener("change", function () {
+      const questionIndex = parseInt(this.getAttribute("data-question-index"));
+      const answer = this.value;
+      selectAnswer(questionIndex, answer);
       // Visually select the option
-      container.querySelectorAll('.answer-option').forEach(opt => opt.classList.remove('selected'))
-      this.parentElement.classList.add('selected')
-    })
-  })
+      container
+        .querySelectorAll(".answer-option")
+        .forEach((opt) => opt.classList.remove("selected"));
+      this.parentElement.classList.add("selected");
+    });
+  });
 
   // Add navigation buttons
-  const navContainer = document.createElement("div")
-  navContainer.className = "quiz-navigation flex justify-between gap-4 mt-6"
+  const navContainer = document.createElement("div");
+  navContainer.className = "quiz-navigation flex justify-between gap-4 mt-6";
 
   // Prev button
-  const prevButton = document.createElement("button")
-  prevButton.textContent = "Previous"
-  prevButton.className = "glint bg-primary p-3 font-ramen text-xl text-purple-300 rounded-xl flex items-center justify-center cursor-pointer disabled:opacity-50"
-  prevButton.disabled = index === 0
-  prevButton.style.marginTop = "0px"
-  prevButton.addEventListener('click', () => {
+  const prevButton = document.createElement("button");
+  prevButton.textContent = "Previous";
+  prevButton.className =
+    "glint bg-primary p-3 font-ramen text-xl text-purple-300 rounded-xl flex items-center justify-center cursor-pointer disabled:opacity-50";
+  prevButton.disabled = index === 0;
+  prevButton.style.marginTop = "0px";
+  prevButton.addEventListener("click", () => {
     if (currentQuestionIndex > 0) {
-      currentQuestionIndex--
-      displayQuestion(currentQuestionIndex)
+      currentQuestionIndex--;
+      displayQuestion(currentQuestionIndex);
     }
-  })
-  navContainer.appendChild(prevButton)
+  });
+  navContainer.appendChild(prevButton);
 
   // Next or Submit button
   if (index === currentQuestions.length - 1) {
-    const submitButton = document.createElement("button")
-    submitButton.textContent = "Submit Quiz"
-    submitButton.id = "submit-quiz-btn"
-    submitButton.className = "glint bg-primary p-3 font-ramen text-xl text-purple-300 rounded-xl flex items-center justify-center cursor-pointer"
-    submitButton.style.width = "auto"
-    submitButton.style.marginTop = "0px"
-    submitButton.addEventListener('click', submitQuiz)
-    navContainer.appendChild(submitButton)
+    const submitButton = document.createElement("button");
+    submitButton.textContent = "Submit Quiz";
+    submitButton.id = "submit-quiz-btn";
+    submitButton.className =
+      "glint bg-primary p-3 font-ramen text-xl text-purple-300 rounded-xl flex items-center justify-center cursor-pointer";
+    submitButton.style.width = "auto";
+    submitButton.style.marginTop = "0px";
+    submitButton.addEventListener("click", submitQuiz);
+    navContainer.appendChild(submitButton);
   } else {
-    const nextButton = document.createElement("button")
-    nextButton.textContent = "Next"
-    nextButton.className = "glint bg-primary p-3 font-ramen text-xl text-purple-300 rounded-xl flex items-center justify-center cursor-pointer"
-    nextButton.style.marginTop = "0px"
-    nextButton.addEventListener('click', () => {
+    const nextButton = document.createElement("button");
+    nextButton.textContent = "Next";
+    nextButton.className =
+      "glint bg-primary p-3 font-ramen text-xl text-purple-300 rounded-xl flex items-center justify-center cursor-pointer";
+    nextButton.style.marginTop = "0px";
+    nextButton.addEventListener("click", () => {
       if (currentQuestionIndex < currentQuestions.length - 1) {
-        currentQuestionIndex++
-        displayQuestion(currentQuestionIndex)
+        currentQuestionIndex++;
+        displayQuestion(currentQuestionIndex);
       }
-    })
-    navContainer.appendChild(nextButton)
+    });
+    navContainer.appendChild(nextButton);
   }
 
-  container.appendChild(navContainer)
+  container.appendChild(navContainer);
 }
 
 function selectAnswer(index, answer) {
-  userAnswers[index] = answer
+  userAnswers[index] = answer;
 }
 
 function submitQuiz() {
   // Check if all questions are answered
-  if (userAnswers.some(answer => answer === null)) {
-    alert("Please answer all questions before submitting.")
-    return
+  if (userAnswers.some((answer) => answer === null)) {
+    alert("Please answer all questions before submitting.");
+    return;
   }
 
   fetch("/api/quiz/submit", {
@@ -236,68 +278,84 @@ function submitQuiz() {
     .then((response) => response.json())
     .then((data) => {
       if (data.success) {
-        displayResults(data)
+        displayResults(data);
       } else {
-        alert("Error submitting quiz: " + data.error)
+        alert("Error submitting quiz: " + data.error);
       }
     })
     .catch((error) => {
-      console.error("Error submitting quiz:", error)
-      alert("Failed to submit quiz. Please try again.")
-    })
+      console.error("Error submitting quiz:", error);
+      alert("Failed to submit quiz. Please try again.");
+    });
 }
 
 function displayResults(data) {
-  const container = document.getElementById("quiz-container")
-  container.innerHTML = ""
+  const container = document.getElementById("quiz-container");
+  container.innerHTML = "";
 
-  const scoreDiv = document.createElement("div")
-  scoreDiv.className = "bg-purple-950/50 border-2 border-purple-300/30 rounded-2xl p-8 mb-10 text-center font-poppins"
+  // Calculate yen earned (10 yen per correct answer)
+  const yenEarned = data.correct * 10;
+  const newYenBalance = addYen(yenEarned);
+
+  const scoreDiv = document.createElement("div");
+  scoreDiv.className =
+    "bg-purple-950/50 border-2 border-purple-300/30 rounded-2xl p-8 mb-10 text-center font-poppins";
   scoreDiv.innerHTML = `
         <h2 class="font-ramen text-5xl text-purple-300 mb-2">Quiz Results</h2>
         <p class="text-2xl text-purple-300/85">You scored ${data.correct} out of ${data.total} (${data.percentage}%)</p>
-    `
-  container.appendChild(scoreDiv)
+        <div class="mt-6 pt-6 border-t border-purple-300/30">
+          <p class="text-xl text-yellow-400 font-bold font-ramen mb-2">🎉 YEN EARNED 🎉</p>
+          <p class="text-3xl text-yellow-300 font-ramen">+¥${yenEarned}</p>
+          <p class="text-lg text-purple-300/75 mt-2">Total Balance: ¥${newYenBalance}</p>
+        </div>
+    `;
+  container.appendChild(scoreDiv);
 
   data.results.forEach((result, index) => {
-    console.log(`Question ${index + 1}:`, result.correct, typeof result.correct)
-    const resultDiv = document.createElement("div")
-    const resultColorClasses = result.correct ? "border-green-500/60 bg-green-500/5" : "border-red-500/60 bg-red-500/5"
-    resultDiv.className = `result bg-white/5 border-l-[6px] rounded-xl p-5 mb-6 font-poppins ${resultColorClasses}`
+    console.log(
+      `Question ${index + 1}:`,
+      result.correct,
+      typeof result.correct,
+    );
+    const resultDiv = document.createElement("div");
+    const resultColorClasses = result.correct
+      ? "border-green-500/60 bg-green-500/5"
+      : "border-red-500/60 bg-red-500/5";
+    resultDiv.className = `result bg-white/5 border-l-[6px] rounded-xl p-5 mb-6 font-poppins ${resultColorClasses}`;
     resultDiv.innerHTML = `
             <h4 class="text-xl text-white mb-2">Question ${index + 1}: ${decodeHtml(result.question)}</h4>
             <p class="text-purple-300/75"><strong>Your answer:</strong> ${decodeHtml(result.userAnswer)}</p>
             <p class="text-purple-300/75"><strong>Correct answer:</strong> ${decodeHtml(result.correctAnswer)}</p>
-        `
-    container.appendChild(resultDiv)
-  })
+        `;
+    container.appendChild(resultDiv);
+  });
 
   // Add reset button
-  const resetButton = document.createElement("button")
-  resetButton.textContent = "Take Another Quiz"
-  resetButton.id = "reset-results-btn"
-  resetButton.className = "bg-[#2E0854] text-purple-300 border border-purple-300/30 font-ramen text-2xl p-4 rounded-2xl cursor-pointer transition-all duration-300 w-full text-center hover:bg-purple-950/80 hover:border-purple-300/50 hover:scale-[1.02] hover:shadow-[0_4px_20px_rgba(216,180,254,0.2)] mt-5"
-  container.appendChild(resetButton)
+  const resetButton = document.createElement("button");
+  resetButton.textContent = "Take Another Quiz";
+  resetButton.id = "reset-results-btn";
+  resetButton.className =
+    "bg-[#2E0854] text-purple-300 border border-purple-300/30 font-ramen text-2xl p-4 rounded-2xl cursor-pointer transition-all duration-300 w-full text-center hover:bg-purple-950/80 hover:border-purple-300/50 hover:scale-[1.02] hover:shadow-[0_4px_20px_rgba(216,180,254,0.2)] mt-5";
+  container.appendChild(resetButton);
 
   // Add event listener for reset button
-  resetButton.addEventListener('click', resetQuiz)
+  resetButton.addEventListener("click", resetQuiz);
 }
 
 function resetQuiz() {
-  const container = document.getElementById("quiz-container")
-  container.innerHTML = ""
-  currentQuestions = []
-  userAnswers = []
+  const container = document.getElementById("quiz-container");
+  container.innerHTML = "";
+  currentQuestions = [];
+  userAnswers = [];
 
   // Reset elements visibility
-  const sidebar = document.getElementById("quiz-options-sidebar")
-  if (sidebar) sidebar.classList.remove("hidden")
-  container.classList.add("hidden")
+  const sidebar = document.getElementById("quiz-options-sidebar");
+  if (sidebar) sidebar.classList.remove("hidden");
+  container.classList.add("hidden");
 
-  const navbar = document.getElementById("main-nav")
-  if (navbar) navbar.classList.remove("hidden")
+  const navbar = document.getElementById("main-nav");
+  if (navbar) navbar.classList.remove("hidden");
 }
-
 
 // let activeIntervals = [];
 
@@ -323,7 +381,7 @@ function resetQuiz() {
 //       activeIntervals = activeIntervals.filter(id => id !== interval);
 //     }
 //   }, 50);
-  
+
 //   // Store interval ID
 //   activeIntervals.push(interval);
 // }
@@ -336,25 +394,25 @@ function resetQuiz() {
 //     // Clear any running animations
 //     activeIntervals.forEach(interval => clearInterval(interval));
 //     activeIntervals = [];
-    
+
 //     // Scramble to Japanese
 //     const japaneseTargets = ['シ', 'つ', 'モ', 'ン'];
 //     scrambleText(titleSpans[0], japaneseTargets[0]);
 //     setTimeout(() => scrambleText(titleSpans[1], japaneseTargets[1]), 500);
 //     setTimeout(() => scrambleText(titleSpans[2], japaneseTargets[2]), 1000);
 //     setTimeout(() => scrambleText(titleSpans[3], japaneseTargets[3]), 1500);
-    
+
 //     // After 3 seconds of showing Japanese, change to English
 //     setTimeout(() => {
 //       activeIntervals.forEach(interval => clearInterval(interval));
 //       activeIntervals = [];
-      
+
 //       const englishTargets = ['SHI', 'TSU', 'MO', 'N'];
 //       titleSpans[0].textContent = englishTargets[0];
 //       setTimeout(() => titleSpans[1].textContent = englishTargets[1], 500);
 //       setTimeout(() => titleSpans[2].textContent = englishTargets[2], 1000);
 //       setTimeout(() => titleSpans[3].textContent = englishTargets[3], 1500);
-      
+
 //       // After 3 seconds of showing English, repeat
 //       setTimeout(loopScramble, 3000);
 //     }, 3000);
@@ -363,42 +421,42 @@ function resetQuiz() {
 
 // Load categories on page load
 document.addEventListener("DOMContentLoaded", function () {
-  loadCategories()
-  detectPhp()
+  loadCategories();
+  detectPhp();
 
   // Add event listeners for buttons
-  const startBtn = document.getElementById('start-quiz-btn')
-  const resetBtn = document.getElementById('reset-quiz-btn')
+  const startBtn = document.getElementById("start-quiz-btn");
+  const resetBtn = document.getElementById("reset-quiz-btn");
 
-  if (startBtn) startBtn.addEventListener('click', getQuestions)
-  if (resetBtn) resetBtn.addEventListener('click', resetQuiz)
+  if (startBtn) startBtn.addEventListener("click", getQuestions);
+  if (resetBtn) resetBtn.addEventListener("click", resetQuiz);
 
   // Scramble title
   // setTimeout(loopScramble, 3000);
-})
+});
 
 // Also call immediately in case DOMContentLoaded has already fired
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function () {
-    loadCategories()
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", function () {
+    loadCategories();
     // Add event listeners for buttons
-    const startBtn = document.getElementById('start-quiz-btn')
-    const resetBtn = document.getElementById('reset-quiz-btn')
+    const startBtn = document.getElementById("start-quiz-btn");
+    const resetBtn = document.getElementById("reset-quiz-btn");
 
-    if (startBtn) startBtn.addEventListener('click', getQuestions)
-    if (resetBtn) resetBtn.addEventListener('click', resetQuiz)
+    if (startBtn) startBtn.addEventListener("click", getQuestions);
+    if (resetBtn) resetBtn.addEventListener("click", resetQuiz);
 
     // Scramble title with 3 second delay
     // setTimeout(loopScramble, 3000);
-  })
+  });
 } else {
-  loadCategories()
+  loadCategories();
   // Add event listeners for buttons
-  const startBtn = document.getElementById('start-quiz-btn')
-  const resetBtn = document.getElementById('reset-quiz-btn')
+  const startBtn = document.getElementById("start-quiz-btn");
+  const resetBtn = document.getElementById("reset-quiz-btn");
 
-  if (startBtn) startBtn.addEventListener('click', getQuestions)
-  if (resetBtn) resetBtn.addEventListener('click', resetQuiz)
+  if (startBtn) startBtn.addEventListener("click", getQuestions);
+  if (resetBtn) resetBtn.addEventListener("click", resetQuiz);
 
   // Scramble title
   // setTimeout(loopScramble, 3000);
