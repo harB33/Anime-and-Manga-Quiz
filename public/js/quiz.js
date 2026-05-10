@@ -2,6 +2,8 @@
 let currentQuestions = [];
 let userAnswers = [];
 let currentQuestionIndex = 0;
+let currentCategoryId = null;
+let currentDifficulty = null;
 
 // ============ YEN MANAGEMENT SYSTEM ============
 // Get yen balance from localStorage
@@ -106,6 +108,10 @@ async function getQuestions() {
 
   try {
     let url = `/api/quiz/questions?amount=${amount}`;
+    
+    currentCategoryId = category || null;
+    currentDifficulty = difficulty || null;
+    
     if (category) url += `&category=${category}`;
     if (difficulty) url += `&difficulty=${difficulty}`;
 
@@ -313,37 +319,33 @@ function displayResults(data) {
     `;
   container.appendChild(scoreDiv);
 
-  // Securely add yen to backend
-  if (yenEarned > 0) {
-    fetch("/php/update_yen.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ yenEarned })
-    })
-    .then(res => res.json())
-    .then(result => {
-      const balanceEl = document.getElementById("final-yen-balance");
-      if (result.success) {
+  // Securely save statistics and yen to backend
+  fetch("/php/update_yen.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ yenEarned, score: data.correct, categoryId: currentCategoryId, difficulty: currentDifficulty })
+  })
+  .then(res => res.json())
+  .then(result => {
+    const balanceEl = document.getElementById("final-yen-balance");
+    if (result.success) {
+      if (yenEarned > 0) {
         setLocalYen(result.yen); // update local backup
         updateYenDisplay(); // update navbar
-        if (balanceEl) balanceEl.innerHTML = `Total Balance: ¥${result.yen}`;
-      } else {
-        console.error("Failed to add yen:", result.error);
-        if (balanceEl) balanceEl.innerHTML = `Total Balance: ¥${getLocalYen()} <span class="text-xs text-red-400 block">(Not saved: ${result.error})</span>`;
       }
-    })
-    .catch(err => {
-      console.error("Yen update error:", err);
-      const balanceEl = document.getElementById("final-yen-balance");
-      if (balanceEl) balanceEl.innerHTML = `Total Balance: ¥${getLocalYen()} <span class="text-xs text-red-400 block">(Network error)</span>`;
-    });
-  } else {
-    // 0 yen earned, just show current balance
+      if (balanceEl) balanceEl.innerHTML = `Total Balance: ¥${result.yen}`;
+    } else {
+      console.error("Failed to save stats/yen:", result.error);
+      if (balanceEl) balanceEl.innerHTML = `Total Balance: ¥${getLocalYen()} <span class="text-xs text-red-400 block">(Not saved: ${result.error})</span>`;
+    }
+  })
+  .catch(err => {
+    console.error("Stats update error:", err);
     const balanceEl = document.getElementById("final-yen-balance");
-    if (balanceEl) balanceEl.innerHTML = `Total Balance: ¥${getLocalYen()}`;
-  }
+    if (balanceEl) balanceEl.innerHTML = `Total Balance: ¥${getLocalYen()} <span class="text-xs text-red-400 block">(Network error)</span>`;
+  });
   data.results.forEach((result, index) => {
     console.log(
       `Question ${index + 1}:`,

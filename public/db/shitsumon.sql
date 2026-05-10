@@ -109,6 +109,8 @@ CREATE TABLE `shop` (
 CREATE TABLE `statistics` (
   `stat_id` int(11) NOT NULL,
   `player_id` int(11) NOT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `difficulty` varchar(20) DEFAULT NULL,
   `score` int(11) NOT NULL,
   `yen` int(11) NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()

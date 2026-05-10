@@ -18,7 +18,7 @@
         <div class="flex grow justify-between text-xl items-center">
           <a href="/" class="font-ramen translate-y-[3px] text-2xl">S</a>
           <a href="/" class="font-poppins">HOME</a>
-          <a href="/quiz" class="font-poppins">QUIZ</a>
+          <a href="/quiz" class="font-poppins text-pink-400 border-b border-pink-400">QUIZ</a>
           <a href="/quests" class="font-poppins">QUESTS</a>
           <a href="/shop" class="font-poppins">SHOP</a>
           <a href="/about" class="font-poppins">ABOUT</a>
@@ -28,14 +28,37 @@
         class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-fit backdrop-blur-xl">
         <span class="font-poppins font-bold text-lg">¥ <span id="yen-amount">0</span></span>
       </nav>
-      <nav id="auth-modal-trigger"
-        class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-fit aspect-square backdrop-blur-xl cursor-pointer">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-          class="size-6">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-        </svg>
-      </nav>
+      <div class="dropdown dropdown-hover dropdown-center">
+        <div tabindex="0" role="button"
+          class="glint bg-primary/50 text-purple-300 flex items-center justify-center rounded-full w-12 h-12 backdrop-blur-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+          </svg>
+        </div>
+        <ul tabindex="-1"
+          class="dropdown-content menu bg-primary/90 backdrop-blur-md text-purple-300 rounded-box z-[60] w-52 p-2 shadow-2xl mt-4 left-1/2 -translate-x-1/2 border border-purple-300/20 before:content-[''] before:absolute before:-top-4 before:h-4 before:w-full">
+          <li><a class="hover:bg-purple-500/30 transition-colors text-lg font-bold">
+              <%= (locals.user) ? user.username : 'Guest' %>
+            </a></li>
+          <li class="pointer-events-none">
+            <hr class="border-purple-300/10 mt-1">
+          </li>
+          <li><a href="/statistics" class="hover:bg-purple-500/30 transition-colors text-pink-300">Profile / Statistics</a></li>
+          <li><a class="hover:bg-purple-500/30 transition-colors">Settings</a></li>
+          <li class="pointer-events-none">
+            <hr class="border-purple-300/10 m-1">
+          </li>
+          <% if (locals.user) { %>
+            <li><a href="/php/logout.php" class="text-pink-400 hover:bg-pink-500/20 transition-colors">Logout</a></li>
+            <% } else { %>
+              <li><a id="auth-modal-trigger"
+                  class="text-pink-400 hover:bg-pink-500/20 transition-colors cursor-pointer">Log
+                  In</a></li>
+              <% } %>
+        </ul>
+      </div>
     </nav>
     <div class="flex w-full h-[calc(100vh-00px)] p-24 pb-12 gap-8 justify-center">
       <!-- Left: Quiz Options / Control Sidebar -->
