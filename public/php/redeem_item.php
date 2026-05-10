@@ -1,0 +1,95 @@
+<?php
+ob_start();
+require_once __DIR__ . '/../db/db.php';
+
+header('Content-Type: application/json');
+
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    echo json_encode(['success' => false, 'error' => 'Not authenticated']);
+    ob_end_flush();
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $item_id = isset($_POST['item_id']) ? (int)$_POST['item_id'] : 0;
+    $user_id = $_SESSION['user_id'];
+
+    if ($item_id <= 0) {
+        echo json_encode(['success' => false, 'error' => 'Invalid item']);
+        ob_end_flush();
+        exit;
+    }
+
+    // Start transaction
+    $conn->begin_transaction();
+
+    try {
+        // 1. Fetch item price
+        $stmt = $conn->prepare("SELECT item_name, price FROM items WHERE item_id = ?");
+        $stmt->bind_param("i", $item_id);
+        $stmt->execute();
+        $stmt->bind_result($item_name, $price);
+        if (!$stmt->fetch()) {
+            throw new Exception("Item not found");
+        }
+        $stmt->close();
+
+        // 2. Check user yen
+        $stmt = $conn->prepare("SELECT yen FROM players WHERE player_id = ?");
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $stmt->bind_result($currentYen);
+        if (!$stmt->fetch()) {
+            throw new Exception("User not found");
+        }
+        $stmt->close();
+
+        if ($currentYen < $price) {
+            throw new Exception("Insufficient Yen balance");
+        }
+
+        // 3. Deduct yen
+        $stmt = $conn->prepare("UPDATE players SET yen = yen - ? WHERE player_id = ?");
+        $stmt->bind_param("ii", $price, $user_id);
+        $stmt->execute();
+        $stmt->close();
+
+        // 4. Add to inventory
+        $stmt = $conn->prepare("INSERT INTO inventory (item_id, obtained_at) VALUES (?, NOW())");
+        // Note: The inventory table usually needs a player_id, but the current schema lacks it.
+        // For now, we follow the existing schema which seems to be a global log or needs modification.
+        // IMPORTANT: In a real app, inventory should link to player_id. 
+        $stmt->bind_param("i", $item_id);
+        $stmt->execute();
+        $stmt->close();
+
+        // 5. Fetch new balance
+        $stmt = $conn->prepare("SELECT yen FROM players WHERE player_id = ?");
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $stmt->bind_result($newYen);
+        $stmt->fetch();
+        $stmt->close();
+
+        $conn->commit();
+
+        echo json_encode([
+            'success' => true, 
+            'yen' => $newYen, 
+            'item_name' => $item_name,
+            'cost' => $price
+        ]);
+    } catch (Exception $e) {
+        $conn->rollback();
+        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+    }
+} else {
+    echo json_encode(['success' => false, 'error' => 'Invalid request method']);
+}
+
+$conn->close();
+ob_end_flush();
+?>

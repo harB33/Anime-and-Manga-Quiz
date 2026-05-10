@@ -43,7 +43,9 @@ CREATE TABLE `items` (
   `item_id` int(11) NOT NULL,
   `item_name` varchar(50) NOT NULL,
   `item_description` text NOT NULL,
-  `price` decimal(10,2) NOT NULL
+  `price` decimal(10,2) NOT NULL,
+  `image_url` varchar(255) DEFAULT NULL,
+  `rarity` varchar(50) DEFAULT 'Common'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -58,6 +60,7 @@ CREATE TABLE `players` (
   `email` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `yen` int(11) NOT NULL,
+  `role` varchar(20) DEFAULT 'user',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
