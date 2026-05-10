@@ -28,7 +28,7 @@ function scrambleText(element, target, duration = 1500) {
 }
 
 function loopScramble() {
-  const titleSpans = document.querySelectorAll('h1 span');
+  const titleSpans = document.querySelectorAll('h1.scramble-title span');
   if (titleSpans.length === 4) {
     // Clear any running animations
     activeIntervals.forEach(interval => clearInterval(interval));

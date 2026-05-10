@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Set cookie for Express to read
             setcookie("username", $username, time() + (86400 * 30), "/"); // 30 days
             echo "\nX-Express-Header: Set-Cookie: username=" . urlencode($username) . "; Max-Age=" . (86400 * 30) . "; Path=/\n";
+            echo "X-Express-Header: Set-Cookie: PHPSESSID=" . session_id() . "; Path=/\n";
             echo "X-Express-Header: Location: /?login=success\n";
             
             ob_end_flush();

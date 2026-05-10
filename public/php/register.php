@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             // Output special headers for Express bridge
             echo "\nX-Express-Header: Set-Cookie: username=" . urlencode($username) . "; Max-Age=" . (86400 * 30) . "; Path=/\n";
+            echo "X-Express-Header: Set-Cookie: PHPSESSID=" . session_id() . "; Path=/\n";
             echo "X-Express-Header: Location: /?registered=success\n";
             
             ob_end_flush();

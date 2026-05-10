@@ -62,6 +62,19 @@ CREATE TABLE `players` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Table structure for table `player_quests`
+--
+
+CREATE TABLE `player_quests` (
+  `quest_record_id` int(11) NOT NULL,
+  `player_id` int(11) NOT NULL,
+  `quest_id` varchar(50) NOT NULL,
+  `last_claimed` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Dumping data for table `players`
 --
 
@@ -119,6 +132,13 @@ ALTER TABLE `items`
   ADD PRIMARY KEY (`item_id`);
 
 --
+-- Indexes for table `player_quests`
+--
+ALTER TABLE `player_quests`
+  ADD PRIMARY KEY (`quest_record_id`),
+  ADD UNIQUE KEY `unique_quest_player` (`player_id`,`quest_id`);
+
+--
 -- Indexes for table `players`
 --
 ALTER TABLE `players`
@@ -149,6 +169,12 @@ ALTER TABLE `items`
   MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `player_quests`
+--
+ALTER TABLE `player_quests`
+  MODIFY `quest_record_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `players`
 --
 ALTER TABLE `players`
@@ -169,6 +195,12 @@ ALTER TABLE `statistics`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `inventory`
+--
+ALTER TABLE `player_quests`
+  ADD CONSTRAINT `player_quests_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `players` (`player_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `inventory`

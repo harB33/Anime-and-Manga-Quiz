@@ -19,6 +19,7 @@
                     <a href="/" class="font-ramen translate-y-[3px] text-2xl">S</a>
                     <a href="/" class="font-poppins">HOME</a>
                     <a href="/quiz" class="font-poppins">QUIZ</a>
+                    <a href="/quests" class="font-poppins">QUESTS</a>
                     <a href="/shop" class="font-poppins">SHOP</a>
                     <a href="/about" class="font-poppins">ABOUT</a>
                 </div>
@@ -67,7 +68,7 @@
         <div class="flex w-full h-full">
             <div class="flex flex-col justify-end h-full w-[40%] z-10 gap-4 p-8">
                 <h1
-                    class="text-8xl font-bold text-purple-300 font-ramen text-center translate-y-[6px] text-shadow-[0_2px_4px_rgba(0,0,0)] text-nowrap">
+                    class="scramble-title text-8xl font-bold text-purple-300 font-ramen text-center translate-y-[6px] text-shadow-[0_2px_4px_rgba(0,0,0)] text-nowrap">
                     <span>SHI</span><span>TSU</span><span>MO</span><span>N</span>
                 </h1>
                 <div class="w-full flex justify-center">
@@ -86,7 +87,7 @@
                             <path
                                 d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
                         </svg><span class="translate-y-[2px]">Start Quiz</span></a>
-                    <a href="/quest"
+                    <a href="/quests"
                         class="glint grow border-3 backdrop-blur-2xl border-primary p-6 font-ramen text-2xl text-purple-300 rounded-2xl flex items-center justify-center gap-2"><svg
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -196,7 +197,11 @@
     <div id="auth-toast" class="toast toast-end z-[100] mb-8 mr-8 hidden">
         <div class="alert alert-success bg-green-500/90 backdrop-blur-md text-white border-none shadow-2xl">
             <div class="flex items-center gap-2 text-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
                 <span id="auth-toast-message"></span>
             </div>
         </div>

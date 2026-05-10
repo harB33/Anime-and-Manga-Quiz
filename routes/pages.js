@@ -21,4 +21,9 @@ router.get('/shop', (req, res) => {
   res.render('shop', { title: 'Shop - Express Quiz App' })
 })
 
+// Quests page
+router.get('/quests', (req, res) => {
+  res.render('quests', { title: 'Quests - Express Quiz App' })
+})
+
 module.exports = router
