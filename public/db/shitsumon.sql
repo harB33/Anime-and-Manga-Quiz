@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.3
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: May 11, 2026 at 03:36 PM
+-- Host: 127.0.0.1
+-- Generation Time: May 11, 2026 at 08:19 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `inventory` (
   `inventory_id` int(11) NOT NULL,
+  `player_id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL,
   `obtained_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -53,12 +54,13 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`item_id`, `item_name`, `item_description`, `price`, `image_url`, `rarity`) VALUES
-(1, 'Elite Satoru Figure', 'An exceptionally detailed premium action figure with custom lighting aura.', 2500.00, '/images/anime_merch_figure.png', 'Legendary'),
-(2, 'Phantom Troupe Hoodie', 'Premium quality embroidered streetwear. Extremely comfortable.', 1500.00, '/images/anime_merch_hoodie.png', 'Exclusive'),
-(3, 'Master Sword Replica', '1:1 scale metallic replica. Glows in the dark.', 3000.00, '/images/anime_merch_sword.png', 'Mythic'),
-(4, 'Nezuko Bamboo Muzzle', 'Authentic cosplay prop made from real polished bamboo.', 500.00, '/images/anime_merch_muzzle.png', 'Rare'),
-(5, 'Dragon Ball Set', 'All 7 magical orbs. Grants one wish (results may vary).', 5000.00, '/images/anime_merch_dragonballs.png', 'God-Tier'),
-(6, 'Straw Hat', 'A simple straw hat. Carries the will of D.', 800.00, '/images/anime_merch_strawhat.png', 'Epic');
+(1, 'Novice Quizzer', 'A basic title for those just starting their journey.', 100.00, '/images/shop_title.png', 'Common'),
+(2, 'Anime Historian', 'A prestigious title for experts in anime lore.', 300.00, '/images/shop_title.png', 'Rare'),
+(3, 'Legendary Otaku', 'The ultimate title for the most dedicated fans.', 700.00, '/images/shop_title.png', 'Epic'),
+(4, 'Double Yen (1 hour)', 'Boost your earnings! Get 2x Yen for 1 hour after use.', 400.00, '/images/shop_powerup.png', 'Rare'),
+(5, 'Hint Pack (5 hints)', 'Stuck on a question? Use a hint to reveal a clue.', 150.00, '/images/shop_powerup.png', 'Common'),
+(6, 'Sakura Petals Border', 'A beautiful profile border with falling sakura petals.', 600.00, '/images/shop_border.png', 'Rare'),
+(7, 'Cyberpunk Neon Border', 'A futuristic neon glow for your profile.', 1200.00, '/images/shop_border.png', 'Legendary');
 
 -- --------------------------------------------------------
 
@@ -86,7 +88,7 @@ INSERT INTO `players` (`player_id`, `player_name`, `email`, `password`, `yen`, `
 (7, 'tester_new', 'tester_new@example.com', '$2y$10$acELoFwPLAxvd78ptAbnyub47ZiiyASqRvNtP0wXOs08S68fMG3FO', 0, '2026-05-01 21:08:58', 'user'),
 (8, 'jomari', 'jomari@gmail.com', '$2y$10$.f4Peedxvn.Xi3v1Oj7toOc./0YrkKq67jyYmJgcgTvrp21tbz7xa', 0, '2026-05-01 21:11:59', 'user'),
 (9, 'harvy', 'harvy@gmail.com', '$2y$10$ZKR1X/Krz0KWLbpUVcwy9O.s042ypGwt1rG5ZelTAhI8Kyt546K6C', 0, '2026-05-09 17:05:39', 'user'),
-(10, 'mahalmona?', 'mahalmona@gmail.com', '$2y$10$xBGWGrjn4W/KshUJ96iHSOgZ0hYRzUKwhhJTDoc7USPWYfejahLh2', 1440, '2026-05-10 01:35:37', 'user'),
+(10, 'mahalmona?', 'mahalmona@gmail.com', '$2y$10$xBGWGrjn4W/KshUJ96iHSOgZ0hYRzUKwhhJTDoc7USPWYfejahLh2', 1640, '2026-05-10 01:35:37', 'user'),
 (11, 'admin', 'admin@example.com', '$2y$10$vXkE0bWJ/YUs.VEgcZbWU.CaZypM.CaXMT08BBGlqtEDCCduwPjdC', 0, '2026-05-10 01:45:11', 'admin');
 
 -- --------------------------------------------------------
@@ -110,7 +112,7 @@ INSERT INTO `player_quests` (`quest_record_id`, `player_id`, `quest_id`, `last_c
 (1, 10, 'hourly_1', '2026-05-09 19:35:48'),
 (2, 10, 'hourly_2', '2026-05-09 19:37:30'),
 (3, 10, 'weekly_1', '2026-05-09 19:38:27'),
-(4, 10, 'daily_1', '2026-05-09 19:38:30'),
+(4, 10, 'daily_1', '2026-05-11 11:50:07'),
 (5, 10, 'hourly_5', '2026-05-09 20:05:33'),
 (6, 6, 'hourly_1', '2026-05-11 07:28:48'),
 (7, 6, 'daily_1', '2026-05-11 07:28:58'),
@@ -123,10 +125,9 @@ INSERT INTO `player_quests` (`quest_record_id`, `player_id`, `quest_id`, `last_c
 --
 
 CREATE TABLE `shop` (
-  `shop_id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL,
-  `item_name` varchar(50) NOT NULL,
-  `item_description` text NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `sold_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -163,7 +164,8 @@ INSERT INTO `statistics` (`stat_id`, `player_id`, `category_id`, `difficulty`, `
 --
 ALTER TABLE `inventory`
   ADD PRIMARY KEY (`inventory_id`),
-  ADD KEY `item_id` (`item_id`);
+  ADD KEY `item_id` (`item_id`),
+  ADD KEY `player_id` (`player_id`);
 
 --
 -- Indexes for table `items`
@@ -188,8 +190,7 @@ ALTER TABLE `player_quests`
 -- Indexes for table `shop`
 --
 ALTER TABLE `shop`
-  ADD PRIMARY KEY (`shop_id`),
-  ADD KEY `item_id` (`item_id`);
+  ADD PRIMARY KEY (`item_id`);
 
 --
 -- Indexes for table `statistics`
@@ -206,7 +207,7 @@ ALTER TABLE `statistics`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `players`
@@ -218,13 +219,13 @@ ALTER TABLE `players`
 -- AUTO_INCREMENT for table `player_quests`
 --
 ALTER TABLE `player_quests`
-  MODIFY `quest_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `quest_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `shop`
 --
 ALTER TABLE `shop`
-  MODIFY `shop_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `statistics`
@@ -240,19 +241,14 @@ ALTER TABLE `statistics`
 -- Constraints for table `inventory`
 --
 ALTER TABLE `inventory`
-  ADD CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `inventory_ibfk_2` FOREIGN KEY (`player_id`) REFERENCES `players` (`player_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `player_quests`
 --
 ALTER TABLE `player_quests`
   ADD CONSTRAINT `player_quests_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `players` (`player_id`) ON DELETE CASCADE;
-
---
--- Constraints for table `shop`
---
-ALTER TABLE `shop`
-  ADD CONSTRAINT `shop_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `statistics`

@@ -65,6 +65,7 @@ function renderShop() {
         if (rarityTag === 'Common') rarityColor = 'text-gray-300 bg-gray-500/10 border-gray-500/20';
         else if (rarityTag === 'Rare') rarityColor = 'text-blue-400 bg-blue-500/10 border-blue-500/20';
         else if (rarityTag === 'Epic') rarityColor = 'text-purple-400 bg-purple-500/10 border-purple-500/20';
+        else if (rarityTag === 'Legendary') rarityColor = 'text-pink-400 bg-pink-500/10 border-pink-500/20';
         else if (rarityTag === 'Exclusive') rarityColor = 'text-yellow-400 bg-yellow-500/10 border-yellow-500/20';
         else if (rarityTag === 'God-Tier') rarityColor = 'text-red-400 bg-red-500/10 border-red-500/20';
 

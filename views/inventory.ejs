@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    <%= title || 'Inventory - Express Quiz App' %>
+  </title>
+  <link rel="stylesheet" href="/styles/output.css" />
+</head>
+
+<body class="min-h-screen min-w-screen overflow-x-clip bg-background text-purple-300">
+  <div class="main min-h-screen w-screen bg-background bg-image pb-12">
+    <!-- Navigation -->
+    <nav id="main-nav" class="p-4 gap-2 flex justify-center fixed w-full top-0 z-50">
+      <nav
+        class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-[50%] backdrop-blur-xl">
+        <div class="flex grow justify-between text-xl items-center">
+          <a href="/" class="font-ramen translate-y-[3px] text-2xl">S</a>
+          <a href="/" class="font-poppins">HOME</a>
+          <a href="/quiz" class="font-poppins">QUIZ</a>
+          <a href="/quests" class="font-poppins">QUESTS</a>
+          <a href="/shop" class="font-poppins">SHOP</a>
+          <a href="/about" class="font-poppins">ABOUT</a>
+        </div>
+      </nav>
+      <nav id="yen-display"
+        class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-fit backdrop-blur-xl">
+        <span class="font-poppins font-bold text-lg">¥ <span id="yen-amount">0</span></span>
+      </nav>
+      <div class="dropdown dropdown-hover dropdown-center">
+        <div tabindex="0" role="button"
+          class="glint bg-primary/50 text-purple-300 flex items-center justify-center rounded-full w-12 h-12 backdrop-blur-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+          </svg>
+        </div>
+        <ul tabindex="-1"
+          class="dropdown-content menu bg-primary/90 backdrop-blur-md text-purple-300 rounded-box z-[60] w-52 p-2 shadow-2xl mt-4 left-1/2 -translate-x-1/2 border border-purple-300/20 before:content-[''] before:absolute before:-top-4 before:h-4 before:w-full">
+          <li><a class="hover:bg-purple-500/30 transition-colors text-lg font-bold">
+              <%= (locals.user) ? user.username : 'Guest' %>
+            </a></li>
+          <li class="pointer-events-none">
+            <hr class="border-purple-300/10 mt-1">
+          </li>
+          <li><a href="/statistics" class="hover:bg-purple-500/30 transition-colors text-pink-300">Profile /
+              Statistics</a></li>
+          <li><a href="/inventory" class="hover:bg-purple-500/30 transition-colors text-yellow-400">Inventory</a></li>
+          <li><a class="hover:bg-purple-500/30 transition-colors">Settings</a></li>
+          <li class="pointer-events-none">
+            <hr class="border-purple-300/10 m-1">
+          </li>
+          <% if (locals.user) { %>
+            <li><a href="/php/logout.php" class="text-pink-400 hover:bg-pink-500/20 transition-colors">Logout</a></li>
+            <% } else { %>
+              <li><a onclick="document.getElementById('auth-modal').showModal()"
+                  class="text-pink-400 hover:bg-pink-500/20 transition-colors cursor-pointer">Log In</a></li>
+              <% } %>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Inventory Content -->
+    <div class="flex flex-col w-full min-h-[calc(100vh-100px)] p-8 pt-32 gap-12 justify-start max-w-6xl mx-auto">
+      <!-- Header -->
+      <div class="flex flex-col gap-4 text-center">
+        <h1
+          class="text-6xl font-bold text-purple-300 font-ramen text-shadow-[0_2px_4px_rgba(0,0,0)] text-nowrap translate-y-[6px]">
+          <span>YOU</span><span>R</span> <span>INV</span><span>EN</span><span>TO</span><span>RY</span>
+        </h1>
+        <div class="w-full flex justify-center">
+          <hr class="text-purple-300/75 w-[60%]" />
+        </div>
+        <p class="text-purple-300/75 text-2xl font-poppins max-w-2xl mx-auto text-shadow-[2px_2px_1px_rgba(0,0,0)]">
+          Equip your titles, borders, and use your power boosts from here!
+        </p>
+      </div>
+
+      <!-- Inventory Grid -->
+      <div id="inventory-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Items injected by JS -->
+        <div class="col-span-full flex justify-center py-12">
+          <div class="w-14 h-14 border-4 border-purple-300/10 border-t-pink-500 rounded-full animate-spin"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Dialog Modal for Auth -->
+  <dialog id="auth-modal"
+    class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-0 backdrop:bg-black/60 rounded-3xl p-0 border border-purple-300/30 overflow-hidden bg-transparent w-[90%] max-w-md">
+    <div class="bg-primary/95 backdrop-blur-2xl p-8 flex flex-col gap-6 text-purple-300 font-poppins relative">
+      <button onclick="document.getElementById('auth-modal').close()" type="button"
+        class="absolute top-6 right-6 text-2xl text-purple-300/60 hover:text-pink-500 transition-colors cursor-pointer select-none">&times;</button>
+      <div class="text-center">
+        <p class="text-lg">Please log in to view your inventory.</p>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="/js/yen-utility.js"></script>
+  <script src="/js/inventory.js"></script>
+  <script src="/js/index.js"></script>
+</body>
+
+</html>

@@ -61,7 +61,7 @@ const handlePHP = (req, res, next) => {
     const querystring = require('querystring');
     const { spawn } = require('child_process');
 
-    const runnerPath = path.join(__dirname, 'node_modules', 'php-express', 'page_runner.php');
+    const runnerPath = path.join(__dirname, 'public', 'php', 'custom_runner.php');
     const getQuery = querystring.stringify(req.query);
     const postBody = req.method === 'POST' ? querystring.stringify(req.body) : '';
 
@@ -102,12 +102,12 @@ const handlePHP = (req, res, next) => {
         const headerRegex = /X-Express-Header:\s*([\w-]+):\s*([^\r\n]+)/gi;
         let redirectUrl = null;
         let match;
-        
+
         // Extract all headers
         while ((match = headerRegex.exec(stdout)) !== null) {
             const name = match[1].trim();
             const value = match[2].trim();
-            
+
             if (name.toLowerCase() === 'location') {
                 redirectUrl = value;
             } else {
@@ -121,7 +121,7 @@ const handlePHP = (req, res, next) => {
         if (redirectUrl) {
             return res.redirect(redirectUrl);
         }
-        
+
         res.send(cleanStdout);
     });
 };

@@ -58,11 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->close();
 
         // 4. Add to inventory
-        $stmt = $conn->prepare("INSERT INTO inventory (item_id, obtained_at) VALUES (?, NOW())");
-        // Note: The inventory table usually needs a player_id, but the current schema lacks it.
-        // For now, we follow the existing schema which seems to be a global log or needs modification.
-        // IMPORTANT: In a real app, inventory should link to player_id. 
-        $stmt->bind_param("i", $item_id);
+        $stmt = $conn->prepare("INSERT INTO inventory (player_id, item_id, obtained_at) VALUES (?, ?, NOW())");
+        $stmt->bind_param("ii", $user_id, $item_id);
         $stmt->execute();
         $stmt->close();
 

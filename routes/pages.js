@@ -31,4 +31,9 @@ router.get('/statistics', (req, res) => {
   res.render('statistics', { title: 'Statistics - Express Quiz App' })
 })
 
+// Inventory page
+router.get('/inventory', (req, res) => {
+  res.render('inventory', { title: 'Inventory - Express Quiz App' })
+})
+
 module.exports = router

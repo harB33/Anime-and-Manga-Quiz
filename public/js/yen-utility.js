@@ -33,7 +33,7 @@ async function updateYenDisplay() {
   if (yenElement) {
     // Show loading state or current local state first
     yenElement.textContent = getLocalYen();
-    
+
     // Fetch and update with true DB state
     const trueYen = await fetchYen();
     yenElement.textContent = trueYen;

@@ -31,9 +31,13 @@ async function fetchQuestState() {
             const authTrigger = document.getElementById('auth-modal-trigger');
             if (authTrigger) authTrigger.click();
             document.getElementById('quests-container').innerHTML = '<p class="text-center text-purple-300 text-xl mt-10">Please log in to view and claim quests.</p>';
+        } else {
+            console.error('Quest fetch returned error:', data.error);
+            document.getElementById('quests-container').innerHTML = `<p class="text-center text-red-400 text-xl mt-10">Error loading quests: ${data.error || 'Unknown error'}</p>`;
         }
     } catch (e) {
         console.error('Failed to fetch quests', e);
+        document.getElementById('quests-container').innerHTML = '<p class="text-center text-red-400 text-xl mt-10">Could not connect to the server. Please try again later.</p>';
     }
 }
 
