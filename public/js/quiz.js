@@ -90,6 +90,8 @@ async function getQuestions() {
   const category = document.getElementById("category").value;
   const difficulty = document.getElementById("difficulty").value;
 
+  console.log("Quiz Parameters:", { amount, category, difficulty });
+
   // Hide the navbar once the quiz starts
   const navbar = document.getElementById("main-nav");
   if (navbar) navbar.classList.add("hidden");
@@ -108,12 +110,14 @@ async function getQuestions() {
 
   try {
     let url = `/api/quiz/questions?amount=${amount}`;
-    
+
     currentCategoryId = category || null;
     currentDifficulty = difficulty || null;
-    
+
     if (category) url += `&category=${category}`;
     if (difficulty) url += `&difficulty=${difficulty}`;
+
+    console.log("Fetching URL:", url);
 
     const response = await fetch(url);
     const data = await response.json();
@@ -301,12 +305,12 @@ function displayResults(data) {
 
   // Calculate yen earned (10 yen per correct answer)
   const yenEarned = data.correct * 10;
-  
+
   // Create score div first
   const scoreDiv = document.createElement("div");
   scoreDiv.className =
     "bg-purple-950/50 border-2 border-purple-300/30 rounded-2xl p-8 mb-10 text-center font-poppins";
-  
+
   // We will update this later once the yen is processed
   scoreDiv.innerHTML = `
         <h2 class="font-ramen text-5xl text-purple-300 mb-2">Quiz Results</h2>
@@ -325,27 +329,44 @@ function displayResults(data) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ yenEarned, score: data.correct, categoryId: currentCategoryId, difficulty: currentDifficulty })
+    body: JSON.stringify({
+      yenEarned,
+      score: data.correct,
+      categoryId: currentCategoryId,
+      difficulty: currentDifficulty,
+    }),
   })
-  .then(res => res.json())
-  .then(result => {
-    const balanceEl = document.getElementById("final-yen-balance");
-    if (result.success) {
-      if (yenEarned > 0) {
-        setLocalYen(result.yen); // update local backup
-        updateYenDisplay(); // update navbar
+    .then((res) => res.json())
+    .then((result) => {
+      const balanceEl = document.getElementById("final-yen-balance");
+      if (result.success) {
+        if (yenEarned > 0) {
+          setYen(result.yen); // update local backup
+          updateYenDisplay(); // update navbar
+        }
+        if (balanceEl) balanceEl.innerHTML = `Total Balance: ¥${result.yen}`;
+      } else {
+        console.error("Failed to save stats/yen:", result.error);
+        if (balanceEl) {
+          // Still update local yen as fallback
+          const updatedYen = getYen() + yenEarned;
+          setYen(updatedYen);
+          updateYenDisplay();
+          balanceEl.innerHTML = `Total Balance: ¥${updatedYen} <span class="text-xs text-red-400 block">(Not saved: ${result.error})</span>`;
+        }
       }
-      if (balanceEl) balanceEl.innerHTML = `Total Balance: ¥${result.yen}`;
-    } else {
-      console.error("Failed to save stats/yen:", result.error);
-      if (balanceEl) balanceEl.innerHTML = `Total Balance: ¥${getLocalYen()} <span class="text-xs text-red-400 block">(Not saved: ${result.error})</span>`;
-    }
-  })
-  .catch(err => {
-    console.error("Stats update error:", err);
-    const balanceEl = document.getElementById("final-yen-balance");
-    if (balanceEl) balanceEl.innerHTML = `Total Balance: ¥${getLocalYen()} <span class="text-xs text-red-400 block">(Network error)</span>`;
-  });
+    })
+    .catch((err) => {
+      console.error("Stats update error:", err);
+      const balanceEl = document.getElementById("final-yen-balance");
+      if (balanceEl) {
+        // Still update local yen as fallback
+        const updatedYen = getYen() + yenEarned;
+        setYen(updatedYen);
+        updateYenDisplay();
+        balanceEl.innerHTML = `Total Balance: ¥${updatedYen} <span class="text-xs text-red-400 block">(Network error)</span>`;
+      }
+    });
   data.results.forEach((result, index) => {
     console.log(
       `Question ${index + 1}:`,
@@ -459,6 +480,34 @@ document.addEventListener("DOMContentLoaded", function () {
   loadCategories();
   detectPhp();
 
+  // Add event listeners for amount radio buttons
+  const amountRadios = document.querySelectorAll('input[name="amount_option"]');
+  amountRadios.forEach((radio) => {
+    radio.addEventListener("change", function () {
+      document.getElementById("amount").value = this.value;
+      console.log("Amount changed to:", this.value);
+      document
+        .querySelectorAll(".amount-card")
+        .forEach((c) => c.classList.remove("selected"));
+      this.parentElement.classList.add("selected");
+    });
+  });
+
+  // Add event listeners for difficulty radio buttons
+  const difficultyRadios = document.querySelectorAll(
+    'input[name="difficulty_option"]',
+  );
+  difficultyRadios.forEach((radio) => {
+    radio.addEventListener("change", function () {
+      document.getElementById("difficulty").value = this.value;
+      console.log("Difficulty changed to:", this.value);
+      document
+        .querySelectorAll(".difficulty-card")
+        .forEach((c) => c.classList.remove("selected"));
+      this.parentElement.classList.add("selected");
+    });
+  });
+
   // Add event listeners for buttons
   const startBtn = document.getElementById("start-quiz-btn");
   const resetBtn = document.getElementById("reset-quiz-btn");
@@ -474,6 +523,37 @@ document.addEventListener("DOMContentLoaded", function () {
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", function () {
     loadCategories();
+
+    // Add event listeners for amount radio buttons
+    const amountRadios = document.querySelectorAll(
+      'input[name="amount_option"]',
+    );
+    amountRadios.forEach((radio) => {
+      radio.addEventListener("change", function () {
+        document.getElementById("amount").value = this.value;
+        console.log("Amount changed to:", this.value);
+        document
+          .querySelectorAll(".amount-card")
+          .forEach((c) => c.classList.remove("selected"));
+        this.parentElement.classList.add("selected");
+      });
+    });
+
+    // Add event listeners for difficulty radio buttons
+    const difficultyRadios = document.querySelectorAll(
+      'input[name="difficulty_option"]',
+    );
+    difficultyRadios.forEach((radio) => {
+      radio.addEventListener("change", function () {
+        document.getElementById("difficulty").value = this.value;
+        console.log("Difficulty changed to:", this.value);
+        document
+          .querySelectorAll(".difficulty-card")
+          .forEach((c) => c.classList.remove("selected"));
+        this.parentElement.classList.add("selected");
+      });
+    });
+
     // Add event listeners for buttons
     const startBtn = document.getElementById("start-quiz-btn");
     const resetBtn = document.getElementById("reset-quiz-btn");
@@ -486,6 +566,35 @@ if (document.readyState === "loading") {
   });
 } else {
   loadCategories();
+
+  // Add event listeners for amount radio buttons
+  const amountRadios = document.querySelectorAll('input[name="amount_option"]');
+  amountRadios.forEach((radio) => {
+    radio.addEventListener("change", function () {
+      document.getElementById("amount").value = this.value;
+      console.log("Amount changed to:", this.value);
+      document
+        .querySelectorAll(".amount-card")
+        .forEach((c) => c.classList.remove("selected"));
+      this.parentElement.classList.add("selected");
+    });
+  });
+
+  // Add event listeners for difficulty radio buttons
+  const difficultyRadios = document.querySelectorAll(
+    'input[name="difficulty_option"]',
+  );
+  difficultyRadios.forEach((radio) => {
+    radio.addEventListener("change", function () {
+      document.getElementById("difficulty").value = this.value;
+      console.log("Difficulty changed to:", this.value);
+      document
+        .querySelectorAll(".difficulty-card")
+        .forEach((c) => c.classList.remove("selected"));
+      this.parentElement.classList.add("selected");
+    });
+  });
+
   // Add event listeners for buttons
   const startBtn = document.getElementById("start-quiz-btn");
   const resetBtn = document.getElementById("reset-quiz-btn");

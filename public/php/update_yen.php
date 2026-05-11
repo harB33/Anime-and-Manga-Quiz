@@ -14,10 +14,13 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $yenEarned = isset($_POST['yenEarned']) ? (int)$_POST['yenEarned'] : 0;
-    $score = isset($_POST['score']) ? (int)$_POST['score'] : 0;
-    $categoryId = !empty($_POST['categoryId']) ? (int)$_POST['categoryId'] : null;
-    $difficulty = !empty($_POST['difficulty']) ? $_POST['difficulty'] : null;
+    // Read JSON data from request body
+    $inputData = json_decode(file_get_contents('php://input'), true);
+    
+    $yenEarned = isset($inputData['yenEarned']) ? (int)$inputData['yenEarned'] : 0;
+    $score = isset($inputData['score']) ? (int)$inputData['score'] : 0;
+    $categoryId = !empty($inputData['categoryId']) ? (int)$inputData['categoryId'] : null;
+    $difficulty = !empty($inputData['difficulty']) ? $inputData['difficulty'] : null;
 
     $user_id = $_SESSION['user_id'];
 
