@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2026 at 08:19 PM
+-- Generation Time: May 12, 2026 at 10:43 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,6 +33,16 @@ CREATE TABLE `inventory` (
   `item_id` int(11) NOT NULL,
   `obtained_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `inventory`
+--
+
+INSERT INTO `inventory` (`inventory_id`, `player_id`, `item_id`, `obtained_at`) VALUES
+(1, 10, 1, '2026-05-12 13:38:13'),
+(2, 10, 3, '2026-05-12 13:48:53'),
+(3, 10, 2, '2026-05-12 13:49:35'),
+(5, 10, 6, '2026-05-12 20:09:43');
 
 -- --------------------------------------------------------
 
@@ -88,8 +98,25 @@ INSERT INTO `players` (`player_id`, `player_name`, `email`, `password`, `yen`, `
 (7, 'tester_new', 'tester_new@example.com', '$2y$10$acELoFwPLAxvd78ptAbnyub47ZiiyASqRvNtP0wXOs08S68fMG3FO', 0, '2026-05-01 21:08:58', 'user'),
 (8, 'jomari', 'jomari@gmail.com', '$2y$10$.f4Peedxvn.Xi3v1Oj7toOc./0YrkKq67jyYmJgcgTvrp21tbz7xa', 0, '2026-05-01 21:11:59', 'user'),
 (9, 'harvy', 'harvy@gmail.com', '$2y$10$ZKR1X/Krz0KWLbpUVcwy9O.s042ypGwt1rG5ZelTAhI8Kyt546K6C', 0, '2026-05-09 17:05:39', 'user'),
-(10, 'mahalmona?', 'mahalmona@gmail.com', '$2y$10$xBGWGrjn4W/KshUJ96iHSOgZ0hYRzUKwhhJTDoc7USPWYfejahLh2', 1640, '2026-05-10 01:35:37', 'user'),
-(11, 'admin', 'admin@example.com', '$2y$10$vXkE0bWJ/YUs.VEgcZbWU.CaZypM.CaXMT08BBGlqtEDCCduwPjdC', 0, '2026-05-10 01:45:11', 'admin');
+(10, 'mahalmona?', 'mahalmona@gmail.com', '$2y$10$xBGWGrjn4W/KshUJ96iHSOgZ0hYRzUKwhhJTDoc7USPWYfejahLh2', 0, '2026-05-10 01:35:37', 'user'),
+(11, 'admin', 'admin@example.com', '$2y$10$vXkE0bWJ/YUs.VEgcZbWU.CaZypM.CaXMT08BBGlqtEDCCduwPjdC', 0, '2026-05-10 01:45:11', 'admin'),
+(12, 'jomariwamil', 'jomariwamil1012@gmail.com', '$2y$10$jrH0H7DdVbqLND.Bnra7kuXJVdcFiChUGRWHbys//SIf3TmW1zPRu', 0, '2026-05-12 13:20:40', 'user'),
+(13, 'jomariwamil', 'jomariwamil1012@gmail.com', '$2y$10$OPejhJxlIq4SWKjryLb0augoRg7xUGDHjalQHXUGl9C0YcoqyI29y', 1250, '2026-05-12 13:20:41', 'user');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `player_item_states`
+--
+
+CREATE TABLE `player_item_states` (
+  `state_id` int(11) NOT NULL,
+  `player_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `is_equipped` tinyint(1) NOT NULL DEFAULT 0,
+  `is_used` tinyint(1) NOT NULL DEFAULT 0,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -109,14 +136,17 @@ CREATE TABLE `player_quests` (
 --
 
 INSERT INTO `player_quests` (`quest_record_id`, `player_id`, `quest_id`, `last_claimed`) VALUES
-(1, 10, 'hourly_1', '2026-05-09 19:35:48'),
-(2, 10, 'hourly_2', '2026-05-09 19:37:30'),
+(1, 10, 'hourly_1', '2026-05-12 13:34:49'),
+(2, 10, 'hourly_2', '2026-05-12 07:24:00'),
 (3, 10, 'weekly_1', '2026-05-09 19:38:27'),
-(4, 10, 'daily_1', '2026-05-11 11:50:07'),
-(5, 10, 'hourly_5', '2026-05-09 20:05:33'),
+(4, 10, 'daily_1', '2026-05-12 13:34:52'),
+(5, 10, 'hourly_5', '2026-05-12 13:52:55'),
 (6, 6, 'hourly_1', '2026-05-11 07:28:48'),
 (7, 6, 'daily_1', '2026-05-11 07:28:58'),
-(8, 6, 'weekly_1', '2026-05-11 07:29:08');
+(8, 6, 'weekly_1', '2026-05-11 07:29:08'),
+(10, 13, 'hourly_1', '2026-05-12 07:20:48'),
+(11, 13, 'weekly_1', '2026-05-12 07:21:46'),
+(12, 13, 'daily_1', '2026-05-12 07:21:58');
 
 -- --------------------------------------------------------
 
@@ -180,6 +210,15 @@ ALTER TABLE `players`
   ADD PRIMARY KEY (`player_id`);
 
 --
+-- Indexes for table `player_item_states`
+--
+ALTER TABLE `player_item_states`
+  ADD PRIMARY KEY (`state_id`),
+  ADD UNIQUE KEY `unique_player_item` (`player_id`,`item_id`),
+  ADD KEY `player_id` (`player_id`),
+  ADD KEY `item_id` (`item_id`);
+
+--
 -- Indexes for table `player_quests`
 --
 ALTER TABLE `player_quests`
@@ -204,6 +243,12 @@ ALTER TABLE `statistics`
 --
 
 --
+-- AUTO_INCREMENT for table `inventory`
+--
+ALTER TABLE `inventory`
+  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
@@ -213,13 +258,19 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT for table `players`
 --
 ALTER TABLE `players`
-  MODIFY `player_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `player_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `player_item_states`
+--
+ALTER TABLE `player_item_states`
+  MODIFY `state_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `player_quests`
 --
 ALTER TABLE `player_quests`
-  MODIFY `quest_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `quest_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `shop`
