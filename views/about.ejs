@@ -113,6 +113,41 @@
           </div>
         </div>
 
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div
+            class="bg-purple-950/50 p-6 rounded-2xl border border-purple-300/10 hover:border-yellow-400/50 transition-all duration-300 shadow-inner">
+            <h2 class="text-3xl font-ramen mb-4 text-yellow-400 tracking-wide">OpenTDB API Usage</h2>
+            <p class="text-purple-300/80 leading-relaxed mb-4">
+              The quiz uses the OpenTDB public API to fetch live trivia questions and categories. This makes the app dynamic while keeping the question source centralized.
+            </p>
+            <ul class="list-disc list-inside space-y-2 text-purple-300/80">
+              <li>Requests are sent from the backend to <span class="text-pink-300 font-semibold">https://opentdb.com/api.php</span>.</li>
+              <li>Example query: <span class="text-pink-300 font-semibold">/api/quiz/questions?amount=10&type=multiple</span>.</li>
+              <li>Categories are loaded from <span class="text-pink-300 font-semibold">/api/quiz/categories</span>.</li>
+              <li>Server-side logic handles fetching, parsing, and error handling before returning results to the client.</li>
+            </ul>
+          </div>
+
+          <div
+            class="bg-purple-950/50 p-6 rounded-2xl border border-purple-300/10 hover:border-green-400/50 transition-all duration-300 shadow-inner">
+            <h2 class="text-3xl font-ramen mb-4 text-green-400 tracking-wide">Developers</h2>
+            <ul class="space-y-5 text-purple-300/80">
+              <li>
+                <span class="block text-xl font-semibold text-purple-100">Bautista, H</span>
+                <span class="block">Head Developer</span>
+              </li>
+              <li>
+                <span class="block text-xl font-semibold text-purple-100">Parica, JR</span>
+                <span class="block">Back End</span>
+              </li>
+              <li>
+                <span class="block text-xl font-semibold text-purple-100">Wamil, J</span>
+                <span class="block">Back End</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
         <div class="flex justify-center mt-8">
           <a href="/"
             class="glint bg-primary px-10 py-4 font-ramen text-2xl text-purple-300 rounded-2xl flex items-center justify-center hover:bg-primary/80 transition-all shadow-xl hover:scale-105 duration-300">
