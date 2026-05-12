@@ -10,7 +10,9 @@ async function fetchInventory() {
   if (!container) return;
 
   try {
-    const response = await fetch("/php/get_inventory.php");
+    const response = await fetch("/php/get_inventory.php", {
+      cache: "no-store",
+    });
     const data = await response.json();
 
     if (data.success) {

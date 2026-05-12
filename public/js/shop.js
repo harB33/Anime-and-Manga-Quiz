@@ -36,7 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function fetchShopItems() {
   try {
-    const response = await fetch("/php/get_shop_items.php");
+    const response = await fetch("/php/get_shop_items.php", {
+      cache: "no-store",
+    });
     const data = await response.json();
     if (data.success) {
       SHOP_ITEMS = data.items;
@@ -201,7 +203,7 @@ async function confirmPurchase() {
       }
 
       // Reload shop items to update stock/display
-      fetchShopItems();
+      await fetchShopItems();
     } else {
       alert(data.error || "Failed to purchase item");
     }
