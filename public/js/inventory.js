@@ -64,10 +64,14 @@ function renderStatus(equipment) {
 
 function getButtonText(item, equipment) {
   if (item.type === "title") {
-    return equipment.equippedTitle === item.name ? "Equipped" : "Equip Title";
+    return equipment.equippedTitle === item.name
+      ? "Unequip Title"
+      : "Equip Title";
   }
   if (item.type === "border") {
-    return equipment.equippedBorder === item.name ? "Equipped" : "Equip Border";
+    return equipment.equippedBorder === item.name
+      ? "Unequip Border"
+      : "Equip Border";
   }
   if (item.type === "powerup") {
     return "Use Power-Up";
@@ -113,6 +117,10 @@ function renderInventory(items, equipment) {
       (item.type === "title" && equipment.equippedTitle === item.name) ||
       (item.type === "border" && equipment.equippedBorder === item.name);
 
+    const buttonClasses = isEquipped
+      ? "w-full glint bg-pink-500/20 hover:bg-pink-600/30 text-pink-100 py-2 rounded-xl font-ramen text-lg transition-all duration-300 border border-pink-300"
+      : "w-full glint bg-primary/50 hover:bg-pink-500/30 text-purple-200 py-2 rounded-xl font-ramen text-lg transition-all duration-300 border border-purple-300/10";
+
     div.innerHTML = `
             <div class="w-full aspect-square bg-purple-950/40 rounded-2xl overflow-hidden mb-5 border border-purple-300/10 flex items-center justify-center">
                 <img src="${item.image_url}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -125,14 +133,14 @@ function renderInventory(items, equipment) {
                 <p class="text-purple-300/40 font-poppins text-[10px] uppercase tracking-widest">Obtained: ${new Date(item.obtained_at).toLocaleDateString()}</p>
             </div>
             <div class="mt-4 pt-4 border-t border-purple-300/10">
-                <button class="w-full glint bg-primary/50 hover:bg-pink-500/30 text-purple-200 py-2 rounded-xl font-ramen text-lg transition-all duration-300 border border-purple-300/10 ${isEquipped ? "opacity-50 cursor-not-allowed hover:bg-primary/50" : ""}" ${isEquipped ? "disabled" : ""}>
+                <button class="${buttonClasses}">
                     ${buttonText}
                 </button>
             </div>
         `;
 
     const button = div.querySelector("button");
-    if (button && !isEquipped) {
+    if (button) {
       button.addEventListener("click", () => useItem(item));
     }
 

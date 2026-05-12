@@ -93,11 +93,21 @@ try {
     $type = getItemType($item_name, $item_description);
 
     if ($type === 'title') {
-        $_SESSION['equipped_title'] = $item_name;
-        $message = 'Title equipped!';
+        if (isset($_SESSION['equipped_title']) && $_SESSION['equipped_title'] === $item_name) {
+            unset($_SESSION['equipped_title']);
+            $message = 'Title unequipped!';
+        } else {
+            $_SESSION['equipped_title'] = $item_name;
+            $message = 'Title equipped!';
+        }
     } elseif ($type === 'border') {
-        $_SESSION['equipped_border'] = $item_name;
-        $message = 'Border equipped!';
+        if (isset($_SESSION['equipped_border']) && $_SESSION['equipped_border'] === $item_name) {
+            unset($_SESSION['equipped_border']);
+            $message = 'Border unequipped!';
+        } else {
+            $_SESSION['equipped_border'] = $item_name;
+            $message = 'Border equipped!';
+        }
     } elseif ($type === 'powerup') {
         $expiresAt = time() + 3600;
         $_SESSION['active_powerup'] = $item_name;
