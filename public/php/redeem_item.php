@@ -27,17 +27,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->begin_transaction();
 
     try {
-        // 1. Fetch item price
-        $stmt = $conn->prepare("SELECT item_name, price FROM items WHERE item_id = ?");
+        // 1. Fetch item price and type info
+        $stmt = $conn->prepare("SELECT item_name, item_description, price FROM items WHERE item_id = ?");
         $stmt->bind_param("i", $item_id);
         $stmt->execute();
-        $stmt->bind_result($item_name, $price);
+        $stmt->bind_result($item_name, $item_description, $price);
         if (!$stmt->fetch()) {
             throw new Exception("Item not found");
         }
         $stmt->close();
 
-        // 1.5. Check if item already owned
+        $type = 'misc';
+        $lowerName = strtolower($item_name);
+        $lowerDescription = strtolower($item_description);
+        if (str_contains($lowerName, 'title') || str_contains($lowerDescription, 'title')) {
+            $type = 'title';
+        } elseif (str_contains($lowerName, 'border') || str_contains($lowerDescription, 'border')) {
+            $type = 'border';
+        } elseif (str_contains($lowerName, 'double yen') || str_contains($lowerDescription, 'double yen') || str_contains($lowerName, 'yen') || str_contains($lowerDescription, 'yen')) {
+            $type = 'powerup';
+        } elseif (str_contains($lowerName, 'hint') || str_contains($lowerDescription, 'hint')) {
+            $type = 'hint';
+        }
+
+        // 1.5. Check if item already owned for equipables
         $stmt = $conn->prepare("SELECT COUNT(*) as count FROM inventory WHERE player_id = ? AND item_id = ?");
         $stmt->bind_param("ii", $user_id, $item_id);
         $stmt->execute();
@@ -45,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->fetch();
         $stmt->close();
         
-        if ($owned_count > 0) {
+        if ($owned_count > 0 && ($type === 'title' || $type === 'border')) {
             throw new Exception("You already own this item");
         }
 
