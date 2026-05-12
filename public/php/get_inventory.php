@@ -12,6 +12,52 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+function getItemType(string $name, string $description): string {
+    $name = strtolower($name);
+    $description = strtolower($description);
+
+    if (str_contains($name, 'title') || str_contains($description, 'title')) {
+        return 'title';
+    }
+    if (str_contains($name, 'border') || str_contains($description, 'border')) {
+        return 'border';
+    }
+    if (str_contains($name, 'double yen') || str_contains($description, 'double yen') || str_contains($name, 'yen') || str_contains($description, 'yen')) {
+        return 'powerup';
+    }
+    if (str_contains($name, 'hint') || str_contains($description, 'hint')) {
+        return 'hint';
+    }
+    if (str_contains($name, 'boost') || str_contains($description, 'power')) {
+        return 'powerup';
+    }
+
+    return 'misc';
+}
+
+function getCurrentEquipmentState(): array {
+    $state = [
+        'equippedTitle' => $_SESSION['equipped_title'] ?? null,
+        'equippedBorder' => $_SESSION['equipped_border'] ?? null,
+        'hintBalance' => $_SESSION['hint_balance'] ?? 0,
+        'activePowerup' => null,
+    ];
+
+    if (isset($_SESSION['powerup_expires_at']) && isset($_SESSION['active_powerup'])) {
+        $expiresAt = (int)$_SESSION['powerup_expires_at'];
+        if ($expiresAt > time()) {
+            $state['activePowerup'] = [
+                'name' => $_SESSION['active_powerup'],
+                'expiresAt' => date('c', $expiresAt)
+            ];
+        } else {
+            unset($_SESSION['active_powerup'], $_SESSION['powerup_expires_at']);
+        }
+    }
+
+    return $state;
+}
+
 $user_id = $_SESSION['user_id'];
 
 try {
@@ -35,14 +81,16 @@ try {
             'description' => $row['item_description'],
             'image_url' => $row['image_url'] ? $row['image_url'] : '/images/anime_merch_figure.png',
             'rarity' => $row['rarity'],
-            'obtained_at' => $row['obtained_at']
+            'obtained_at' => $row['obtained_at'],
+            'type' => getItemType($row['item_name'], $row['item_description']),
         ];
     }
     $stmt->close();
     
     echo json_encode([
         'success' => true,
-        'inventory' => $inventory
+        'inventory' => $inventory,
+        'equipment' => getCurrentEquipmentState(),
     ]);
 } catch (Exception $e) {
     echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
