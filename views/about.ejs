@@ -25,6 +25,10 @@
           <a href="/about" class="font-poppins">ABOUT</a>
         </div>
       </nav>
+      <nav id="yen-display"
+        class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-fit backdrop-blur-xl">
+        <span class="font-poppins font-bold text-lg">¥ <span id="yen-amount">0</span></span>
+      </nav>
       <div class="dropdown dropdown-hover dropdown-center">
         <div tabindex="0" role="button"
           class="glint bg-primary/50 text-purple-300 flex items-center justify-center rounded-full w-12 h-12 backdrop-blur-xl">
@@ -42,7 +46,8 @@
           <li class="pointer-events-none">
             <hr class="border-purple-300/10 mt-1">
           </li>
-          <li><a href="/statistics" class="hover:bg-purple-500/30 transition-colors">Profile / Statistics</a></li>
+          <li><a href="/statistics" class="hover:bg-purple-500/30 transition-colors text-pink-300">Profile / Statistics</a></li>
+          <li><a href="/inventory" class="hover:bg-purple-500/30 transition-colors text-yellow-400">Inventory</a></li>
           <li><a class="hover:bg-purple-500/30 transition-colors">Settings</a></li>
           <li class="pointer-events-none">
             <hr class="border-purple-300/10 m-1">
@@ -157,6 +162,7 @@
       </div>
     </div>
   </div>
+  <script src="/js/yen-utility.js"></script>
 </body>
 
 </html>
