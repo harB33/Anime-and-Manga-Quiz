@@ -317,10 +317,43 @@
       </div>
     </dialog>
 
+    <!-- Confirmation Dialog for Purchase -->
+    <dialog
+      id="confirm-purchase-modal"
+      class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-0 backdrop:bg-black/60 rounded-3xl p-0 border border-purple-300/30 overflow-hidden bg-transparent w-[90%] max-w-lg"
+    >
+      <div
+        class="bg-primary/95 backdrop-blur-2xl p-6 flex flex-col items-center gap-4 text-purple-300 font-poppins text-center"
+      >
+        <h3 class="text-2xl font-ramen text-purple-200">
+          Confirm Purchase?
+        </h3>
+        <div class="bg-purple-950/40 rounded-xl p-4 w-full text-left">
+          <p id="confirm-item-name" class="text-lg font-bold text-pink-300 mb-2"></p>
+          <p class="text-sm text-purple-300/70 mb-3">Cost: <span id="confirm-item-cost" class="text-white font-bold"></span> ¥</p>
+          <p class="text-xs text-purple-300/50">This item will be added to your inventory after purchase.</p>
+        </div>
+        <div class="flex gap-3 w-full justify-center">
+          <button
+            id="cancel-purchase-btn"
+            class="glint bg-primary/50 px-6 py-2.5 font-ramen text-lg text-purple-300 rounded-xl cursor-pointer hover:bg-primary/80 transition-all duration-300"
+          >
+            Cancel
+          </button>
+          <button
+            id="confirm-purchase-btn"
+            class="glint bg-pink-500 hover:bg-pink-400 px-6 py-2.5 font-ramen text-lg text-white rounded-xl cursor-pointer transition-all duration-300 shadow-[0_0_15px_rgba(236,72,153,0.5)]"
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </dialog>
+
     <!-- Sweet Success Alert Dialog (Modern Modal) -->
     <dialog
       id="success-modal"
-      class="backdrop:bg-black/60 rounded-3xl p-0 border border-purple-300/30 overflow-hidden bg-transparent w-[90%] max-w-sm"
+      class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-0 backdrop:bg-black/60 rounded-3xl p-0 border border-purple-300/30 overflow-hidden bg-transparent w-[90%] max-w-lg"
     >
       <div
         class="bg-primary/95 backdrop-blur-2xl p-6 flex flex-col items-center gap-4 text-purple-300 font-poppins text-center"
@@ -330,10 +363,10 @@
           Redemption Successful!
         </h3>
         <p id="success-desc" class="text-sm text-purple-300/70 font-poppins">
-          You have claimed the item.
+          You have claimed the item and it's now in your inventory!
         </p>
         <button
-          onclick="document.getElementById('success-modal').close()"
+          id="success-modal-close-btn"
           class="glint bg-primary mt-2 px-6 py-2.5 font-ramen text-lg text-purple-300 rounded-xl cursor-pointer hover:bg-primary/80 transition-all duration-300 w-full"
         >
           Great!

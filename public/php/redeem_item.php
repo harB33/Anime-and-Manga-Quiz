@@ -37,6 +37,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $stmt->close();
 
+        // 1.5. Check if item already owned
+        $stmt = $conn->prepare("SELECT COUNT(*) as count FROM inventory WHERE player_id = ? AND item_id = ?");
+        $stmt->bind_param("ii", $user_id, $item_id);
+        $stmt->execute();
+        $stmt->bind_result($owned_count);
+        $stmt->fetch();
+        $stmt->close();
+        
+        if ($owned_count > 0) {
+            throw new Exception("You already own this item");
+        }
+
         // 2. Check user yen
         $stmt = $conn->prepare("SELECT yen FROM players WHERE player_id = ?");
         $stmt->bind_param("i", $user_id);
