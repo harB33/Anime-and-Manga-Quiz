@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2026 at 08:19 PM
+-- Generation Time: May 12, 2026 at 10:49 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,6 +33,15 @@ CREATE TABLE `inventory` (
   `item_id` int(11) NOT NULL,
   `obtained_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `inventory`
+--
+
+INSERT INTO `inventory` (`inventory_id`, `player_id`, `item_id`, `obtained_at`) VALUES
+(1, 10, 2, '2026-05-12 15:16:05'),
+(2, 10, 4, '2026-05-12 20:44:57'),
+(3, 10, 6, '2026-05-12 20:45:34');
 
 -- --------------------------------------------------------
 
@@ -88,7 +97,7 @@ INSERT INTO `players` (`player_id`, `player_name`, `email`, `password`, `yen`, `
 (7, 'tester_new', 'tester_new@example.com', '$2y$10$acELoFwPLAxvd78ptAbnyub47ZiiyASqRvNtP0wXOs08S68fMG3FO', 0, '2026-05-01 21:08:58', 'user'),
 (8, 'jomari', 'jomari@gmail.com', '$2y$10$.f4Peedxvn.Xi3v1Oj7toOc./0YrkKq67jyYmJgcgTvrp21tbz7xa', 0, '2026-05-01 21:11:59', 'user'),
 (9, 'harvy', 'harvy@gmail.com', '$2y$10$ZKR1X/Krz0KWLbpUVcwy9O.s042ypGwt1rG5ZelTAhI8Kyt546K6C', 0, '2026-05-09 17:05:39', 'user'),
-(10, 'mahalmona?', 'mahalmona@gmail.com', '$2y$10$xBGWGrjn4W/KshUJ96iHSOgZ0hYRzUKwhhJTDoc7USPWYfejahLh2', 1640, '2026-05-10 01:35:37', 'user'),
+(10, 'mahalmona?', 'mahalmona@gmail.com', '$2y$10$xBGWGrjn4W/KshUJ96iHSOgZ0hYRzUKwhhJTDoc7USPWYfejahLh2', 750, '2026-05-10 01:35:37', 'user'),
 (11, 'admin', 'admin@example.com', '$2y$10$vXkE0bWJ/YUs.VEgcZbWU.CaZypM.CaXMT08BBGlqtEDCCduwPjdC', 0, '2026-05-10 01:45:11', 'admin');
 
 -- --------------------------------------------------------
@@ -109,11 +118,11 @@ CREATE TABLE `player_quests` (
 --
 
 INSERT INTO `player_quests` (`quest_record_id`, `player_id`, `quest_id`, `last_claimed`) VALUES
-(1, 10, 'hourly_1', '2026-05-09 19:35:48'),
-(2, 10, 'hourly_2', '2026-05-09 19:37:30'),
+(1, 10, 'hourly_1', '2026-05-12 14:46:12'),
+(2, 10, 'hourly_2', '2026-05-12 14:46:14'),
 (3, 10, 'weekly_1', '2026-05-09 19:38:27'),
-(4, 10, 'daily_1', '2026-05-11 11:50:07'),
-(5, 10, 'hourly_5', '2026-05-09 20:05:33'),
+(4, 10, 'daily_1', '2026-05-12 14:46:20'),
+(5, 10, 'hourly_5', '2026-05-12 14:46:17'),
 (6, 6, 'hourly_1', '2026-05-11 07:28:48'),
 (7, 6, 'daily_1', '2026-05-11 07:28:58'),
 (8, 6, 'weekly_1', '2026-05-11 07:29:08');
@@ -204,6 +213,12 @@ ALTER TABLE `statistics`
 --
 
 --
+-- AUTO_INCREMENT for table `inventory`
+--
+ALTER TABLE `inventory`
+  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
@@ -219,7 +234,7 @@ ALTER TABLE `players`
 -- AUTO_INCREMENT for table `player_quests`
 --
 ALTER TABLE `player_quests`
-  MODIFY `quest_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `quest_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `shop`
