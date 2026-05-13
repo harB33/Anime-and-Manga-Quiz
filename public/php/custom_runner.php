@@ -1,8 +1,4 @@
 <?php
-/**
- * Custom PHP Runner for Express-PHP integration
- * Populates global variables that are missing in CLI mode.
- */
 
 // 1. Populate $_GET from QUERY_STRING
 if (isset($_SERVER['QUERY_STRING'])) {
@@ -10,10 +6,22 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 // 2. Populate $_POST from STDIN
-if (($_SERVER['REQUEST_METHOD'] === 'POST') && ($_SERVER['CONTENT_LENGTH'] > 0)) {
-    // Read the POST body from standard input
+if (($_SERVER['REQUEST_METHOD'] === 'POST') && isset($_SERVER['CONTENT_LENGTH']) && ($_SERVER['CONTENT_LENGTH'] > 0)) {
+    // Read the POST body from standard input and preserve it for JSON requests
     $post_data = fread(STDIN, (int)$_SERVER['CONTENT_LENGTH']);
-    parse_str($post_data, $_POST);
+    $_SERVER['RAW_POST_DATA'] = $post_data;
+
+    $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
+    if (str_contains($contentType, 'application/json')) {
+        $decoded = json_decode($post_data, true);
+        if (is_array($decoded)) {
+            $_POST = $decoded;
+        } else {
+            parse_str($post_data, $_POST);
+        }
+    } else {
+        parse_str($post_data, $_POST);
+    }
 }
 
 // 3. Populate $_COOKIE from HTTP_COOKIE

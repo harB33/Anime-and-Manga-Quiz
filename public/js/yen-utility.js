@@ -11,10 +11,21 @@ function setLocalYen(amount) {
   localStorage.setItem("yen", Math.max(0, amount));
 }
 
+// Convenience wrappers used by quiz.js
+function getYen() {
+  return getLocalYen();
+}
+
+function setYen(amount) {
+  setLocalYen(amount);
+}
+
 // Fetch true yen balance from database
 async function fetchYen() {
   try {
-    const response = await fetch("/php/get_yen.php");
+    const response = await fetch("/php/get_yen.php", {
+      credentials: "include",
+    });
     const data = await response.json();
     if (data.success) {
       setLocalYen(data.yen); // Sync local storage

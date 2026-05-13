@@ -285,7 +285,7 @@ function displayResults(data) {
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-yellow-400 -scale-x-100"><path d="M5.8 11.3 2 22l10.7-3.8"/><path d="M4 14.8a6.8 6.8 0 0 0 5.2 5.2"/><path d="M11 11.7l1.7-1.7"/><path d="m11.5 5.2 1.3-1.4"/><path d="m5.2 11.5-1.4 1.3"/><path d="M15.5 15.5 17 14"/><path d="m14 17 1.5 1.5"/><path d="m21.2 2.8-5 5"/><path d="m16.2 2.8 5 5"/><path d="m18.7 1.2.1 8.2"/></svg>
           </p>
           <p class="text-3xl text-yellow-300 font-ramen">+¥${yenEarned}</p>
-          <p class="text-lg text-purple-300/75 mt-2" id="final-yen-balance">Updating balance...</p>
+          <p class="text-lg text-purple-300/75 mt-2" id="final-yen-balance">Total Balance: ¥${getYen() + yenEarned} <span class="text-xs text-purple-300/60">(Updating...)</span></p>
         </div>
     `;
   container.appendChild(scoreDiv);
@@ -293,6 +293,7 @@ function displayResults(data) {
   // Securely save statistics and yen to backend
   fetch("/php/update_yen.php", {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -313,13 +314,18 @@ function displayResults(data) {
         }
         if (balanceEl) balanceEl.innerHTML = `Total Balance: ¥${result.yen}`;
       } else {
-        console.error("Failed to save stats/yen:", result.error);
+        console.error("Failed to save stats/yen:", result.error, result);
         if (balanceEl) {
-          // Still update local yen as fallback
           const updatedYen = getYen() + yenEarned;
           setYen(updatedYen);
           updateYenDisplay();
           balanceEl.innerHTML = `Total Balance: ¥${updatedYen} <span class="text-xs text-red-400 block">(Not saved: ${result.error})</span>`;
+          if (result.raw_input) {
+            const debugInfo = document.createElement("p");
+            debugInfo.className = "text-xs text-red-300 mt-2";
+            debugInfo.textContent = `Debug: ${result.raw_input}`;
+            balanceEl.appendChild(debugInfo);
+          }
         }
       }
     })
@@ -327,11 +333,14 @@ function displayResults(data) {
       console.error("Stats update error:", err);
       const balanceEl = document.getElementById("final-yen-balance");
       if (balanceEl) {
-        // Still update local yen as fallback
         const updatedYen = getYen() + yenEarned;
         setYen(updatedYen);
         updateYenDisplay();
         balanceEl.innerHTML = `Total Balance: ¥${updatedYen} <span class="text-xs text-red-400 block">(Network error)</span>`;
+        const debugInfo = document.createElement("p");
+        debugInfo.className = "text-xs text-red-300 mt-2";
+        debugInfo.textContent = `Fetch error: ${err.message}`;
+        balanceEl.appendChild(debugInfo);
       }
     });
   data.results.forEach((result, index) => {

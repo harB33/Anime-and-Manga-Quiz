@@ -1,6 +1,7 @@
 <?php
 ob_start();
 require_once __DIR__ . '/../db/db.php';
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 header('Content-Type: application/json');
 
@@ -15,7 +16,7 @@ if (!isset($_SESSION['user_id'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Read request data from JSON, form-encoded body, or $_POST fallback
-    $rawInput = file_get_contents('php://input');
+    $rawInput = $_SERVER['RAW_POST_DATA'] ?? file_get_contents('php://input');
     $inputData = json_decode($rawInput, true);
 
     if (!is_array($inputData) || count($inputData) === 0) {
@@ -64,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => true, 'yen' => $newYen, 'added' => $yenEarned, 'score' => $score]);
     } catch (Exception $e) {
         $conn->rollback();
-        echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
+        echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage(), 'raw_input' => $rawInput]);
     }
 } else {
     echo json_encode(['success' => false, 'error' => 'Invalid request method']);
