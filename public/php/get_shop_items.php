@@ -23,7 +23,7 @@ if ($user_id) {
 }
 
 try {
-    $res = $conn->query("SELECT item_id, item_name, item_description, price, image_url, rarity FROM items ORDER BY item_id ASC");
+    $res = $conn->query("SELECT item_id, item_name, item_description, price, image_url, rarity FROM shop ORDER BY item_id ASC");
     $items = [];
     $ownedItemIds = [];
 

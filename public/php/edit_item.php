@@ -28,7 +28,7 @@ if ($id <= 0 || empty($name) || empty($desc) || $price <= 0) {
 }
 
 try {
-    $stmt = $conn->prepare("UPDATE items SET item_name=?, item_description=?, price=?, image_url=?, rarity=? WHERE item_id=?");
+    $stmt = $conn->prepare("UPDATE shop SET item_name=?, item_description=?, price=?, image_url=?, rarity=? WHERE item_id=?");
     $stmt->bind_param("ssissi", $name, $desc, $price, $image, $rarity, $id);
     $stmt->execute();
     

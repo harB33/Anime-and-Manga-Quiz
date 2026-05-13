@@ -27,7 +27,7 @@ if (empty($name) || empty($desc) || $price <= 0) {
 }
 
 try {
-    $stmt = $conn->prepare("INSERT INTO items (item_name, item_description, price, image_url, rarity) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO shop (item_name, item_description, price, image_url, rarity) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("ssiss", $name, $desc, $price, $image, $rarity);
     $stmt->execute();
     

@@ -32,6 +32,20 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("success-modal").close();
     });
   }
+
+  const adminItemCloseButton = document.getElementById(
+    "close-admin-item-modal",
+  );
+  if (adminItemCloseButton) {
+    adminItemCloseButton.addEventListener("click", () => {
+      document.getElementById("admin-item-modal").close();
+    });
+  }
+
+  const addNewItemBtn = document.getElementById("add-new-item-btn");
+  if (addNewItemBtn) {
+    addNewItemBtn.addEventListener("click", openAddItemModal);
+  }
 });
 
 async function fetchShopItems() {
@@ -223,10 +237,15 @@ async function confirmPurchase() {
 // ----- Admin Functions -----
 
 function openAddItemModal() {
+  const modal = document.getElementById("admin-item-modal");
   document.getElementById("admin-item-form").reset();
   document.getElementById("item-id").value = "";
   document.getElementById("admin-modal-title").textContent = "Add New Item";
-  document.getElementById("admin-item-modal").showModal();
+  if (modal.showModal) {
+    modal.showModal();
+  } else {
+    modal.setAttribute("open", "");
+  }
 }
 
 function openEditItemModal(id) {

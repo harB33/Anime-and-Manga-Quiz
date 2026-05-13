@@ -94,7 +94,7 @@
         <!-- Admin Controls Header (Hidden by default) -->
         <div id="admin-controls" class="hidden flex justify-between items-center w-full mb-[-1rem]">
           <h2 class="text-2xl font-ramen text-pink-400 border-b-2 border-pink-500 pb-1 inline-block">ADMIN MODE</h2>
-          <button onclick="openAddItemModal()" class="glint bg-pink-500 hover:bg-pink-400 text-white px-6 py-2 rounded-xl font-ramen text-xl shadow-[0_0_15px_rgba(236,72,153,0.4)] transition-all">
+          <button id="add-new-item-btn" type="button" class="glint bg-pink-500 hover:bg-pink-400 text-white px-6 py-2 rounded-xl font-ramen text-xl shadow-[0_0_15px_rgba(236,72,153,0.4)] transition-all">
             + Add New Item
           </button>
         </div>
@@ -110,9 +110,9 @@
     </div>
 
     <!-- Admin: Add/Edit Item Modal -->
-    <dialog id="admin-item-modal" class="backdrop:bg-black/80 rounded-3xl p-0 border border-pink-500/50 overflow-hidden bg-transparent w-[90%] max-w-lg">
+    <dialog id="admin-item-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-0 backdrop:bg-black/80 rounded-3xl p-0 border border-pink-500/50 overflow-hidden bg-transparent w-[90%] max-w-lg">
       <div class="bg-primary/95 backdrop-blur-2xl p-8 flex flex-col gap-6 text-purple-300 font-poppins relative">
-        <button type="button" onclick="document.getElementById('admin-item-modal').close()" class="absolute top-6 right-6 text-2xl text-purple-300/60 hover:text-pink-500 transition-colors cursor-pointer select-none">&times;</button>
+        <button id="close-admin-item-modal" type="button" onclick="document.getElementById('admin-item-modal').close()" class="absolute top-6 right-6 text-2xl text-purple-300/60 hover:text-pink-500 transition-colors cursor-pointer select-none">&times;</button>
         <h3 id="admin-modal-title" class="text-3xl font-ramen text-center text-pink-400 mb-2 tracking-wider">Add Item</h3>
         
         <form id="admin-item-form" class="flex flex-col gap-4">

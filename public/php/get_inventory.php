@@ -61,11 +61,11 @@ function getCurrentEquipmentState(): array {
 $user_id = $_SESSION['user_id'];
 
 try {
-    // Fetch all items from inventory for this user, joined with items table for details
+    // Fetch all items from inventory for this user, joined with shop table for details
     $stmt = $conn->prepare("
         SELECT i.item_id, i.item_name, i.item_description, i.image_url, i.rarity, inv.obtained_at 
         FROM inventory inv
-        JOIN items i ON inv.item_id = i.item_id
+        JOIN shop i ON inv.item_id = i.item_id
         WHERE player_id = ?
         ORDER BY obtained_at DESC
     ");

@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         // 1. Fetch item price and type info
-        $stmt = $conn->prepare("SELECT item_name, item_description, price FROM items WHERE item_id = ?");
+        $stmt = $conn->prepare("SELECT item_name, item_description, price FROM shop WHERE item_id = ?");
         $stmt->bind_param("i", $item_id);
         $stmt->execute();
         $stmt->bind_result($item_name, $item_description, $price);

@@ -70,7 +70,7 @@ if ($item_id <= 0) {
 }
 
 try {
-    $stmt = $conn->prepare("SELECT item_name, item_description FROM items WHERE item_id = ?");
+    $stmt = $conn->prepare("SELECT item_name, item_description FROM shop WHERE item_id = ?");
     $stmt->bind_param('i', $item_id);
     $stmt->execute();
     $stmt->bind_result($item_name, $item_description);

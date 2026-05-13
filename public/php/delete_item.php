@@ -23,7 +23,7 @@ if ($id <= 0) {
 }
 
 try {
-    $stmt = $conn->prepare("DELETE FROM items WHERE item_id = ?");
+    $stmt = $conn->prepare("DELETE FROM shop WHERE item_id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     
