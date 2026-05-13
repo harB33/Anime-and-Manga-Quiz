@@ -316,7 +316,11 @@ function displayResults(data) {
         <h2 class="font-ramen text-5xl text-purple-300 mb-2">Quiz Results</h2>
         <p class="text-2xl text-purple-300/85">You scored ${data.correct} out of ${data.total} (${data.percentage}%)</p>
         <div class="mt-6 pt-6 border-t border-purple-300/30">
-          <p class="text-xl text-yellow-400 font-bold font-ramen mb-2">🎉 YEN EARNED 🎉</p>
+          <p class="text-xl text-yellow-400 font-bold font-ramen mb-2 flex items-center justify-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-yellow-400"><path d="M5.8 11.3 2 22l10.7-3.8"/><path d="M4 14.8a6.8 6.8 0 0 0 5.2 5.2"/><path d="M11 11.7l1.7-1.7"/><path d="m11.5 5.2 1.3-1.4"/><path d="m5.2 11.5-1.4 1.3"/><path d="M15.5 15.5 17 14"/><path d="m14 17 1.5 1.5"/><path d="m21.2 2.8-5 5"/><path d="m16.2 2.8 5 5"/><path d="m18.7 1.2.1 8.2"/></svg>
+            <span>YEN EARNED</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-yellow-400 -scale-x-100"><path d="M5.8 11.3 2 22l10.7-3.8"/><path d="M4 14.8a6.8 6.8 0 0 0 5.2 5.2"/><path d="M11 11.7l1.7-1.7"/><path d="m11.5 5.2 1.3-1.4"/><path d="m5.2 11.5-1.4 1.3"/><path d="M15.5 15.5 17 14"/><path d="m14 17 1.5 1.5"/><path d="m21.2 2.8-5 5"/><path d="m16.2 2.8 5 5"/><path d="m18.7 1.2.1 8.2"/></svg>
+          </p>
           <p class="text-3xl text-yellow-300 font-ramen">+¥${yenEarned}</p>
           <p class="text-lg text-purple-300/75 mt-2" id="final-yen-balance">Updating balance...</p>
         </div>

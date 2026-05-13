@@ -20,13 +20,13 @@
         <nav
           class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-[50%] backdrop-blur-xl"
         >
-          <div class="flex grow justify-between text-xl items-center">
+          <div class="flex grow justify-between text-md items-center">
             <a href="/" class="font-ramen translate-y-[3px] text-2xl">S</a>
-            <a href="/" class="font-poppins">HOME</a>
-            <a href="/quiz" class="font-poppins">QUIZ</a>
-            <a href="/quests" class="font-poppins text-pink-400 border-b border-pink-400">QUESTS</a>
-            <a href="/shop" class="font-poppins">SHOP</a>
-            <a href="/about" class="font-poppins">ABOUT</a>
+            <a href="/" class="font-montserrat">HOME</a>
+            <a href="/quiz" class="font-montserrat">QUIZ</a>
+            <a href="/quests" class="font-montserrat text-pink-400 border-b border-pink-400">QUESTS</a>
+            <a href="/shop" class="font-montserrat">SHOP</a>
+            <a href="/about" class="font-montserrat">ABOUT</a>
           </div>
         </nav>
         <nav
@@ -136,7 +136,9 @@
       <div
         class="bg-primary/95 backdrop-blur-2xl p-6 flex flex-col items-center gap-4 text-purple-300 font-poppins text-center"
       >
-        <div class="text-6xl text-pink-500 animate-bounce">🎁</div>
+        <div class="flex items-center justify-center mb-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-16 h-16 text-pink-500 animate-bounce"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>
+        </div>
         <h3 id="success-title" class="text-2xl font-ramen text-purple-200">
           Quest Claimed!
         </h3>
@@ -160,7 +162,9 @@
       <div
         class="bg-primary/95 backdrop-blur-2xl p-6 flex flex-col items-center gap-4 text-purple-300 font-poppins text-center"
       >
-        <div class="text-6xl text-red-500">❌</div>
+        <div class="flex items-center justify-center mb-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-16 h-16 text-red-500"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        </div>
         <h3 class="text-2xl font-ramen text-purple-200">
           Action Failed
         </h3>

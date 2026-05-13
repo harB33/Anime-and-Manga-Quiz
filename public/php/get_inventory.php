@@ -66,8 +66,8 @@ try {
         SELECT i.item_id, i.item_name, i.item_description, i.image_url, i.rarity, inv.obtained_at 
         FROM inventory inv
         JOIN items i ON inv.item_id = i.item_id
-        WHERE inv.player_id = ?
-        ORDER BY inv.obtained_at DESC
+        WHERE player_id = ?
+        ORDER BY obtained_at DESC
     ");
     $stmt->bind_param("i", $user_id);
     $stmt->execute();

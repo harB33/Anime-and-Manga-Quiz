@@ -16,13 +16,13 @@
     <nav id="main-nav" class="p-4 gap-2 flex justify-center fixed w-full top-0 z-50">
       <nav
         class="glint bg-primary/50 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-[50%] backdrop-blur-xl">
-        <div class="flex grow justify-between text-xl items-center ">
+        <div class="flex grow justify-between text-md items-center ">
           <a href="/" class="font-ramen translate-y-[3px] text-2xl">S</a>
-          <a href="/" class="font-poppins">HOME</a>
-          <a href="/quiz" class="font-poppins">QUIZ</a>
-          <a href="/quests" class="font-poppins">QUESTS</a>
-          <a href="/shop" class="font-poppins">SHOP</a>
-          <a href="/about" class="font-poppins text-pink-400 border-b border-pink-400">ABOUT</a>
+          <a href="/" class="font-montserrat">HOME</a>
+          <a href="/quiz" class="font-montserrat">QUIZ</a>
+          <a href="/quests" class="font-montserrat">QUESTS</a>
+          <a href="/shop" class="font-montserrat">SHOP</a>
+          <a href="/about" class="font-montserrat text-pink-400 border-b border-pink-400">ABOUT</a>
         </div>
       </nav>
       <nav id="yen-display"
@@ -71,95 +71,111 @@
           </nav> -->
     </nav>
 
-    <div class="flex w-full min-h-screen pt-24 px-8 justify-center items-center">
-      <div
-        class="glint bg-primary/80 backdrop-blur-xl p-8 rounded-3xl border border-purple-300/20 max-w-2xl text-purple-300 font-poppins shadow-2xl">
-        <h1 class="text-5xl font-ramen text-center text-purple-300 mb-6 tracking-wider">About Shitsumon</h1>
-        <p class="text-lg mb-8 text-center text-purple-300/90 leading-relaxed">
-          Welcome to <span class="text-pink-400 font-bold">Shitsumon</span> (質問), the ultimate testing ground for your
-          Anime and Manga knowledge! Prove that you are a true otaku by challenging our extensive trivia database.
-        </p>
+    <div class="flex w-full min-h-screen pt-28 pb-16 px-6 lg:px-12 justify-center items-start">
+      <div class="w-full max-w-6xl flex flex-col gap-8">
+        <!-- Header Section -->
+        <div class="glint  bg-primary/80 backdrop-blur-2xl p-10 rounded-[2.5rem] border border-purple-300/20 text-purple-300 font-poppins shadow-2xl flex flex-col items-center text-center">
+          <h1 class="text-6xl md:text-7xl font-ramen text-purple-300 mb-6 tracking-[0.2em] uppercase">About Shitsumon</h1>
+          <p class="text-xl md:text-2xl text-purple-300/90 leading-relaxed max-w-4xl">
+            Welcome to <span class="text-pink-400 font-bold">Shitsumon</span> (質問), the ultimate testing ground for your
+            Anime and Manga knowledge. Prove that you are a true otaku by challenging our extensive trivia database.
+          </p>
+        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div
-            class="bg-purple-950/50 p-6 rounded-2xl border border-purple-300/10 hover:border-pink-500/50 transition-all duration-300 shadow-inner">
-            <h2 class="text-2xl font-ramen mb-3 text-pink-400 tracking-wide">🧠 Challenging Quizzes</h2>
-            <p class="text-purple-300/80 leading-relaxed">
+        <!-- Bento Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          <!-- Feature: Quizzes (Large) -->
+          <div class="md:col-span-2 lg:col-span-3 bg-purple-950/40 backdrop-blur-md p-10 rounded-[2rem] border border-purple-300/10 hover:border-pink-500/50 transition-all duration-500 shadow-xl group">
+            <h2 class="text-3xl font-ramen mb-6 text-pink-400 tracking-wide flex items-center gap-4 group-hover:scale-105 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-12 h-12 text-pink-400"><path d="M9.5 2a2.5 2.5 0 0 1 2.5 2.5V10"/><path d="M14.5 2a2.5 2.5 0 0 0-2.5 2.5V10"/><path d="M20 15a2 2 0 1 1 0 4H4a2 2 0 1 1 0-4"/><path d="M7.5 10A2.5 2.5 0 0 0 5 12.5V15"/><path d="M16.5 10A2.5 2.5 0 0 1 19 12.5V15"/><path d="M12 10v3"/></svg>
+              <span>Challenging Quizzes</span>
+            </h2>
+            <p class="text-xl text-purple-300/80 leading-relaxed">
               Dive into a vast database of carefully curated questions. From classic shounen masterpieces to obscure
               slice-of-life gems, there's always a new challenge waiting for you.
             </p>
           </div>
 
-          <div
-            class="bg-purple-950/50 p-6 rounded-2xl border border-purple-300/10 hover:border-yellow-400/50 transition-all duration-300 shadow-inner">
-            <h2 class="text-2xl font-ramen mb-3 text-yellow-400 tracking-wide">💴 Earn Yen Rewards</h2>
-            <p class="text-purple-300/80 leading-relaxed">
+          <!-- Feature: Yen (Medium) -->
+          <div class="md:col-span-2 lg:col-span-3 bg-purple-950/40 backdrop-blur-md p-10 rounded-[2rem] border border-purple-300/10 hover:border-yellow-400/50 transition-all duration-500 shadow-xl group">
+            <h2 class="text-3xl font-ramen mb-6 text-yellow-400 tracking-wide flex items-center gap-4 group-hover:scale-105 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-12 h-12 text-yellow-400"><path d="M12 9.5V21m0-11.5L6 3m6 6.5L18 3M6 15h12m-12-4h12"/></svg>
+              <span>Earn Yen Rewards</span>
+            </h2>
+            <p class="text-xl text-purple-300/80 leading-relaxed">
               Knowledge pays! For every correct answer, you are rewarded with Yen (¥). The more you know, the richer you
               become. Keep playing to boost your balance.
             </p>
           </div>
 
-          <div
-            class="bg-purple-950/50 p-6 rounded-2xl border border-purple-300/10 hover:border-cyan-400/50 transition-all duration-300 shadow-inner">
-            <h2 class="text-2xl font-ramen mb-3 text-cyan-400 tracking-wide">🛒 The Shop</h2>
-            <p class="text-purple-300/80 leading-relaxed">
-              Visit our integrated Shop to spend your hard-earned Yen! Browse through the store and unlock exclusive
-              cosmetics and profile features.
+          <!-- Feature: Shop (Small) -->
+          <div class="md:col-span-2 lg:col-span-2 bg-purple-950/40 backdrop-blur-md p-10 rounded-[2rem] border border-purple-300/10 hover:border-cyan-400/50 transition-all duration-500 shadow-xl group">
+            <h2 class="text-3xl font-ramen mb-6 text-cyan-400 tracking-wide flex items-center gap-4 group-hover:scale-105 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10 text-cyan-400"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+              <span>The Shop</span>
+            </h2>
+            <p class="text-lg text-purple-300/80 leading-relaxed">
+              Visit our integrated Shop to spend your hard-earned Yen! Browse through the store and unlock exclusive cosmetics.
             </p>
           </div>
 
-          <div
-            class="bg-purple-950/50 p-6 rounded-2xl border border-purple-300/10 hover:border-green-400/50 transition-all duration-300 shadow-inner">
-            <h2 class="text-2xl font-ramen mb-3 text-green-400 tracking-wide">💾 Save Your Progress</h2>
-            <p class="text-purple-300/80 leading-relaxed">
-              Create an account to securely save your stats and Yen balance. Your hard-earned rewards are safely stored
-              so you can pick up where you left off at any time!
+          <!-- Feature: Save (Small) -->
+          <div class="md:col-span-2 lg:col-span-2 bg-purple-950/40 backdrop-blur-md p-10 rounded-[2rem] border border-purple-300/10 hover:border-green-400/50 transition-all duration-500 shadow-xl group">
+            <h2 class="text-3xl font-ramen mb-6 text-green-400 tracking-wide flex items-center gap-4 group-hover:scale-105 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10 text-green-400"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
+              <span>Save Progress</span>
+            </h2>
+            <p class="text-lg text-purple-300/80 leading-relaxed">
+              Create an account to securely save your stats and Yen balance. Your rewards are safely stored.
             </p>
           </div>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div
-            class="bg-purple-950/50 p-6 rounded-2xl border border-purple-300/10 hover:border-yellow-400/50 transition-all duration-300 shadow-inner">
-            <h2 class="text-3xl font-ramen mb-4 text-yellow-400 tracking-wide">OpenTDB API Usage</h2>
-            <p class="text-purple-300/80 leading-relaxed mb-4">
-              The quiz uses the OpenTDB public API to fetch live trivia questions and categories. This makes the app dynamic while keeping the question source centralized.
+          <!-- Feature: API Usage (Medium-Wide) -->
+          <div class="md:col-span-4 lg:col-span-2 bg-purple-950/40 backdrop-blur-md p-10 rounded-[2rem] border border-purple-300/10 hover:border-yellow-400/50 transition-all duration-500 shadow-xl group">
+            <h2 class="text-3xl font-ramen mb-6 text-yellow-400 tracking-wide group-hover:scale-105 transition-transform">OpenTDB API</h2>
+            <p class="text-base text-purple-300/70 leading-relaxed mb-4">
+              Uses OpenTDB for live trivia questions and categories.
             </p>
-            <ul class="list-disc list-inside space-y-2 text-purple-300/80">
-              <li>Requests are sent from the backend to <span class="text-pink-300 font-semibold">https://opentdb.com/api.php</span>.</li>
-              <li>Example query: <span class="text-pink-300 font-semibold">/api/quiz/questions?amount=10&type=multiple</span>.</li>
-              <li>Categories are loaded from <span class="text-pink-300 font-semibold">/api/quiz/categories</span>.</li>
-              <li>Server-side logic handles fetching, parsing, and error handling before returning results to the client.</li>
+            <ul class="space-y-2 text-sm text-purple-300/60">
+              <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-pink-400"></div> Backend requests</li>
+              <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-pink-400"></div> Real-time categories</li>
+              <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-pink-400"></div> Dynamic parsing</li>
             </ul>
           </div>
 
-          <div
-            class="bg-purple-950/50 p-6 rounded-2xl border border-purple-300/10 hover:border-green-400/50 transition-all duration-300 shadow-inner">
-            <h2 class="text-3xl font-ramen mb-4 text-green-400 tracking-wide">Developers</h2>
-            <ul class="space-y-5 text-purple-300/80">
-              <li>
-                <span class="block text-xl font-semibold text-purple-100">Bautista, H</span>
-                <span class="block">Head Developer</span>
-              </li>
-              <li>
-                <span class="block text-xl font-semibold text-purple-100">Parica, JR</span>
-                <span class="block">Back End</span>
-              </li>
-              <li>
-                <span class="block text-xl font-semibold text-purple-100">Wamil, J</span>
-                <span class="block">Back End</span>
-              </li>
-            </ul>
+          <!-- Developers (Full Width or Large) -->
+          <div class="md:col-span-4 lg:col-span-6 bg-purple-950/60 backdrop-blur-md p-12 rounded-[3rem] border border-purple-300/20 hover:border-purple-400/50 transition-all duration-500 shadow-2xl">
+            <h2 class="text-4xl font-ramen mb-10 text-center text-purple-100 tracking-widest uppercase">The Development Team</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+              <div class="flex flex-col items-center text-center gap-2 group">
+                <div class="w-20 h-20 rounded-full bg-pink-500/20 border border-pink-500/40 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 group-hover:bg-pink-500/30 transition-all duration-300">HB</div>
+                <span class="text-2xl font-semibold text-purple-100">Bautista, H</span>
+                <span class="text-purple-300/60 uppercase tracking-widest text-sm">Head Developer</span>
+              </div>
+              <div class="flex flex-col items-center text-center gap-2 group">
+                <div class="w-20 h-20 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 group-hover:bg-purple-500/30 transition-all duration-300">JP</div>
+                <span class="text-2xl font-semibold text-purple-100">Parica, JR</span>
+                <span class="text-purple-300/60 uppercase tracking-widest text-sm">Back End</span>
+              </div>
+              <div class="flex flex-col items-center text-center gap-2 group">
+                <div class="w-20 h-20 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 group-hover:bg-purple-500/30 transition-all duration-300">JW</div>
+                <span class="text-2xl font-semibold text-purple-100">Wamil, J</span>
+                <span class="text-purple-300/60 uppercase tracking-widest text-sm">Back End</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="flex justify-center mt-8">
+        <!-- Call to Action -->
+        <div class="flex justify-center pt-8">
           <a href="/"
-            class="glint bg-primary px-10 py-4 font-ramen text-2xl text-purple-300 rounded-2xl flex items-center justify-center hover:bg-primary/80 transition-all shadow-xl hover:scale-105 duration-300">
-            <span class="translate-y-[2px]">Return Home & Play</span>
+            class="glint bg-primary/90 hover:bg-primary px-16 py-6 font-ramen text-3xl text-purple-300 rounded-[2rem] border border-purple-300/30 flex items-center justify-center hover:scale-105 transition-all duration-500 shadow-[0_10px_40px_rgba(0,0,0,0.3)] group">
+            <span class="translate-y-[2px] tracking-widest">Return Home & Play</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-4 w-8 h-8 group-hover:translate-x-2 transition-transform"><path d="m9 18 6-6-6-6"/></svg>
           </a>
         </div>
       </div>
+    </div>
     </div>
   </div>
   <script src="/js/yen-utility.js"></script>
