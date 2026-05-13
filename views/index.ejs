@@ -17,16 +17,20 @@
                 class="glint bg-primary/25 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-[50%] backdrop-blur-xl">
                 <div class="flex grow justify-between text-md items-center ">
                     <a href="/" class="font-ramen translate-y-[3px] text-2xl">S</a>
-                    <a href="/" class="font-montserrat">HOME</a>
+                    <a href="/" class="font-montserrat text-pink-400 border-b border-pink-400">HOME</a>
                     <a href="/quiz" class="font-montserrat">QUIZ</a>
                     <a href="/quests" class="font-montserrat">QUESTS</a>
                     <a href="/shop" class="font-montserrat">SHOP</a>
                     <a href="/about" class="font-montserrat">ABOUT</a>
                 </div>
             </nav>
-            <div class="dropdown dropdown-hover dropdown-center">
+            <nav id="yen-display"
+                class="glint bg-primary/25 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-fit backdrop-blur-xl">
+                <span class="font-poppins font-bold text-lg">¥ <span id="yen-amount">0</span></span>
+            </nav>
+            <div class="dropdown dropdown-hover dropdown-center size-12.5">
                 <div tabindex="0" role="button"
-                    class="glint bg-primary/25 text-purple-300 flex items-center justify-center rounded-full w-12 h-12 backdrop-blur-xl">
+                    class="glint bg-primary/25 text-purple-300 flex items-center justify-center rounded-full size-full backdrop-blur-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
