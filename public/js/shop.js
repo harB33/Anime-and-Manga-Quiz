@@ -197,7 +197,10 @@ async function confirmPurchase() {
         `You have successfully purchased "${itemName}" for ${cost.toLocaleString()} Yen! Check your inventory to use this item.`;
       document.getElementById("success-modal").showModal();
 
-      // Update yen display globally
+      // Update yen display globally and sync local backup
+      if (typeof setLocalYen === "function") {
+        setLocalYen(data.yen);
+      }
       if (typeof updateYenDisplay === "function") {
         updateYenDisplay();
       }

@@ -5,44 +5,7 @@ let currentQuestionIndex = 0;
 let currentCategoryId = null;
 let currentDifficulty = null;
 
-// ============ YEN MANAGEMENT SYSTEM ============
-// Get yen balance from localStorage
-function getYen() {
-  const yen = localStorage.getItem("yen");
-  return yen ? parseInt(yen) : 0;
-}
-
-// Set yen balance in localStorage
-function setYen(amount) {
-  localStorage.setItem("yen", Math.max(0, amount));
-}
-
-// Add yen to balance
-function addYen(amount) {
-  const currentYen = getYen();
-  const newYen = currentYen + amount;
-  setYen(newYen);
-  updateYenDisplay();
-  return newYen;
-}
-
-// Update the yen display on the page
-function updateYenDisplay() {
-  const yenElement = document.getElementById("yen-amount");
-  if (yenElement) {
-    yenElement.textContent = getYen();
-  }
-}
-
-// Load and display yen on page load
-function loadYenDisplay() {
-  updateYenDisplay();
-}
-
-// Initialize yen display when DOM is ready
-document.addEventListener("DOMContentLoaded", loadYenDisplay);
-
-// ============ END YEN SYSTEM ============
+// Yen display utilities are provided by yen-utility.js
 
 // Function to decode HTML entities
 function decodeHtml(html) {

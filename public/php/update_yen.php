@@ -14,9 +14,18 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Read JSON data from request body
-    $inputData = json_decode(file_get_contents('php://input'), true);
-    
+    // Read request data from JSON, form-encoded body, or $_POST fallback
+    $rawInput = file_get_contents('php://input');
+    $inputData = json_decode($rawInput, true);
+
+    if (!is_array($inputData) || count($inputData) === 0) {
+        if (!empty($_POST)) {
+            $inputData = $_POST;
+        } else {
+            parse_str($rawInput, $inputData);
+        }
+    }
+
     $yenEarned = isset($inputData['yenEarned']) ? (int)$inputData['yenEarned'] : 0;
     $score = isset($inputData['score']) ? (int)$inputData['score'] : 0;
     $categoryId = !empty($inputData['categoryId']) ? (int)$inputData['categoryId'] : null;
