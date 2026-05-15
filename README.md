@@ -1,8 +1,12 @@
 # ⛩️ SHITSUMON (シつモン) - Anime & Manga Quiz App
 
+<div align="center">
+
 ![Status](https://img.shields.io/badge/Status-Development-orange?style=for-the-badge)
 ![Tech](https://img.shields.io/badge/Stack-Express_%7C_PHP_%7C_Tailwind-blueviolet?style=for-the-badge)
 ![Theme](https://img.shields.io/badge/Theme-Anime_%26_Manga-pink?style=for-the-badge)
+
+</div>
 
 **Shitsumon** is a premium, high-fidelity quiz application designed for anime and manga enthusiasts. Built with a unique hybrid architecture of Express.js and PHP, it offers a gamified experience featuring quests, shops, and a full inventory system, all wrapped in a stunning modern UI.
 
