@@ -13,7 +13,6 @@
 
   <body class="min-h-screen min-w-screen overflow-x-clip bg-background">
     <div class="main min-h-screen w-screen bg-background bg-image pb-12">
-      <!-- Navigation -->
       <nav id="main-nav" class="p-4 gap-2 flex justify-center fixed w-full top-0 z-50">
         <nav
             class="glint bg-primary/25 text-purple-300 flex justify-evenly items-center px-4 py-2 rounded-full w-[50%] backdrop-blur-xl">
@@ -68,11 +67,9 @@
       </div>
     </nav>
 
-      <!-- Main Shop Content -->
       <div
         class="flex flex-col w-full min-h-[calc(100vh-100px)] p-8 pt-32 gap-12 justify-center max-w-6xl mx-auto"
       >
-        <!-- Shop Header -->
         <div class="flex flex-col gap-4 text-center">
           <h1
             class="text-6xl font-bold text-purple-300 font-ramen text-shadow-[0_2px_4px_rgba(0,0,0)] text-nowrap translate-y-[6px]"
@@ -91,7 +88,6 @@
           </p>
         </div>
 
-        <!-- Admin Controls Header (Hidden by default) -->
         <div id="admin-controls" class="hidden flex justify-between items-center w-full mb-[-1rem]">
           <h2 class="text-2xl font-ramen text-pink-400 border-b-2 border-pink-500 pb-1 inline-block">ADMIN MODE</h2>
           <button id="add-new-item-btn" type="button" class="glint bg-pink-500 hover:bg-pink-400 text-white px-6 py-2 rounded-xl font-ramen text-xl shadow-[0_0_15px_rgba(236,72,153,0.4)] transition-all">
@@ -99,9 +95,7 @@
           </button>
         </div>
 
-        <!-- Inventory Grid -->
         <div id="shop-items-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Items will be dynamically injected here -->
           <div class="col-span-full flex justify-center py-12">
             <div class="w-14 h-14 border-4 border-purple-300/10 border-t-pink-500 rounded-full animate-spin"></div>
           </div>
@@ -109,7 +103,6 @@
       </div>
     </div>
 
-    <!-- Admin: Add/Edit Item Modal -->
     <dialog id="admin-item-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-0 backdrop:bg-black/80 rounded-3xl p-0 border border-pink-500/50 overflow-hidden bg-transparent w-[90%] max-w-lg">
       <div class="bg-primary/95 backdrop-blur-2xl p-8 flex flex-col gap-6 text-purple-300 font-poppins relative">
         <button id="close-admin-item-modal" type="button" onclick="document.getElementById('admin-item-modal').close()" class="absolute top-6 right-6 text-2xl text-purple-300/60 hover:text-pink-500 transition-colors cursor-pointer select-none">&times;</button>
@@ -157,7 +150,6 @@
       </div>
     </dialog>
 
-    <!-- Custom Dialog Modal for Auth (Matches index.ejs) -->
     <dialog
       id="auth-modal"
       class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-0 backdrop:bg-black/60 rounded-3xl p-0 border border-purple-300/30 overflow-hidden bg-transparent w-[90%] max-w-md"
@@ -173,7 +165,6 @@
           &times;
         </button>
 
-        <!-- Login Form Container -->
         <div id="login-form-container" class="flex flex-col gap-4">
           <h3
             class="text-3xl font-ramen text-center text-purple-300 mb-2 tracking-wider"
@@ -233,7 +224,6 @@
           </p>
         </div>
 
-        <!-- Register Form Container (Hidden by default) -->
         <div
           id="register-form-container"
           style="display: none"
@@ -313,7 +303,6 @@
       </div>
     </dialog>
 
-    <!-- Confirmation Dialog for Purchase -->
     <dialog
       id="confirm-purchase-modal"
       class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-0 backdrop:bg-black/60 rounded-3xl p-0 border border-purple-300/30 overflow-hidden bg-transparent w-[90%] max-w-lg"
@@ -346,7 +335,6 @@
       </div>
     </dialog>
 
-    <!-- Sweet Success Alert Dialog (Modern Modal) -->
     <dialog
       id="success-modal"
       class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 m-0 backdrop:bg-black/60 rounded-3xl p-0 border border-purple-300/30 overflow-hidden bg-transparent w-[90%] max-w-lg"
